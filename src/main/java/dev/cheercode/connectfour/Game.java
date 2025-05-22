@@ -48,27 +48,31 @@ public class Game {
         renderer.show(board);
 
         while (!isGameOver()) {
-            currentPlayer = players.poll();
-            int columnIndex = askColumnIndex();
-
-            if (board.isColumnFilled(columnIndex)) {
-                System.out.printf(columnFilledMessageTemplate, columnIndex + 1);
-                continue;
-            }
-
-            Disc disc = currentPlayer.getDisc();
-            board.drop(columnIndex, disc);
-            renderer.show(board);
-
-            players.offer(currentPlayer);
-
-            if (shouldRotate()) {
-                rotateBoard();
-                renderer.show(board);
-            }
+            nextTurn();
         }
 
         finish();
+    }
+
+    private void nextTurn() {
+        currentPlayer = players.poll();
+        int columnIndex = askColumnIndex();
+
+        if (board.isColumnFilled(columnIndex)) {
+            System.out.printf(columnFilledMessageTemplate, columnIndex + 1);
+            return;
+        }
+
+        Disc disc = currentPlayer.getDisc();
+        board.drop(columnIndex, disc);
+        renderer.show(board);
+
+        players.offer(currentPlayer);
+
+        if (shouldRotate()) {
+            rotateBoard();
+            renderer.show(board);
+        }
     }
 
     private void finish() {
