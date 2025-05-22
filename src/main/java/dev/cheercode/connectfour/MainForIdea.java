@@ -8,7 +8,7 @@ import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
 
-public class Main {
+public class MainForIdea {
     public static void main(String[] args) {
         Board board = new Board(Board.Size.DEFAULT);
 
@@ -18,7 +18,8 @@ public class Main {
         Player fourth = new Player(Disc.BLUE);
         Queue<Player> players = new ArrayDeque<>(List.of(first, second, third, fourth));
 
-        Game game = new Game(board, players);
+        Renderer renderer = new RendererForIdea();
+        Game game = new Game(board, players, renderer);
         game.start();
     }
 }

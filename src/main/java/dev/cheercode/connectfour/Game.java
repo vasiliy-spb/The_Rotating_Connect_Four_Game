@@ -22,7 +22,7 @@ public class Game {
     private static final String drawMessage = "Ничья.";
     private static final String singleVictoryMessage = "Победил игрок:";
     private static final String multiVictoryMessage = "Победу разделили игроки:";
-    private static final String boardRotatedMessageTemplate = "\n\u001B[44mДоска повернулась: %s\u001B[0m\n\n";
+    private static final String boardRotatedMessageTemplate = "\nДоска повернулась: %s\n\n";
     private static final String dialogErrorMessage = "Неправильный ввод";
     private static final String dialogTitleTemplate = "%s, сделайте ход (%d - %d)%n";
     private final Board board;
@@ -33,10 +33,10 @@ public class Game {
     private final Random random;
     private Player currentPlayer;
 
-    public Game(Board board, Queue<Player> players) {
+    public Game(Board board, Queue<Player> players, Renderer renderer) {
         this.board = board;
         this.players = players;
-        this.renderer = new Renderer();
+        this.renderer = renderer;
         this.resultAnalyzer = new ResultAnalyzer(this.board);
         this.discs = players.stream().map(Player::getDisc).toList();
         this.currentPlayer = players.peek();

@@ -1,5 +1,11 @@
 plugins {
     id("java")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("application")
+}
+
+application {
+    mainClass.set("dev.cheercode.connectfour.MainForJar")
 }
 
 group = "dev.cheercode.connectfour"
@@ -10,13 +16,15 @@ repositories {
 }
 
 dependencies {
+    implementation("org.fusesource.jansi:jansi:2.4.1")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
+
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "dev/cheercode/connectfour/Main"
+        attributes["Main-Class"] = "dev/cheercode/connectfour/MainForJar"
     }
 }
 
