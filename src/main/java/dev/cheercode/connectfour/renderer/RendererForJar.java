@@ -16,53 +16,6 @@ public class RendererForJar implements Renderer {
     private static final Ansi.Color BORDER_COLOR = Ansi.Color.WHITE;
     private static final Ansi.Color TEXT_COLOR = Ansi.Color.BLUE;
 
-    private String getBackground() {
-        return Ansi.ansi().bg(BACKGROUND_COLOR).toString();
-    }
-
-    private String getBorder() {
-        return Ansi.ansi().fgBright(BORDER_COLOR).toString();
-    }
-
-    private String getReset() {
-        return Ansi.ansi().reset().toString();
-    }
-
-    private String getRed() {
-        return Ansi.ansi().fgBrightRed().toString();
-    }
-
-    private String getBlue() {
-        return Ansi.ansi().fgBrightBlue().toString();
-    }
-
-    private String getYellow() {
-        return Ansi.ansi().fgBrightYellow().toString();
-    }
-
-    private String getGreen() {
-        return Ansi.ansi().fgBrightGreen().toString();
-    }
-
-    private String rowNumberTemplate(int row) {
-        return Ansi.ansi()
-                .fg(TEXT_COLOR)
-                .a(String.format("%2d ", row))
-                .bg(BACKGROUND_COLOR)
-                .fgBright(BORDER_COLOR)
-                .a("|")
-                .toString();
-    }
-
-    private String getSeparatorSpace() {
-        return Ansi.ansi()
-                .fgBright(BORDER_COLOR)
-                .a("   ")
-                .bg(BACKGROUND_COLOR)
-                .a("+")
-                .toString();
-    }
-
     @Override
     public void show(Board board) {
         int height = board.getHeight();
@@ -100,6 +53,34 @@ public class RendererForJar implements Renderer {
         return line;
     }
 
+    private String getSeparatorSpace() {
+        return Ansi.ansi()
+                .fgBright(BORDER_COLOR)
+                .a("   ")
+                .bg(BACKGROUND_COLOR)
+                .a("+")
+                .toString();
+    }
+
+    private String getReset() {
+        return Ansi.ansi().reset().toString();
+    }
+
+
+    private String rowNumberTemplate(int row) {
+        return Ansi.ansi()
+                .fg(TEXT_COLOR)
+                .a(String.format("%2d ", row))
+                .bg(BACKGROUND_COLOR)
+                .fgBright(BORDER_COLOR)
+                .a("|")
+                .toString();
+    }
+
+    private String getBackground() {
+        return Ansi.ansi().bg(BACKGROUND_COLOR).toString();
+    }
+
     private String getColoredCircle(Disc disc) {
         String colorCode = switch (disc) {
             case RED -> getRed();
@@ -108,6 +89,26 @@ public class RendererForJar implements Renderer {
             case GREEN -> getGreen();
         };
         return colorCode + circle + getBackground() + getBorder();
+    }
+
+    private String getRed() {
+        return Ansi.ansi().fgBrightRed().toString();
+    }
+
+    private String getBlue() {
+        return Ansi.ansi().fgBrightBlue().toString();
+    }
+
+    private String getYellow() {
+        return Ansi.ansi().fgBrightYellow().toString();
+    }
+
+    private String getGreen() {
+        return Ansi.ansi().fgBrightGreen().toString();
+    }
+
+    private String getBorder() {
+        return Ansi.ansi().fgBright(BORDER_COLOR).toString();
     }
 
     private StringBuilder getFooter(int width) {

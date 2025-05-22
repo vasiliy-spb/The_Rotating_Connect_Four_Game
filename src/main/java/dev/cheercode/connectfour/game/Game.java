@@ -17,6 +17,8 @@ public class Game {
     private static final String gameTitle = """
             ==========================================================================================
             |                                      ИГРА 4 В РЯД                                      |
+            | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
+            |                                         СТАРТ                                          |
             ==========================================================================================
             """;
     private static final String columnFilledMessageTemplate = "Колонка %s занята\n";
@@ -57,6 +59,20 @@ public class Game {
 
     private void nextTurn() {
         currentPlayer = players.poll();
+        makeMove();
+        players.offer(currentPlayer);
+
+        if (isCurrentPlayerWin()) {
+            return;
+        }
+
+        if (shouldBoardRotate()) {
+            rotateBoard();
+            renderer.show(board);
+        }
+    }
+
+    private void makeMove() {
         int columnIndex = askColumnIndex();
 
         while (board.isColumnFilled(columnIndex)) {
@@ -67,17 +83,6 @@ public class Game {
         Disc disc = currentPlayer.getDisc();
         board.drop(columnIndex, disc);
         renderer.show(board);
-
-        players.offer(currentPlayer);
-
-        if (isCurrentPlayerWin()) {
-            return;
-        }
-
-        if (shouldRotate()) {
-            rotateBoard();
-            renderer.show(board);
-        }
     }
 
     private boolean isCurrentPlayerWin() {
@@ -113,7 +118,7 @@ public class Game {
         board.rotate(direction);
     }
 
-    private boolean shouldRotate() {
+    private boolean shouldBoardRotate() {
         return random.nextInt(100) <= 33;
     }
 
@@ -127,10 +132,10 @@ public class Game {
     }
 
     private boolean isGameOver() {
-        return isWin() || isDraw();
+        return hasWinner() || isDraw();
     }
 
-    private boolean isWin() {
+    private boolean hasWinner() {
         for (Disc disc : discs) {
             if (resultAnalyzer.isWin(disc)) {
                 return true;

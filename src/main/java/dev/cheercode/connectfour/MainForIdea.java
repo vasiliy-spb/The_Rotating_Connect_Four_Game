@@ -1,21 +1,19 @@
 package dev.cheercode.connectfour;
 
-import dev.cheercode.connectfour.game.Game;
-import dev.cheercode.connectfour.model.Player;
-import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.factory.ConsolePlayerFactory;
+import dev.cheercode.connectfour.factory.PlayerFactory;
+import dev.cheercode.connectfour.factory.BoardSizeFactory;
+import dev.cheercode.connectfour.factory.ConsoleBoardSizeFactory;
+import dev.cheercode.connectfour.game.GameStarter;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.renderer.RendererForIdea;
 
-import java.util.Queue;
-
 public class MainForIdea {
     public static void main(String[] args) {
-        Menu menu = new Menu();
-        Queue<Player> players = menu.createPlayers();
-
-        Board board = new Board(Board.Size.DEFAULT);
+        PlayerFactory playerFactory = new ConsolePlayerFactory();
         Renderer renderer = new RendererForIdea();
-        Game game = new Game(board, players, renderer);
-        game.start();
+        BoardSizeFactory boardSizeFactory = new ConsoleBoardSizeFactory();
+        GameStarter gameStarter = new GameStarter(playerFactory, renderer, boardSizeFactory);
+        gameStarter.start();
     }
 }
