@@ -4,7 +4,7 @@ import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 
 public class RendererForIdea implements Renderer {
-    private static final String circle = "●";
+    private static final String circle = "⬤";
     private static final String backgroundColor = "\u001B[7m";
     private static final String borderColor = "\u001B[34m";
     private static final String reset = "\u001B[0m";
@@ -13,13 +13,13 @@ public class RendererForIdea implements Renderer {
     private static final String yellow = "\u001B[103m";
     private static final String green = "\u001B[102m";
     private static final String slotTemplate = " %s |";
-    private static final String footerSlotTemplate = " %s  ";
+    private static final String footerSlotTemplate = " %s   ";
     private static final String newLine = "\n";
-    private static final String emptySlot = "   |";
+    private static final String emptySlot = "    |";
     private static final String rowNumberTemplate = "%2d " + backgroundColor + borderColor + "|";
     private static final String separatorSpace = "   " + backgroundColor + borderColor + "+";
-    private static final String separatorSlot = "---+";
-    private static final String footerSpace = "    ";
+    private static final String separatorSlot = "----+";
+    private static final String footerSpace = "     ";
 
     @Override
     public void show(Board board) {
