@@ -1,8 +1,9 @@
 package dev.cheercode.connectfour.board;
 
-import dev.cheercode.connectfour.Renderer;
+import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.renderer.RendererForIdea;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +28,7 @@ public class BoardMechanicsTest {
         assertTrue(board.isColumnFilled(targetColumn), "Колонка должна быть заполнена после правильного количества вставок");
 
         // Визуализация доски
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("Доска после заполнения колонки " + targetColumn + ":");
         renderer.show(board);
     }
@@ -48,7 +49,7 @@ public class BoardMechanicsTest {
         }
 
         // Визуальная проверка заполненной колонки
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("Доска с полностью заполненной колонкой " + targetColumn + ":");
         renderer.show(board);
 
@@ -77,7 +78,7 @@ public class BoardMechanicsTest {
         assertEquals(Disc.GREEN, board.get(bottomRow - 1, targetColumn), "Второй токен должен оказаться на строку выше первого");
 
         // Визуализация
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("Проверка последовательного падения токенов в колонке " + targetColumn + ":");
         renderer.show(board);
     }
@@ -102,7 +103,7 @@ public class BoardMechanicsTest {
         assertTrue(board.isBoardFilled(), "Доска должна быть заполненной после заполнения каждой колонки");
 
         // Визуальное отображение заполненной доски
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("Полностью заполненная доска:");
         renderer.show(board);
     }
@@ -125,7 +126,7 @@ public class BoardMechanicsTest {
         }
 
         // Визуальное представление полностью заполненной доски
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("Доска полностью заполнена:");
         renderer.show(board);
 

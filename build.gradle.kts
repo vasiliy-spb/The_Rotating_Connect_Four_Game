@@ -22,11 +22,11 @@ dependencies {
 }
 
 
-tasks.jar {
-    manifest {
-        attributes["Main-Class"] = "dev/cheercode/connectfour/MainForJar"
-    }
-}
+//tasks.jar {
+//    manifest {
+//        attributes["Main-Class"] = "dev/cheercode/connectfour/MainForJar"
+//    }
+//}
 
 tasks.test {
     useJUnitPlatform()

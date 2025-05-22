@@ -1,4 +1,4 @@
-package dev.cheercode.connectfour;
+package dev.cheercode.connectfour.game;
 
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.dialog.Dialog;
@@ -6,6 +6,7 @@ import dev.cheercode.connectfour.dialog.IntegerMinMaxDialog;
 import dev.cheercode.connectfour.model.Player;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Direction;
+import dev.cheercode.connectfour.renderer.Renderer;
 
 import java.util.List;
 import java.util.Queue;
@@ -58,9 +59,9 @@ public class Game {
         currentPlayer = players.poll();
         int columnIndex = askColumnIndex();
 
-        if (board.isColumnFilled(columnIndex)) {
+        while (board.isColumnFilled(columnIndex)) {
             System.out.printf(columnFilledMessageTemplate, columnIndex + 1);
-            return;
+            columnIndex = askColumnIndex();
         }
 
         Disc disc = currentPlayer.getDisc();

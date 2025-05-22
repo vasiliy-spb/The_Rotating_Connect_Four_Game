@@ -1,8 +1,9 @@
 package dev.cheercode.connectfour.board;
 
-import dev.cheercode.connectfour.Renderer;
+import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.renderer.RendererForIdea;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -108,7 +109,7 @@ public class BoardTest {
         board.drop(5, Disc.GREEN);
 
         // Создаем рендерер и выводим доску в консоль
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("Визуальное представление доски:");
         renderer.show(board);
 

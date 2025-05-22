@@ -1,9 +1,10 @@
 package dev.cheercode.connectfour.board;
 
-import dev.cheercode.connectfour.Renderer;
+import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.Direction;
+import dev.cheercode.connectfour.renderer.RendererForIdea;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +17,7 @@ public class BoardRotationLeftRightTest {
     @Test
     public void testRotateEmptyBoardLeft() {
         Board board = new Board(Board.Size.DEFAULT); // DEFAULT: 6x7 (height x width)
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("=== Пустая доска перед поворотом (LEFT) ===");
         renderer.show(board);
 
@@ -44,7 +45,7 @@ public class BoardRotationLeftRightTest {
     @Test
     public void testRotateEmptyBoardRight() {
         Board board = new Board(Board.Size.DEFAULT);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("=== Пустая доска перед поворотом (RIGHT) ===");
         renderer.show(board);
 
@@ -71,7 +72,7 @@ public class BoardRotationLeftRightTest {
     @Test
     public void testTokenTransferLeft() {
         Board board = new Board(Board.Size.DEFAULT);  // 6x7
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
 
         // Вставляем токены в нижнюю строку исходной доски
         board.drop(0, Disc.RED);    // (5,0)
@@ -112,7 +113,7 @@ public class BoardRotationLeftRightTest {
     @Test
     public void testTokenTransferRight() {
         Board board = new Board(Board.Size.DEFAULT);  // 6x7
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
 
         // Вставляем токены в нижнюю строку исходной доски
         board.drop(1, Disc.YELLOW);   // (5,1)
@@ -144,7 +145,7 @@ public class BoardRotationLeftRightTest {
     @Test
     public void testFallingAfterRotationLeft() {
         Board board = new Board(Board.Size.DEFAULT);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
 
         // Вставляем токен в колонку 3 исходной доски
         board.drop(3, Disc.YELLOW); // ожидаем позицию (5,3)
@@ -184,7 +185,7 @@ public class BoardRotationLeftRightTest {
         // Тестируем для поворота LEFT
         Board boardLeft = new Board(Board.Size.DEFAULT); // 6x7
         boardLeft.rotate(Direction.LEFT);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("=== Доска после поворота (LEFT) ===");
         renderer.show(boardLeft);
         assertEquals(7, boardLeft.getHeight(), "После поворота влево высота должна равняться исходной ширине (7)");

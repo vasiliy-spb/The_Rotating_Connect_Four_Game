@@ -1,9 +1,10 @@
 package dev.cheercode.connectfour.board;
 
-import dev.cheercode.connectfour.Renderer;
+import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.Direction;
+import dev.cheercode.connectfour.renderer.RendererForIdea;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +17,7 @@ public class BoardRotationUpsideDownTest {
     @Test
     public void testUpsideDownEmptyBoard() {
         Board board = new Board(Board.Size.DEFAULT);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
 
         System.out.println("=== Исходная пустая доска перед UPSIDE_DOWN ===");
         renderer.show(board);
@@ -50,7 +51,7 @@ public class BoardRotationUpsideDownTest {
     @Test
     public void testUpsideDownRotationWithTokens() {
         Board board = new Board(Board.Size.DEFAULT);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         int height = board.getHeight();
         int width = board.getWidth();  // Для DEFAULT: width = 7, значит индекс последней колонки = 6
 
@@ -89,7 +90,7 @@ public class BoardRotationUpsideDownTest {
     @Test
     public void testFallingTokensAfterUpsideDownRotation() {
         Board board = new Board(Board.Size.DEFAULT);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         int height = board.getHeight();
         int width = board.getWidth();  // Для DEFAULT: width = 7
 
@@ -134,7 +135,7 @@ public class BoardRotationUpsideDownTest {
 
         board.rotate(Direction.UPSIDE_DOWN);
 
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("=== Доска после UPSIDE_DOWN (проверка размеров) ===");
         renderer.show(board);
 

@@ -1,4 +1,4 @@
-package dev.cheercode.connectfour;
+package dev.cheercode.connectfour.renderer;
 
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;

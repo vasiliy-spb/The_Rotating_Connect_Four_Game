@@ -1,9 +1,10 @@
 package dev.cheercode.connectfour.board;
 
-import dev.cheercode.connectfour.Renderer;
+import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.Direction;
+import dev.cheercode.connectfour.renderer.RendererForIdea;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +19,7 @@ public class BoardBoundaryTest {
     public void testInsertionInLastRowHighestBoard() {
         // Создаем доску размера ROW7_COLUMN10 (в данном случае высота 7, ширина 10)
         Board board = new Board(Board.Size.ROW7_COLUMN10);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("=== Исходная доска (ROW7_COLUMN10) перед заполнением колонки ===");
         renderer.show(board);
 
@@ -45,7 +46,7 @@ public class BoardBoundaryTest {
     @Test
     public void testGetEmptyCellThrowsException() {
         Board board = new Board(Board.Size.DEFAULT);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("=== Исходная доска (DEFAULT) для теста извлечения пустой ячейки ===");
         renderer.show(board);
         int row = 2, col = 3; // Выбираем произвольную пустую ячейку
@@ -62,7 +63,7 @@ public class BoardBoundaryTest {
     @Test
     public void testPutTokenInvalidColumn() {
         Board board = new Board(Board.Size.DEFAULT);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         System.out.println("=== Исходная доска (DEFAULT) для теста недопустимых столбцов ===");
         renderer.show(board);
 
@@ -88,7 +89,7 @@ public class BoardBoundaryTest {
     @Test
     public void testPartialFillAndFullBoardMethods() {
         Board board = new Board(Board.Size.DEFAULT); // 6x7
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
 
         // Заполняем колонку 0 частично (например, 3 токена, а максимум 6)
         for (int i = 0; i < 3; i++) {
@@ -116,7 +117,7 @@ public class BoardBoundaryTest {
      */
     @Test
     public void testTurnUpsideDownOnEmptyAndPartialBoard() {
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
 
         // (a) Переворот пустой доски
         Board emptyBoard = new Board(Board.Size.DEFAULT);
@@ -169,7 +170,7 @@ public class BoardBoundaryTest {
     @Test
     public void testRotationWithSingleToken() {
         Board board = new Board(Board.Size.DEFAULT);
-        Renderer renderer = new Renderer();
+        Renderer renderer = new RendererForIdea();
         // Вставляем один токен в колонку 3 (исходно в позиции (height-1, 5))
         board.drop(5, Disc.RED);
 

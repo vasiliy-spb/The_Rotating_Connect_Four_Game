@@ -1,16 +1,17 @@
 package dev.cheercode.connectfour.resultAnalyzer;
 
-import dev.cheercode.connectfour.Renderer;
-import dev.cheercode.connectfour.ResultAnalyzer;
+import dev.cheercode.connectfour.renderer.Renderer;
+import dev.cheercode.connectfour.game.ResultAnalyzer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.renderer.RendererForIdea;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DiagonalWinTest {
     private final Board.Size DEFAULT_SIZE = Board.Size.DEFAULT;
-    private final Renderer renderer = new Renderer();
+    private final Renderer renderer = new RendererForIdea();
 
     @Test
     void diagonalWin_topLeftToBottomRight_shouldReturnTrue() {

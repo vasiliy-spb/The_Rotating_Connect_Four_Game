@@ -1,8 +1,11 @@
 package dev.cheercode.connectfour;
 
+import dev.cheercode.connectfour.game.Game;
 import dev.cheercode.connectfour.model.Player;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.renderer.Renderer;
+import dev.cheercode.connectfour.renderer.RendererForIdea;
 
 import java.util.ArrayDeque;
 import java.util.List;
