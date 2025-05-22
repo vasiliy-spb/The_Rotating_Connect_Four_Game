@@ -6,28 +6,7 @@ public class Board {
     private BoardState state;
 
     public Board(Size size) {
-        this.state = new HorizontalBoardState(size);
-    }
-
-    public Disc get(int row, int column) {
-        if (column < 0 || column >= getWidth()) {
-            throw new IllegalArgumentException("Column number out of bound.");
-        }
-        if (row < 0 || row >= getHeight()) {
-            throw new IllegalArgumentException("Row number out of bound.");
-        }
-        return state.get(row, column);
-    }
-
-    public void drop(int column, Disc disc) {
-        if (column < 0 || column >= getWidth()) {
-            throw new IllegalArgumentException("Column number out of bound.");
-        }
-        state.drop(column, disc);
-    }
-
-    public boolean isColumnFilled(int column) {
-        return state.isColumnFilled(column);
+        this.state = new DefaultBoardState(size);
     }
 
     public int getHeight() {
@@ -38,29 +17,33 @@ public class Board {
         return state.getWidth();
     }
 
-    public void changeState(BoardState state) {
-        this.state = state;
+    public Disc get(int row, int column) {
+        return state.get(row, column);
+    }
+
+    public void drop(int column, Disc disc) {
+        state.drop(column, disc);
     }
 
     public boolean isEmptySlot(int row, int column) {
         return state.isEmptySlot(row, column);
     }
 
-    public void rotate(Direction direction) {
-        if (direction == Direction.UPSIDE_DOWN) {
-            state.turnUpsideDown(state);
-        } else {
-            changeState(new VerticalBoardState(state, direction));
-        }
+    public boolean isColumnFilled(int column) {
+        return state.isColumnFilled(column);
     }
 
     public boolean isBoardFilled() {
-        for (int column = 0; column < getWidth(); column++) {
-            if (!isColumnFilled(column)) {
+        for (int col = 0; col < getWidth(); col++) {
+            if (!isColumnFilled(col)) {
                 return false;
             }
         }
         return true;
+    }
+
+    public void rotate(Direction direction) {
+        state = state.rotate(direction);
     }
 
     public enum Size {
@@ -68,6 +51,7 @@ public class Board {
         ROW7_COLUMN8(7, 8),
         ROW7_COLUMN9(7, 9),
         ROW7_COLUMN10(7, 10);
+
         private final int height;
         private final int width;
 
@@ -76,12 +60,12 @@ public class Board {
             this.width = width;
         }
 
-        public int getWidth() {
-            return width;
-        }
-
         public int getHeight() {
             return height;
+        }
+
+        public int getWidth() {
+            return width;
         }
     }
 }

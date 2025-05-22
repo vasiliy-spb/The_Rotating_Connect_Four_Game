@@ -15,7 +15,5 @@ public interface BoardState {
 
     boolean isColumnFilled(int column);
 
-    void init(BoardState previous, Direction direction);
-
-    void turnUpsideDown(BoardState state);
+    BoardState rotate(Direction direction);
 }

@@ -5,31 +5,17 @@ import dev.cheercode.connectfour.model.Disc;
 import java.util.Arrays;
 
 public abstract class AbstractBoardState implements BoardState {
-    private final int height;
-    private final int width;
-    private Disc[][] grid;
-    private int[] rowPosition;
+    protected final int height;
+    protected final int width;
+    private final Disc[][] grid;
+    private final int[] rowPosition;
 
-    public AbstractBoardState(Board.Size size) {
-        this.height = size.getHeight();
-        this.width = size.getWidth();
+    public AbstractBoardState(int height, int width) {
+        this.height = height;
+        this.width = width;
         this.grid = new Disc[height][width];
         this.rowPosition = new int[width];
         Arrays.fill(rowPosition, height - 1);
-    }
-
-    public AbstractBoardState(BoardState previous, Direction direction) {
-        if (direction == Direction.UPSIDE_DOWN) {
-            this.height = previous.getHeight();
-            this.width = previous.getWidth();
-        } else {
-            this.height = previous.getWidth();
-            this.width = previous.getHeight();
-        }
-        this.grid = new Disc[height][width];
-        this.rowPosition = new int[width];
-        Arrays.fill(rowPosition, height - 1);
-        init(previous, direction);
     }
 
     @Override
@@ -44,21 +30,27 @@ public abstract class AbstractBoardState implements BoardState {
 
     @Override
     public Disc get(int row, int column) {
-        if (isEmptySlot(row, column)) {
-            throw new IllegalArgumentException(String.format("Slot is empty (%d - %d)", row, column));
-        }
+        checkBounds(row, column);
+        checkExistence(row, column);
         return grid[row][column];
     }
 
-    @Override
-    public boolean isEmptySlot(int row, int column) {
-        return grid[row][column] == null;
+    private void checkBounds(int row, int column) {
+        if (row < 0 || row >= height || column < 0 || column >= width) {
+            throw new IllegalArgumentException("Index out of grid bounds.");
+        }
+    }
+
+    private void checkExistence(int row, int column) {
+        if (grid[row][column] == null) {
+            throw new IllegalArgumentException(String.format("Disk is not exists: (%d - %d)", row, column));
+        }
     }
 
     @Override
     public void drop(int column, Disc disc) {
         if (isColumnFilled(column)) {
-            throw new IllegalArgumentException("Column are filled: " + column);
+            throw new IllegalArgumentException("Column is filled: " + column);
         }
         int row = rowPosition[column];
         grid[row][column] = disc;
@@ -67,52 +59,29 @@ public abstract class AbstractBoardState implements BoardState {
 
     @Override
     public boolean isColumnFilled(int column) {
-        return rowPosition[column] == -1;
+        checkBounds(column);
+        return rowPosition[column] < 0;
     }
 
-    @Override
-    public void init(BoardState previous, Direction direction) {
-        int previousHeight = previous.getHeight();
-        int previousWidth = previous.getWidth();
-        if (direction == Direction.LEFT) {
-            for (int previousRow = 0; previousRow < previousHeight; previousRow++) {
-                for (int previousColumn = 0; previousColumn < previousWidth; previousColumn++) {
-                    try {
-                        Disc previousDisc = previous.get(previousRow, previousColumn);
-                        drop(previousRow, previousDisc);
-                    } catch (IllegalArgumentException ignored) {
-                        // skip an empty slot
-                    }
-                }
-            }
-        }
-        if (direction == Direction.RIGHT) {
-            for (int previousRow = 0; previousRow < previousHeight; previousRow++) {
-                for (int previousColumn = previousWidth - 1; previousColumn >= 0; previousColumn--) {
-                    try {
-                        Disc previousDisc = previous.get(previousRow, previousColumn);
-                        drop(width - 1 - previousRow, previousDisc);
-                    } catch (IllegalArgumentException ignored) {
-                        // skip an empty slot
-                    }
-                }
-            }
+    private void checkBounds(int column) {
+        if (column < 0 || column >= width) {
+            throw new IllegalArgumentException("Column index out of grid bounds.");
         }
     }
 
     @Override
-    public void turnUpsideDown(BoardState state) {
-        Disc[][] previousGrid = grid;
-        this.grid = new Disc[height][width];
-        this.rowPosition = new int[width];
-        Arrays.fill(rowPosition, height - 1);
-        for (int row = 0; row < height; row++) {
-            for (int column = width - 1; column >= 0; column--) {
-                Disc previousDisc = previousGrid[row][column];
-                if (previousDisc != null) {
-                    drop(width - 1 - column, previousDisc);
-                }
-            }
-        }
+    public boolean isEmptySlot(int row, int column) {
+        checkBounds(row, column);
+        return grid[row][column] == null;
+    }
+
+    @Override
+    public BoardState rotate(Direction direction) {
+        return switch (direction) {
+            case LEFT -> new LeftRotatedBoardState(this);
+            case RIGHT -> new RightRotatedBoardState(this);
+            case UPSIDE_DOWN -> new UpsideDownRotatedBoardState(this);
+            default -> throw new IllegalArgumentException("Unsupported direction: " + direction.name());
+        };
     }
 }
