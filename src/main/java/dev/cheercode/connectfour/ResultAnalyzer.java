@@ -73,15 +73,15 @@ public class ResultAnalyzer {
         return isValid(lastRow, lastColumn);
     }
 
+    private boolean isValid(int row, int column) {
+        return row >= 0 && row < board.getHeight() && column >= 0 && column < board.getWidth();
+    }
+
     public boolean isDraw(List<Disc> discs) {
         if (!board.isBoardFilled()) {
             return false;
         }
         return getWinnerDiscs(discs).isEmpty();
-    }
-
-    private boolean isValid(int row, int column) {
-        return row >= 0 && row < board.getHeight() && column >= 0 && column < board.getWidth();
     }
 
     public Set<Disc> getWinnerDiscs(List<Disc> discs) {
