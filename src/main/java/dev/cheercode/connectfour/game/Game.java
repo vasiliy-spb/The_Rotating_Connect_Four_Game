@@ -108,6 +108,7 @@ public class Game {
         Direction[] directions = Direction.values();
         int directionIndex = random.nextInt(directions.length);
         Direction direction = directions[directionIndex];
+
         System.out.printf(boardRotatedMessageTemplate, direction.name());
         board.rotate(direction);
     }
