@@ -8,6 +8,10 @@ import java.util.Random;
 
 public class TestMain {
     public static void main(String[] args) {
+        showColors();
+        if (3 < 4) return;
+
+
         Disc[] discs = Disc.values();
         Random random = new Random();
         Board board = new Board(Board.Size.DEFAULT);
@@ -32,6 +36,17 @@ public class TestMain {
         System.out.println();
         renderer.show(board);
     }
+
+    private static void showColors() {
+        String reset = "\u001B[0m";
+        String text = "THIS IS COLORED TEXT";
+        for (int i = 0; i < 120; i++) {
+            System.out.println(i);
+            String color = "\u001B[" + i + "m";
+            System.out.println(color + text + reset);
+        }
+    }
+
     private Board createBoard() {
         Board board = new Board(Board.Size.DEFAULT);
         board.drop(0, Disc.BLUE);
