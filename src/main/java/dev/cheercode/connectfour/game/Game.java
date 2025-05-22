@@ -70,10 +70,19 @@ public class Game {
 
         players.offer(currentPlayer);
 
+        if (isCurrentPlayerWin()) {
+            return;
+        }
+
         if (shouldRotate()) {
             rotateBoard();
             renderer.show(board);
         }
+    }
+
+    private boolean isCurrentPlayerWin() {
+        Disc disc = currentPlayer.getDisc();
+        return resultAnalyzer.isWin(disc);
     }
 
     private void finish() {

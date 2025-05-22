@@ -4,10 +4,6 @@ plugins {
     id("application")
 }
 
-application {
-    mainClass.set("dev.cheercode.connectfour.MainForJar")
-}
-
 group = "dev.cheercode.connectfour"
 version = "1.0-SNAPSHOT"
 
@@ -21,12 +17,9 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-
-//tasks.jar {
-//    manifest {
-//        attributes["Main-Class"] = "dev/cheercode/connectfour/MainForJar"
-//    }
-//}
+application {
+    mainClass.set("dev.cheercode.connectfour.MainForJar")
+}
 
 tasks.test {
     useJUnitPlatform()
