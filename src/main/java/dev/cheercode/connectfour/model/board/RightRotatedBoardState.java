@@ -5,6 +5,10 @@ import dev.cheercode.connectfour.model.Disc;
 public class RightRotatedBoardState extends AbstractBoardState {
     public RightRotatedBoardState(BoardState previous) {
         super(previous.getWidth(), previous.getHeight());
+        init(previous);
+    }
+
+    private void init(BoardState previous) {
         int prevHeight = previous.getHeight();
         for (int row = height - 1; row >= 0; row--) {
             for (int column = 0; column < width; column++) {
