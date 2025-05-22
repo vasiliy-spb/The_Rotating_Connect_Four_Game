@@ -14,6 +14,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "dev/cheercode/connectfour/Main"
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }
