@@ -14,7 +14,7 @@ public class RendererForJar implements Renderer {
     private static final String footerSpace = "   ";
     private static final Ansi.Color BACKGROUND_COLOR = Ansi.Color.CYAN;
     private static final Ansi.Color BORDER_COLOR = Ansi.Color.WHITE;
-    private static final Ansi.Color TEXT_COLOR = Ansi.Color.BLUE;
+    private static final Ansi.Color TEXT_COLOR = Ansi.Color.BLACK;
 
     @Override
     public void show(Board board) {
