@@ -4,22 +4,22 @@ import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 
 public class RendererForIdea implements Renderer {
-    private static final String circle = "⬤";
-    private static final String backgroundColor = "\u001B[7m";
-    private static final String borderColor = "\u001B[34m";
-    private static final String reset = "\u001B[0m";
-    private static final String red = "\u001B[101m";
-    private static final String blue = "\u001B[104m";
-    private static final String yellow = "\u001B[103m";
-    private static final String green = "\u001B[102m";
-    private static final String slotTemplate = " %s |";
-    private static final String footerSlotTemplate = " %s   ";
-    private static final String newLine = "\n";
-    private static final String emptySlot = "    |";
-    private static final String rowNumberTemplate = "%2d " + backgroundColor + borderColor + "|";
-    private static final String separatorSpace = "   " + backgroundColor + borderColor + "+";
-    private static final String separatorSlot = "----+";
-    private static final String footerSpace = "     ";
+    private static final String CIRCLE = "⬤";
+    private static final String BACKGROUND_COLOR = "\u001B[7m";
+    private static final String BORDER_COLOR = "\u001B[34m";
+    private static final String RESET = "\u001B[0m";
+    private static final String RED = "\u001B[101m";
+    private static final String BLUE = "\u001B[104m";
+    private static final String YELLOW = "\u001B[103m";
+    private static final String GREEN = "\u001B[102m";
+    private static final String SLOT_TEMPLATE = " %s |";
+    private static final String FOOTER_SLOT_TEMPLATE = " %s   ";
+    private static final String NEW_LINE = "\n";
+    private static final String EMPTY_SLOT = "    |";
+    private static final String ROW_NUMBER_TEMPLATE = "%2d " + BACKGROUND_COLOR + BORDER_COLOR + "|";
+    private static final String SEPARATOR_SPACE = "   " + BACKGROUND_COLOR + BORDER_COLOR + "+";
+    private static final String SEPARATOR_SLOT = "----+";
+    private static final String FOOTER_SPACE = "     ";
 
     @Override
     public void show(Board board) {
@@ -28,56 +28,56 @@ public class RendererForIdea implements Renderer {
 
         StringBuilder field = new StringBuilder();
 
-        field.append(getSeparatorLine(width));
+        field.append(buildSeparatorLine(width));
 
         for (int row = 0; row < height; row++) {
-            field.append(String.format(rowNumberTemplate, row + 1));
-            field.append(backgroundColor);
-            for (int col = 0; col < width; col++) {
-                if (board.isEmptySlot(row, col)) {
-                    field.append(emptySlot);
+            field.append(String.format(ROW_NUMBER_TEMPLATE, row + 1));
+            field.append(BACKGROUND_COLOR);
+            for (int column = 0; column < width; column++) {
+                if (board.isEmptySlot(row, column)) {
+                    field.append(EMPTY_SLOT);
                     continue;
                 }
-                Disc disc = board.get(row, col);
-                String sprite = getColoredCircle(disc);
-                field.append(String.format(slotTemplate, sprite));
+                Disc disc = board.get(row, column);
+                String sprite = getSpriteFor(disc);
+                field.append(String.format(SLOT_TEMPLATE, sprite));
             }
-            field.append(reset);
-            field.append(newLine);
+            field.append(RESET);
+            field.append(NEW_LINE);
 
-            field.append(getSeparatorLine(width));
+            field.append(buildSeparatorLine(width));
         }
 
-        field.append(getFooter(width));
+        field.append(buildFooter(width));
 
         System.out.println(field);
     }
 
-    private StringBuilder getSeparatorLine(int width) {
+    private StringBuilder buildSeparatorLine(int width) {
         StringBuilder line = new StringBuilder();
-        line.append(separatorSpace);
-        line.append(separatorSlot.repeat(width));
-        line.append(reset);
-        line.append(newLine);
+        line.append(SEPARATOR_SPACE);
+        line.append(SEPARATOR_SLOT.repeat(width));
+        line.append(RESET);
+        line.append(NEW_LINE);
         return line;
     }
 
-    private String getColoredCircle(Disc disc) {
+    private String getSpriteFor(Disc disc) {
         return switch (disc) {
-            case RED -> red + circle + reset + backgroundColor + borderColor;
-            case BLUE -> blue + circle + reset + backgroundColor + borderColor;
-            case YELLOW -> yellow + circle + reset + backgroundColor + borderColor;
-            case GREEN -> green + circle + reset + backgroundColor + borderColor;
+            case RED -> RED + CIRCLE + RESET + BACKGROUND_COLOR + BORDER_COLOR;
+            case BLUE -> BLUE + CIRCLE + RESET + BACKGROUND_COLOR + BORDER_COLOR;
+            case YELLOW -> YELLOW + CIRCLE + RESET + BACKGROUND_COLOR + BORDER_COLOR;
+            case GREEN -> GREEN + CIRCLE + RESET + BACKGROUND_COLOR + BORDER_COLOR;
         };
     }
 
-    private StringBuilder getFooter(int width) {
+    private StringBuilder buildFooter(int width) {
         StringBuilder line = new StringBuilder();
-        line.append(footerSpace);
-        for (int col = 1; col <= width; col++) {
-            line.append(String.format(footerSlotTemplate, col));
+        line.append(FOOTER_SPACE);
+        for (int column = 1; column <= width; column++) {
+            line.append(String.format(FOOTER_SLOT_TEMPLATE, column));
         }
-        line.append(newLine);
+        line.append(NEW_LINE);
         return line;
     }
 }

@@ -5,13 +5,13 @@ import dev.cheercode.connectfour.model.board.Board;
 import org.fusesource.jansi.Ansi;
 
 public class RendererForJar implements Renderer {
-    private static final String circle = "⬤";
-    private static final String slotTemplate = " %s  |";
-    private static final String footerSlotTemplate = "  %s  ";
-    private static final String newLine = "\n";
-    private static final String emptySlot = "    |";
-    private static final String separatorSlot = "----+";
-    private static final String footerSpace = "   ";
+    private static final String CIRCLE = "⬤";
+    private static final String SLOT_TEMPLATE = " %s  |";
+    private static final String FOOTER_SLOT_TEMPLATE = "  %s  ";
+    private static final String NEW_LINE = "\n";
+    private static final String EMPTY_SLOT = "    |";
+    private static final String SEPARATOR_SLOT = "----+";
+    private static final String FOOTER_SPACE = "   ";
     private static final Ansi.Color BACKGROUND_COLOR = Ansi.Color.CYAN;
     private static final Ansi.Color BORDER_COLOR = Ansi.Color.WHITE;
     private static final Ansi.Color TEXT_COLOR = Ansi.Color.BLACK;
@@ -23,33 +23,33 @@ public class RendererForJar implements Renderer {
 
         StringBuilder field = new StringBuilder();
 
-        field.append(getSeparatorLine(width));
+        field.append(buildSeparatorLine(width));
 
         for (int row = 0; row < height; row++) {
             field.append(rowNumberTemplate(row + 1));
             field.append(getBackground());
-            for (int col = 0; col < width; col++) {
-                if (board.isEmptySlot(row, col)) {
-                    field.append(emptySlot);
+            for (int column = 0; column < width; column++) {
+                if (board.isEmptySlot(row, column)) {
+                    field.append(EMPTY_SLOT);
                     continue;
                 }
-                Disc disc = board.get(row, col);
-                String sprite = getColoredCircle(disc);
-                field.append(String.format(slotTemplate, sprite));
+                Disc disc = board.get(row, column);
+                String sprite = getSpriteFor(disc);
+                field.append(String.format(SLOT_TEMPLATE, sprite));
             }
-            field.append(getReset()).append(newLine);
-            field.append(getSeparatorLine(width));
+            field.append(getReset()).append(NEW_LINE);
+            field.append(buildSeparatorLine(width));
         }
 
-        field.append(getFooter(width));
+        field.append(buildFooter(width));
         System.out.println(field);
     }
 
-    private StringBuilder getSeparatorLine(int width) {
+    private StringBuilder buildSeparatorLine(int width) {
         StringBuilder line = new StringBuilder();
         line.append(getSeparatorSpace());
-        line.append(separatorSlot.repeat(width));
-        line.append(getReset()).append(newLine);
+        line.append(SEPARATOR_SLOT.repeat(width));
+        line.append(getReset()).append(NEW_LINE);
         return line;
     }
 
@@ -81,14 +81,14 @@ public class RendererForJar implements Renderer {
         return Ansi.ansi().bg(BACKGROUND_COLOR).toString();
     }
 
-    private String getColoredCircle(Disc disc) {
+    private String getSpriteFor(Disc disc) {
         String colorCode = switch (disc) {
             case RED -> getRed();
             case BLUE -> getBlue();
             case YELLOW -> getYellow();
             case GREEN -> getGreen();
         };
-        return colorCode + circle + getBackground() + getBorder();
+        return colorCode + CIRCLE + getBackground() + getBorder();
     }
 
     private String getRed() {
@@ -111,13 +111,13 @@ public class RendererForJar implements Renderer {
         return Ansi.ansi().fgBright(BORDER_COLOR).toString();
     }
 
-    private StringBuilder getFooter(int width) {
+    private StringBuilder buildFooter(int width) {
         StringBuilder line = new StringBuilder();
-        line.append(footerSpace);
-        for (int col = 1; col <= width; col++) {
-            line.append(String.format(footerSlotTemplate, col));
+        line.append(FOOTER_SPACE);
+        for (int column = 1; column <= width; column++) {
+            line.append(String.format(FOOTER_SLOT_TEMPLATE, column));
         }
-        line.append(newLine);
+        line.append(NEW_LINE);
         return line;
     }
 }
