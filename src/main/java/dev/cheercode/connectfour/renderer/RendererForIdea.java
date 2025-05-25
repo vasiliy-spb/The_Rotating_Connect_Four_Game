@@ -168,28 +168,28 @@ import dev.cheercode.connectfour.model.board.Board;
 //}
 
 public class RendererForIdea implements Renderer {
-    private static final String circle = "⬤";
-    private static final String backgroundColor = "\u001B[7m";
-    private static final String borderColor = "\u001B[34m";
-    private static final String reset = "\u001B[0m";
-    private static final String red = "\u001B[101m";
-    private static final String blue = "\u001B[104m";
-    private static final String yellow = "\u001B[103m";
-    private static final String green = "\u001B[102m";
-    private static final String slotTemplate = " %s |";
-    private static final String slotTemplateWithBackground = backgroundColor + borderColor + " %s |";
-    private static final String footerSlotTemplate = " %s   ";
-    private static final String newLine = "\n";
-    private static final String emptySlotWithBackground = "    " + backgroundColor + borderColor + "|";
-    private static final String emptySlot = "    |";
-    private static final String rowNumberTemplateWithBackground = "%2d " + backgroundColor + borderColor + "|";
-    private static final String rowNumberTemplate = "%2d |";
-    private static final String separatorSpaceWithBackground = "   " + backgroundColor + borderColor + "+";
-    private static final String separatorSpace = "   +";
-    private static final String separatorSlotWithBackground = backgroundColor + borderColor + "----+";
-    private static final String separatorSlotWithTailBackground = "----" + backgroundColor + borderColor + "+";
-    private static final String separatorSlot = "----+";
-    private static final String footerSpace = "     ";
+    private static final String CIRCLE = "⬤";
+    private static final String BACKGROUND_COLOR = "\u001B[7m";
+    private static final String BORDER_COLOR = "\u001B[34m";
+    private static final String RESET = "\u001B[0m";
+    private static final String RED = "\u001B[101m";
+    private static final String BLUE = "\u001B[104m";
+    private static final String YELLOW = "\u001B[103m";
+    private static final String GREEN = "\u001B[102m";
+    private static final String SLOT_TEMPLATE = " %s |";
+    private static final String SLOT_TEMPLATE_WITH_BACKGROUND = BACKGROUND_COLOR + BORDER_COLOR + " %s |";
+    private static final String FOOTER_SLOT_TEMPLATE = " %s   ";
+    private static final String NEW_LINE = "\n";
+    private static final String EMPTY_SLOT_WITH_BACKGROUND = "    " + BACKGROUND_COLOR + BORDER_COLOR + "|";
+    private static final String EMPTY_SLOT = "    |";
+    private static final String ROW_NUMBER_TEMPLATE_WITH_BACKGROUND = "%2d " + BACKGROUND_COLOR + BORDER_COLOR + "|";
+    private static final String ROW_NUMBER_TEMPLATE = "%2d |";
+    private static final String SEPARATOR_SPACE_WITH_BACKGROUND = "   " + BACKGROUND_COLOR + BORDER_COLOR + "+";
+    private static final String SEPARATOR_SPACE = "   +";
+    private static final String SEPARATOR_SLOT_WITH_BACKGROUND = BACKGROUND_COLOR + BORDER_COLOR + "----+";
+    private static final String SEPARATOR_SLOT_WITH_TAIL_BACKGROUND = "----" + BACKGROUND_COLOR + BORDER_COLOR + "+";
+    private static final String SEPARATOR_SLOT = "----+";
+    private static final String FOOTER_SPACE = "     ";
 
     @Override
     public void show(Board board) {
@@ -198,105 +198,105 @@ public class RendererForIdea implements Renderer {
 
         StringBuilder field = new StringBuilder();
 
-        field.append(getSeparatorLine(-1, width, board));
+        field.append(buildSeparatorLine(-1, width, board));
 
         for (int row = 0; row < height; row++) {
             if (!board.isOnField(row, 0)) {
-                field.append(String.format(rowNumberTemplate, row + 1));
+                field.append(String.format(ROW_NUMBER_TEMPLATE, row + 1));
             } else {
-                field.append(String.format(rowNumberTemplateWithBackground, row + 1));
-                field.append(backgroundColor);
+                field.append(String.format(ROW_NUMBER_TEMPLATE_WITH_BACKGROUND, row + 1));
+                field.append(BACKGROUND_COLOR);
             }
-            for (int col = 0; col < width; col++) {
-                if (!board.isOnField(row, col)) {
-                    if (col + 1 < width && board.isOnField(row, col + 1)) {
-                        field.append(reset + emptySlotWithBackground + backgroundColor + borderColor);
+            for (int column = 0; column < width; column++) {
+                if (!board.isOnField(row, column)) {
+                    if (column + 1 < width && board.isOnField(row, column + 1)) {
+                        field.append(RESET + EMPTY_SLOT_WITH_BACKGROUND + BACKGROUND_COLOR + BORDER_COLOR);
                     } else {
-                        field.append(reset + emptySlot + backgroundColor + borderColor);
+                        field.append(RESET + EMPTY_SLOT + BACKGROUND_COLOR + BORDER_COLOR);
                     }
                     continue;
                 }
-                if (board.isEmptySlot(row, col)) {
-                    field.append(backgroundColor + borderColor + emptySlot);
+                if (board.isEmptySlot(row, column)) {
+                    field.append(BACKGROUND_COLOR + BORDER_COLOR + EMPTY_SLOT);
                     continue;
                 }
-                Disc disc = board.get(row, col);
-                String sprite = getColoredCircle(disc);
-                field.append(backgroundColor)
-                        .append(String.format(slotTemplateWithBackground, sprite))
-                        .append(reset);
+                Disc disc = board.get(row, column);
+                String sprite = getSpriteFor(disc);
+                field.append(BACKGROUND_COLOR)
+                        .append(String.format(SLOT_TEMPLATE_WITH_BACKGROUND, sprite))
+                        .append(RESET);
             }
-            field.append(reset);
-            field.append(newLine);
+            field.append(RESET);
+            field.append(NEW_LINE);
 
-            field.append(getSeparatorLine(row, width, board));
+            field.append(buildSeparatorLine(row, width, board));
         }
 
-        field.append(getFooter(width));
+        field.append(buildFooter(width));
 
         System.out.println(field);
     }
 
-    private StringBuilder getSeparatorLine(int row, int width, Board board) {
+    private StringBuilder buildSeparatorLine(int row, int width, Board board) {
         StringBuilder line = new StringBuilder();
 
         if (row < 0) {
             if (row + 1 < board.getHeight() && board.isOnField(row + 1, 0)) {
-                line.append(separatorSpaceWithBackground);
+                line.append(SEPARATOR_SPACE_WITH_BACKGROUND);
             } else {
-                line.append(separatorSpace);
+                line.append(SEPARATOR_SPACE);
             }
             for (int col = 0; col < width; col++) {
                 if (row + 1 < board.getHeight() && board.isOnField(row + 1, col)) {
-                    line.append(separatorSlotWithBackground);
+                    line.append(SEPARATOR_SLOT_WITH_BACKGROUND);
                 } else {
                     if (board.isOnField(row + 1, col + 1)) {
-                        line.append(reset + separatorSlotWithTailBackground);
+                        line.append(RESET + SEPARATOR_SLOT_WITH_TAIL_BACKGROUND);
                     } else {
-                        line.append(reset + separatorSlot);
+                        line.append(RESET + SEPARATOR_SLOT);
                     }
                 }
             }
         } else {
 
             if (board.isOnField(row, 0) || (row + 1 < board.getHeight() && board.isOnField(row + 1, 0))) {
-                line.append(separatorSpaceWithBackground);
+                line.append(SEPARATOR_SPACE_WITH_BACKGROUND);
             } else {
-                line.append(separatorSpace);
+                line.append(SEPARATOR_SPACE);
             }
             for (int col = 0; col < width; col++) {
                 if (board.isOnField(row, col) || (row + 1 < board.getHeight() && board.isOnField(row + 1, col))) {
-                    line.append(separatorSlotWithBackground);
+                    line.append(SEPARATOR_SLOT_WITH_BACKGROUND);
                 } else {
                     if (col + 1 < width && (board.isOnField(row, col + 1) || (row < board.getHeight() - 1 && board.isOnField(row + 1, col + 1)))) {
-                        line.append(reset + separatorSlotWithTailBackground);
+                        line.append(RESET + SEPARATOR_SLOT_WITH_TAIL_BACKGROUND);
                     } else {
-                        line.append(reset + separatorSlot);
+                        line.append(RESET + SEPARATOR_SLOT);
                     }
                 }
             }
         }
-        line.append(reset);
-        line.append(newLine);
+        line.append(RESET);
+        line.append(NEW_LINE);
         return line;
     }
 
-    private String getColoredCircle(Disc disc) {
+    private String getSpriteFor(Disc disc) {
         return switch (disc) {
-            case RED -> red + circle + reset + backgroundColor + borderColor;
-            case BLUE -> blue + circle + reset + backgroundColor + borderColor;
-            case YELLOW -> yellow + circle + reset + backgroundColor + borderColor;
-            case GREEN -> green + circle + reset + backgroundColor + borderColor;
+            case RED -> RED + CIRCLE + RESET + BACKGROUND_COLOR + BORDER_COLOR;
+            case BLUE -> BLUE + CIRCLE + RESET + BACKGROUND_COLOR + BORDER_COLOR;
+            case YELLOW -> YELLOW + CIRCLE + RESET + BACKGROUND_COLOR + BORDER_COLOR;
+            case GREEN -> GREEN + CIRCLE + RESET + BACKGROUND_COLOR + BORDER_COLOR;
         };
     }
 
-    private StringBuilder getFooter(int width) {
+    private StringBuilder buildFooter(int width) {
         StringBuilder line = new StringBuilder();
-        line.append(footerSpace);
+        line.append(FOOTER_SPACE);
         for (int col = 1; col <= width; col++) {
-            line.append(String.format(footerSlotTemplate, col));
+            line.append(String.format(FOOTER_SLOT_TEMPLATE, col));
         }
-        line.append(newLine);
+        line.append(NEW_LINE);
         return line;
     }
 }

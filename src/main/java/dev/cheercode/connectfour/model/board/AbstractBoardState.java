@@ -113,11 +113,11 @@ public abstract class AbstractBoardState implements BoardState {
 
     @Override
     public boolean isOnField(int row, int column) {
-//        try {
+        try {
             checkBounds(row, column);
-//        } catch (IllegalArgumentException e) {
-//            return false;
-//        }
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
         return mask[row][column];
     }
 
