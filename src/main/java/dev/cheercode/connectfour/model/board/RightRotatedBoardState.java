@@ -6,15 +6,20 @@ public class RightRotatedBoardState extends AbstractBoardState {
     public RightRotatedBoardState(BoardState previous) {
         super(previous.getWidth(), previous.getHeight());
         init(previous);
+        applyGravity();
     }
 
     private void init(BoardState previous) {
-        int prevHeight = previous.getHeight();
-        for (int row = height - 1; row >= 0; row--) {
-            for (int column = 0; column < width; column++) {
+        for (int row = 0; row < width; row++) {
+            for (int column = 0; column < height; column++) {
+                mask[column][row] = previous.isOnField(width - 1 - row, column);
+            }
+        }
+        for (int row = 0; row < width; row++) {
+            for (int column = 0; column < height; column++) {
                 try {
-                    Disc disc = previous.get(prevHeight - 1 - column, row);
-                    drop(column, disc);
+                    Disc disc = previous.get(width - 1 - row, column);
+                    put(column, row, disc);
                 } catch (IllegalArgumentException ignored) {
                 }
             }

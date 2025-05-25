@@ -16,4 +16,6 @@ public interface BoardState {
     boolean isColumnFilled(int column);
 
     BoardState rotate(Direction direction);
+
+    boolean isOnField(int row, int column);
 }

@@ -3,6 +3,7 @@ package dev.cheercode.connectfour.game;
 import dev.cheercode.connectfour.dialog.Dialog;
 import dev.cheercode.connectfour.dialog.impl.IntegerMinMaxDialog;
 import dev.cheercode.connectfour.factory.BoardSizeFactory;
+import dev.cheercode.connectfour.factory.FromFileBoardFactory;
 import dev.cheercode.connectfour.factory.PlayerFactory;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.Player;
@@ -33,7 +34,8 @@ public class GameStarter {
         System.out.println(title);
         Queue<Player> players = createPlayers();
         Board.Size size = boardSizeFactory.create();
-        Board board = new Board(size);
+//        Board board = new Board(size);
+        Board board = new FromFileBoardFactory().create();
         Game game = new Game(board, players, renderer);
         game.start();
     }

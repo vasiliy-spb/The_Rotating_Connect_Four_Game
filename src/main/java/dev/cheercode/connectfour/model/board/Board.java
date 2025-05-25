@@ -5,8 +5,8 @@ import dev.cheercode.connectfour.model.Disc;
 public class Board {
     private BoardState state;
 
-    public Board(Size size) {
-        this.state = new DefaultBoardState(size);
+    public Board(Size size, boolean[][] mask) {
+        this.state = new DefaultBoardState(size, mask);
     }
 
     public int getHeight() {
@@ -40,6 +40,10 @@ public class Board {
             }
         }
         return true;
+    }
+
+    public boolean isOnField(int row, int column) {
+        return state.isOnField(row, column);
     }
 
     public void rotate(Direction direction) {
