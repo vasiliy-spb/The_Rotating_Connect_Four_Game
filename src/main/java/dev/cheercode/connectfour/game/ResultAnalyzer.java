@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ResultAnalyzer {
-    private static final int winCount = 4;
-    private static final int[][] directions = {{0, 1}, {1, 0}, {1, 1}, {1, -1}};
+    private static final int WIN_COUNT = 4;
+    private static final int[][] DIRECTIONS = {{0, 1}, {1, 0}, {1, 1}, {1, -1}};
     private final Board board;
     private final Set<Disc> winnerCache;
 
@@ -39,14 +39,14 @@ public class ResultAnalyzer {
 
 
     private boolean check(int row, int column, Disc disc) {
-        for (int[] direction : directions) {
+        for (int[] direction : DIRECTIONS) {
             if (!isDirectionExists(row, column, direction)) {
                 continue;
             }
             int count = 1;
             int nextRow = row + direction[0];
             int nextColumn = column + direction[1];
-            while (count < winCount) {
+            while (count < WIN_COUNT) {
                 if (!isValid(nextRow, nextColumn)) {
                     break;
                 }
@@ -60,7 +60,7 @@ public class ResultAnalyzer {
                 nextRow += direction[0];
                 nextColumn += direction[1];
             }
-            if (count == winCount) {
+            if (count == WIN_COUNT) {
                 return true;
             }
         }
@@ -68,8 +68,8 @@ public class ResultAnalyzer {
     }
 
     private boolean isDirectionExists(int row, int column, int[] direction) {
-        int lastRow = row + (direction[0] * (winCount - 1));
-        int lastColumn = column + (direction[1] * (winCount - 1));
+        int lastRow = row + (direction[0] * (WIN_COUNT - 1));
+        int lastColumn = column + (direction[1] * (WIN_COUNT - 1));
         return isValid(lastRow, lastColumn);
     }
 

@@ -14,20 +14,20 @@ import java.util.Random;
 import java.util.Set;
 
 public class Game {
-    private static final String gameTitle = """
+    private static final String GAME_TITLE = """
             ==========================================================================================
             |                                      ИГРА 4 В РЯД                                      |
             | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
             |                                         СТАРТ                                          |
             ==========================================================================================
             """;
-    private static final String columnFilledMessageTemplate = "Колонка %s занята\n";
-    private static final String drawMessage = "Ничья.";
-    private static final String singleVictoryMessage = "Победил игрок:";
-    private static final String multiVictoryMessage = "Победу разделили игроки:";
-    private static final String boardRotatedMessageTemplate = "\nДоска повернулась: %s\n\n";
-    private static final String dialogErrorMessage = "Неправильный ввод";
-    private static final String dialogTitleTemplate = "%s, сделайте ход (%d - %d)%n";
+    private static final String COLUMN_FILLED_MESSAGE_TEMPLATE = "Колонка %s занята\n";
+    private static final String DRAW_MESSAGE = "Ничья.";
+    private static final String SINGLE_VICTORY_MESSAGE = "Победил игрок:";
+    private static final String MULTI_VICTORY_MESSAGE = "Победу разделили игроки:";
+    private static final String BOARD_ROTATED_MESSAGE_TEMPLATE = "\nДоска повернулась: %s\n\n";
+    private static final String DIALOG_ERROR_MESSAGE = "Неправильный ввод";
+    private static final String DIALOG_TITLE_TEMPLATE = "%s, сделайте ход (%d - %d)%n";
     private final Board board;
     private final Queue<Player> players;
     private final Renderer renderer;
@@ -47,7 +47,7 @@ public class Game {
     }
 
     public void start() {
-        System.out.println(gameTitle);
+        System.out.println(GAME_TITLE);
         renderer.show(board);
 
         while (!isGameOver()) {
@@ -76,7 +76,7 @@ public class Game {
         int columnIndex = askColumnIndex();
 
         while (board.isColumnFilled(columnIndex)) {
-            System.out.printf(columnFilledMessageTemplate, columnIndex + 1);
+            System.out.printf(COLUMN_FILLED_MESSAGE_TEMPLATE, columnIndex + 1);
             columnIndex = askColumnIndex();
         }
 
@@ -92,16 +92,16 @@ public class Game {
 
     private void finish() {
         if (isDraw()) {
-            System.out.println(drawMessage);
+            System.out.println(DRAW_MESSAGE);
             return;
         }
 
         Set<Disc> winnerDiscs = resultAnalyzer.getWinnerDiscs(discs);
 
         if (winnerDiscs.size() == 1) {
-            System.out.println(singleVictoryMessage);
+            System.out.println(SINGLE_VICTORY_MESSAGE);
         } else {
-            System.out.println(multiVictoryMessage);
+            System.out.println(MULTI_VICTORY_MESSAGE);
         }
 
         players.stream()
@@ -114,7 +114,7 @@ public class Game {
         int directionIndex = random.nextInt(directions.length);
         Direction direction = directions[directionIndex];
 
-        System.out.printf(boardRotatedMessageTemplate, direction.name());
+        System.out.printf(BOARD_ROTATED_MESSAGE_TEMPLATE, direction.name());
         board.rotate(direction);
     }
 
@@ -125,8 +125,8 @@ public class Game {
     private int askColumnIndex() {
         int min = 1;
         int max = board.getWidth();
-        String title = String.format(dialogTitleTemplate, currentPlayer.getName(), min, max);
-        Dialog<Integer> dialog = new IntegerMinMaxDialog(title, dialogErrorMessage, min, max);
+        String title = String.format(DIALOG_TITLE_TEMPLATE, currentPlayer.getName(), min, max);
+        Dialog<Integer> dialog = new IntegerMinMaxDialog(title, DIALOG_ERROR_MESSAGE, min, max);
         int columnNumber = dialog.input();
         return columnNumber - 1;
     }

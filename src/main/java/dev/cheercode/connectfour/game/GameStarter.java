@@ -12,7 +12,7 @@ import dev.cheercode.connectfour.renderer.Renderer;
 import java.util.*;
 
 public class GameStarter {
-    private static final String title = """
+    private static final String TITLE = """
             ==========================================================================================
             |                                      ИГРА 4 В РЯД                                      |
             | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
@@ -30,7 +30,7 @@ public class GameStarter {
     }
 
     public void start() {
-        System.out.println(title);
+        System.out.println(TITLE);
         Queue<Player> players = createPlayers();
         Board.Size size = boardSizeFactory.create();
         Board board = new Board(size);
