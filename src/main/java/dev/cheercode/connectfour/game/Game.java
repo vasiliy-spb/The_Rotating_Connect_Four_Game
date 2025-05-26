@@ -8,10 +8,7 @@ import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Direction;
 import dev.cheercode.connectfour.renderer.Renderer;
 
-import java.util.List;
-import java.util.Queue;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Game {
     private static final String GAME_TITLE = """
@@ -28,6 +25,11 @@ public class Game {
     private static final String BOARD_ROTATED_MESSAGE_TEMPLATE = "\nДоска повернулась: %s\n\n";
     private static final String DIALOG_ERROR_MESSAGE = "Неправильный ввод";
     private static final String DIALOG_TITLE_TEMPLATE = "%s, сделайте ход (%d - %d)%n";
+    private static final Map<Direction, String> ROTATION_SYMBOLS = Map.of(
+            Direction.LEFT, "↶ (влево)",
+            Direction.RIGHT, "↷ (вправо)",
+            Direction.UPSIDE_DOWN, "⟲ (перевернулась)"
+    );
     private final Board board;
     private final Queue<Player> players;
     private final Renderer renderer;
@@ -114,7 +116,7 @@ public class Game {
         int directionIndex = random.nextInt(directions.length);
         Direction direction = directions[directionIndex];
 
-        System.out.printf(BOARD_ROTATED_MESSAGE_TEMPLATE, direction.name());
+        System.out.printf((BOARD_ROTATED_MESSAGE_TEMPLATE), ROTATION_SYMBOLS.get(direction));
         board.rotate(direction);
     }
 
