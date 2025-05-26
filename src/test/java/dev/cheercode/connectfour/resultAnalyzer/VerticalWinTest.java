@@ -1,5 +1,6 @@
 package dev.cheercode.connectfour.resultAnalyzer;
 
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.game.ResultAnalyzer;
 import dev.cheercode.connectfour.model.Disc;
@@ -15,7 +16,7 @@ public class VerticalWinTest {
     @Test
     void verticalWin_leftmostColumn_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
 
         // Вертикальная линия в крайнем левом столбце (колонка 0)
         board.drop(0, Disc.RED);    // Ряд 6
@@ -37,7 +38,7 @@ public class VerticalWinTest {
     @Test
     void verticalWin_rightmostColumn_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
 
         int width = board.getWidth();
 
@@ -61,7 +62,7 @@ public class VerticalWinTest {
     @Test
     void verticalWin_centerColumn_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
 
         // Вертикальная линия в центральном столбце (колонка 3)
         board.drop(3, Disc.BLUE);   // Ряд 6
@@ -83,7 +84,7 @@ public class VerticalWinTest {
     @Test
     void verticalWin_bottomEdge_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
 
         // Вертикальная линия у нижнего края (первые 4 ряда)
         board.drop(2, Disc.GREEN);  // Ряд 6
@@ -105,7 +106,7 @@ public class VerticalWinTest {
     @Test
     void verticalWin_moreThan4_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
 
         // 5 токенов в колонке (должно все равно считаться победой)
         board.drop(4, Disc.YELLOW);  // Ряд 6
@@ -128,7 +129,7 @@ public class VerticalWinTest {
     @Test
     void vertical_interruptedLine_shouldNotWin() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
 
         // Прерванная вертикальная линия
         board.drop(1, Disc.RED);    // Ряд 6

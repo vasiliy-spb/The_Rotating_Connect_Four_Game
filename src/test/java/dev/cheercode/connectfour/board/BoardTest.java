@@ -1,5 +1,6 @@
 package dev.cheercode.connectfour.board;
 
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
@@ -13,7 +14,7 @@ public class BoardTest {
 
     @Test
     void testBoardInitialization_Default() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
         // Для DEFAULT размер из enum: высота = 6, ширина = 7
         assertEquals(6, board.getHeight(), "Высота доски DEFAULT должна быть 6");
         assertEquals(7, board.getWidth(), "Ширина доски DEFAULT должна быть 7");
@@ -29,7 +30,7 @@ public class BoardTest {
 
     @Test
     void testBoardInitialization_Row7Column8() {
-        Board board = new Board(Board.Size.ROW7_COLUMN8);
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW7_COLUMN8));
         // Для ROW7_COLUMN8: высота = 7, ширина = 8
         assertEquals(7, board.getHeight(), "Высота доски ROW7_COLUMN8 должна быть 7");
         assertEquals(8, board.getWidth(), "Ширина доски ROW7_COLUMN8 должна быть 8");
@@ -45,7 +46,7 @@ public class BoardTest {
 
     @Test
     void testSingleTokenInsertion() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
         Disc disc = Disc.RED;
         int targetColumn = 3;
 
@@ -71,7 +72,7 @@ public class BoardTest {
         };
 
         for (Board.Size size : sizes) {
-            Board board = new Board(size);
+            Board board = new Board(new DefaultBoardState(size));
             int height = board.getHeight();
             int width = board.getWidth();
             int targetColumn = width / 2;  // Выбираем центральную колонку
@@ -95,7 +96,7 @@ public class BoardTest {
     @Test
     void testRendererVisualization() {
         // Создаем доску стандартного размера
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
         /*
          * Для наглядности вставляем токены в разные колонки.
          * Фишки будут «падать» к нижней строке:

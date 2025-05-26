@@ -5,8 +5,8 @@ import dev.cheercode.connectfour.model.Disc;
 public class Board {
     private BoardState state;
 
-    public Board(Size size) {
-        this.state = new DefaultBoardState(size);
+    public Board(BoardState state) {
+        this.state = state;
     }
 
     public int getHeight() {
@@ -34,12 +34,7 @@ public class Board {
     }
 
     public boolean isBoardFilled() {
-        for (int col = 0; col < getWidth(); col++) {
-            if (!isColumnFilled(col)) {
-                return false;
-            }
-        }
-        return true;
+        return state.isBoardFilled();
     }
 
     public void rotate(Direction direction) {

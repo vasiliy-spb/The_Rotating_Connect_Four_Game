@@ -7,6 +7,7 @@ import dev.cheercode.connectfour.factory.PlayerFactory;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.Player;
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 
 import java.util.*;
@@ -33,7 +34,7 @@ public class GameStarter {
         System.out.println(TITLE);
         Queue<Player> players = createPlayers();
         Board.Size size = boardSizeFactory.create();
-        Board board = new Board(size);
+        Board board = new Board(new DefaultBoardState(size));
         Game game = new Game(board, players, renderer);
         game.start();
     }

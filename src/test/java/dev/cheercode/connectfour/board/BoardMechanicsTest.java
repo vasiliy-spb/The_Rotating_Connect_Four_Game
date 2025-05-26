@@ -1,5 +1,6 @@
 package dev.cheercode.connectfour.board;
 
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
@@ -15,7 +16,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testFillColumnCompletely() {
-        Board board = new Board(Board.Size.DEFAULT); // допустим, DEFAULT размер (6x7)
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT)); // допустим, DEFAULT размер (6x7)
         int targetColumn = 2;
         int height = board.getHeight();
 
@@ -39,7 +40,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testInsertIntoFullColumn() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
         int targetColumn = 1;
         int height = board.getHeight();
 
@@ -66,7 +67,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testSequentialDiscDrop() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
         int targetColumn = 4;
 
         // Вставляем два токена
@@ -88,7 +89,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testBoardIsFullyFilled() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
         int height = board.getHeight();
         int width = board.getWidth();
 
@@ -114,7 +115,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testInsertTokenWhenBoardIsFull() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
         int height = board.getHeight();
         int width = board.getWidth();
 
