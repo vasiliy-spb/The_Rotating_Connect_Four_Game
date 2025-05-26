@@ -5,12 +5,9 @@ import dev.cheercode.connectfour.dialog.impl.IntegerMinMaxDialog;
 import dev.cheercode.connectfour.factory.BoardSizeFactory;
 import dev.cheercode.connectfour.factory.PlayerFactory;
 import dev.cheercode.connectfour.model.Disc;
-import dev.cheercode.connectfour.model.Player;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
-
-import java.util.*;
 
 public class GameStarter {
     private static final String TITLE = """
@@ -32,16 +29,16 @@ public class GameStarter {
 
     public void start() {
         System.out.println(TITLE);
-        Queue<Player> players = createPlayers();
+        PlayerQueue players = createPlayers();
         Board.Size size = boardSizeFactory.create();
         Board board = new Board(new DefaultBoardState(size));
         Game game = new Game(board, players, renderer);
         game.start();
     }
 
-    private Queue<Player> createPlayers() {
+    private PlayerQueue createPlayers() {
         int playerCount = getPlayerCount();
-        Queue<Player> players = new ArrayDeque<>();
+        PlayerQueue players = new PlayerQueue();
 
         for (int i = 1; i <= playerCount; i++) {
             players.add(playerFactory.create(i));

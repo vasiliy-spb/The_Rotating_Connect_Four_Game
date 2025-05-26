@@ -31,20 +31,20 @@ public class Game {
             Direction.UPSIDE_DOWN, "⟲ (перевернулась)"
     );
     private final Board board;
-    private final Queue<Player> players;
+    private final PlayerQueue players;
     private final Renderer renderer;
     private final ResultAnalyzer resultAnalyzer;
     private final List<Disc> discs;
     private final Random random;
     private Player currentPlayer;
 
-    public Game(Board board, Queue<Player> players, Renderer renderer) {
+    public Game(Board board, PlayerQueue players, Renderer renderer) {
         this.board = board;
         this.players = players;
         this.renderer = renderer;
         this.resultAnalyzer = new ResultAnalyzer(this.board);
-        this.discs = players.stream().map(Player::getDisc).toList();
-        this.currentPlayer = players.peek();
+        this.discs = players.toList().stream().map(Player::getDisc).toList();
+        this.currentPlayer = players.peekNext();
         this.random = new Random();
     }
 
@@ -60,9 +60,9 @@ public class Game {
     }
 
     private void nextTurn() {
-        currentPlayer = players.poll();
+        currentPlayer = players.pollNext();
         makeMove();
-        players.offer(currentPlayer);
+        players.add(currentPlayer);
 
         if (isCurrentPlayerWin()) {
             return;
@@ -106,7 +106,7 @@ public class Game {
             System.out.println(MULTI_VICTORY_MESSAGE);
         }
 
-        players.stream()
+        players.toList().stream()
                 .filter(p -> winnerDiscs.contains(p.getDisc()))
                 .forEach(p -> System.out.println(p.getName()));
     }
