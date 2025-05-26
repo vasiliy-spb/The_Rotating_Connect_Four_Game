@@ -29,7 +29,7 @@ public class ResultAnalyzer {
                 if (board.get(row, column) != disc) {
                     continue;
                 }
-                if (check(row, column, disc)) {
+                if (checkWin(row, column, disc)) {
                     return true;
                 }
             }
@@ -38,7 +38,7 @@ public class ResultAnalyzer {
     }
 
 
-    private boolean check(int row, int column, Disc disc) {
+    private boolean checkWin(int row, int column, Disc disc) {
         for (int[] direction : DIRECTIONS) {
             if (!isDirectionExists(row, column, direction)) {
                 continue;
