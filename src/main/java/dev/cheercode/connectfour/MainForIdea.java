@@ -6,7 +6,7 @@ import dev.cheercode.connectfour.factory.BoardSizeFactory;
 import dev.cheercode.connectfour.factory.ConsoleBoardSizeFactory;
 import dev.cheercode.connectfour.game.GameStarter;
 import dev.cheercode.connectfour.renderer.Renderer;
-import dev.cheercode.connectfour.renderer.RendererForIdea;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 
 public class MainForIdea {
     public static void main(String[] args) {

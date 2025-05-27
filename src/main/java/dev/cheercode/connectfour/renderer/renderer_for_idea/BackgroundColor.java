@@ -1,4 +1,4 @@
-package dev.cheercode.connectfour.renderer.renderer_oop_decorator;
+package dev.cheercode.connectfour.renderer.renderer_for_idea;
 
 public enum BackgroundColor {
     BLACK("\u001B[40m"),

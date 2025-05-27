@@ -5,7 +5,7 @@ import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.Direction;
-import dev.cheercode.connectfour.renderer.RendererForIdea;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;

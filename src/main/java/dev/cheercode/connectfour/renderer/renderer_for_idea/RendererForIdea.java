@@ -1,10 +1,10 @@
-package dev.cheercode.connectfour.renderer.renderer_oop_decorator;
+package dev.cheercode.connectfour.renderer.renderer_for_idea;
 
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.renderer.Renderer;
 
-public class RendererOOP implements Renderer {
+public class RendererForIdea implements Renderer {
     private static final String SLOT_TEMPLATE = " %s ";
     private static final String ROW_NUMBER_TEMPLATE = "%2s ";
     private static final String FOOTER_SLOT_TEMPLATE = " %s   ";

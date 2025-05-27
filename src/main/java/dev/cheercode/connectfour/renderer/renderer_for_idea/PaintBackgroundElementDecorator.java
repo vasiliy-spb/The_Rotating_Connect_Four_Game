@@ -1,10 +1,10 @@
-package dev.cheercode.connectfour.renderer.renderer_oop_decorator;
+package dev.cheercode.connectfour.renderer.renderer_for_idea;
 
-public class PaintTextElementDecorator extends ElementDecorator {
+public class PaintBackgroundElementDecorator extends ElementDecorator {
 //    private static final String RESET = "\u001B[0m";
     private final String painted;
 
-    public PaintTextElementDecorator(Element element, TextColor color) {
+    public PaintBackgroundElementDecorator(Element element, BackgroundColor color) {
         super(element);
         this.painted = color.getSequence() + element.getValue();
     }
