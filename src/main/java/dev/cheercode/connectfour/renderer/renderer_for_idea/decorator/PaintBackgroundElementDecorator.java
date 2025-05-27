@@ -1,7 +1,9 @@
-package dev.cheercode.connectfour.renderer.renderer_for_idea;
+package dev.cheercode.connectfour.renderer.renderer_for_idea.decorator;
+
+import dev.cheercode.connectfour.renderer.renderer_for_idea.Element;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.color.BackgroundColor;
 
 public class PaintBackgroundElementDecorator extends ElementDecorator {
-//    private static final String RESET = "\u001B[0m";
     private final String painted;
 
     public PaintBackgroundElementDecorator(Element element, BackgroundColor color) {

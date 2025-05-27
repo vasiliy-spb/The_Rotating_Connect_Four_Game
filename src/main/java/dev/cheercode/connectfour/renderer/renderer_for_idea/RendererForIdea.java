@@ -3,6 +3,12 @@ package dev.cheercode.connectfour.renderer.renderer_for_idea;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.renderer.Renderer;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.color.BackgroundColor;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.color.TextColor;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.AppendElementDecorator;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.FormatableElementDecorator;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.PaintBackgroundElementDecorator;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.PaintTextElementDecorator;
 
 public class RendererForIdea implements Renderer {
     private static final String SLOT_TEMPLATE = " %s ";

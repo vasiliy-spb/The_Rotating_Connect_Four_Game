@@ -1,4 +1,6 @@
-package dev.cheercode.connectfour.renderer.renderer_for_idea;
+package dev.cheercode.connectfour.renderer.renderer_for_idea.decorator;
+
+import dev.cheercode.connectfour.renderer.renderer_for_idea.Element;
 
 public class FormatableElementDecorator extends ElementDecorator {
     private final String formattedValue;
