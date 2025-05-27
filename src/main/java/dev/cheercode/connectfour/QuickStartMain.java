@@ -8,6 +8,7 @@ import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.renderer.RendererForIdea;
+import dev.cheercode.connectfour.renderer.renderer_oop_decorator.RendererOOP;
 
 public class QuickStartMain {
     public static void main(String[] args) {
@@ -17,7 +18,7 @@ public class QuickStartMain {
         players.add(new Player("Игрок 1", Disc.RED));
         players.add(new Player("Игрок 2", Disc.YELLOW));
 
-        Renderer renderer = new RendererForIdea();
+        Renderer renderer = new RendererOOP();
 
         Game game = new Game(board, players, renderer);
         game.start();
