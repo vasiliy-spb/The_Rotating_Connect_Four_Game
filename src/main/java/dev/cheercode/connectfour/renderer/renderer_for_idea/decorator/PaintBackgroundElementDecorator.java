@@ -4,15 +4,15 @@ import dev.cheercode.connectfour.renderer.renderer_for_idea.Element;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.color.BackgroundColor;
 
 public class PaintBackgroundElementDecorator extends ElementDecorator {
-    private final String painted;
+    private final BackgroundColor color;
 
     public PaintBackgroundElementDecorator(Element element, BackgroundColor color) {
         super(element);
-        this.painted = color.getSequence() + element.getValue();
+        this.color = color;
     }
 
     @Override
     public String getValue() {
-        return painted;
+        return color.applyTo(super.getValue());
     }
 }

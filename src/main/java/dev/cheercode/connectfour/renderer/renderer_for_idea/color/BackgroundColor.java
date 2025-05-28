@@ -17,6 +17,7 @@ public enum BackgroundColor {
     BRIGHT_PURPLE("\u001B[105m"),
     BRIGHT_CYAN("\u001B[106m"),
     BRIGHT_WHITE("\u001B[107m");
+    private static final String RESET = "\u001B[49m";
     private final String sequence;
 
     BackgroundColor(String sequence) {
@@ -25,5 +26,9 @@ public enum BackgroundColor {
 
     public String getSequence() {
         return sequence;
+    }
+
+    public String applyTo(String text) {
+        return getSequence() + text + RESET;
     }
 }

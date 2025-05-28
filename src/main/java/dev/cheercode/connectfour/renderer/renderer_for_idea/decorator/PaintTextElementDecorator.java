@@ -4,15 +4,15 @@ import dev.cheercode.connectfour.renderer.renderer_for_idea.Element;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.color.TextColor;
 
 public class PaintTextElementDecorator extends ElementDecorator {
-    private final String painted;
+    private final TextColor color;
 
     public PaintTextElementDecorator(Element element, TextColor color) {
         super(element);
-        this.painted = color.getSequence() + element.getValue();
+        this.color = color;
     }
 
     @Override
     public String getValue() {
-        return painted;
+        return color.applyTo(super.getValue());
     }
 }

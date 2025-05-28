@@ -6,16 +6,15 @@ import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.color.BackgroundColor;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.color.TextColor;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.AppendElementDecorator;
-import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.FormatableElementDecorator;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.FormatElementDecorator;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.PaintBackgroundElementDecorator;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.PaintTextElementDecorator;
 
 public class RendererForIdea implements Renderer {
-    private static final String SLOT_TEMPLATE = " %s ";
+    private static final String SLOT_TEMPLATE = " %s |";
     private static final String ROW_NUMBER_TEMPLATE = "%2s ";
     private static final String FOOTER_SLOT_TEMPLATE = " %s   ";
     private static final Element CIRCLE = new SimpleElement("⬤");
-    private static final Element SLOT_BORDER = new SimpleElement("|");
     private static final Element EMPTY_SLOT = new SimpleElement("    |");
     private static final Element SEPARATOR_SPACE = new SimpleElement("   ");
     private static final Element SEPARATOR_SLOT = new SimpleElement("----+");
@@ -35,7 +34,7 @@ public class RendererForIdea implements Renderer {
 
         for (int row = 0; row < height; row++) {
             Element rowNumber = new SimpleElement(row + 1);
-            rowNumber = new FormatableElementDecorator(rowNumber, ROW_NUMBER_TEMPLATE);
+            rowNumber = new FormatElementDecorator(rowNumber, ROW_NUMBER_TEMPLATE);
 
             field = new AppendElementDecorator(field, rowNumber);
 
@@ -66,7 +65,7 @@ public class RendererForIdea implements Renderer {
         Element footer = FOOTER_SPACE;
         for (int column = 1; column <= width; column++) {
             Element slot = new SimpleElement(column);
-            slot = new FormatableElementDecorator(slot, FOOTER_SLOT_TEMPLATE);
+            slot = new FormatElementDecorator(slot, FOOTER_SLOT_TEMPLATE);
             footer = new AppendElementDecorator(footer, slot);
         }
         footer = new AppendElementDecorator(footer, NEW_LINE);
@@ -81,12 +80,9 @@ public class RendererForIdea implements Renderer {
             case BLUE -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_BLUE);
             case GREEN -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_GREEN);
         };
-        sprite = new FormatableElementDecorator(sprite, SLOT_TEMPLATE);
+        sprite = new FormatElementDecorator(sprite, SLOT_TEMPLATE);
         sprite = new PaintBackgroundElementDecorator(sprite, BACKGROUND_COLOR);
         sprite = new AppendElementDecorator(sprite, RESET);
-
-        Element border = new PaintBackgroundElementDecorator(SLOT_BORDER, BACKGROUND_COLOR);
-        sprite = new AppendElementDecorator(sprite, border);
         return sprite;
     }
 

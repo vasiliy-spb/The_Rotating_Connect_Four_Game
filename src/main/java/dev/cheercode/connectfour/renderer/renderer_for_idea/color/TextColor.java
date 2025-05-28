@@ -18,6 +18,7 @@ public enum TextColor {
     BRIGHT_CYAN("\u001B[96m"),
     BRIGHT_WHITE("\u001B[97m");
 
+    private static final String RESET = "\u001B[39m";
     private final String sequence;
 
     TextColor(String sequence) {
@@ -26,5 +27,9 @@ public enum TextColor {
 
     public String getSequence() {
         return sequence;
+    }
+
+    public String applyTo(String text) {
+        return getSequence() + text + RESET;
     }
 }
