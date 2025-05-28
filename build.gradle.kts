@@ -24,3 +24,13 @@ application {
 tasks.test {
     useJUnitPlatform()
 }
+
+// Конфигурация для shadowJar
+tasks.shadowJar {
+    manifest {
+        from("src/main/resources/META-INF/MANIFEST.MF")
+        attributes(
+                "Main-Class" to application.mainClass.get(),
+        )
+    }
+}

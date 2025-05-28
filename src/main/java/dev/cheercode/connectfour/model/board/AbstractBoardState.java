@@ -89,6 +89,16 @@ public abstract class AbstractBoardState implements BoardState {
         return rowPosition[column] < 0;
     }
 
+    @Override
+    public boolean isBoardFilled() {
+        for (int column = 0; column < getWidth(); column++) {
+            if (!isColumnFilled(column)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void checkBounds(int column) {
         if (column < 0 || column >= width) {
             throw new IllegalArgumentException("Column index out of grid bounds.");

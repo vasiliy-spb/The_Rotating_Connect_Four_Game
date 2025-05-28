@@ -6,14 +6,12 @@ import dev.cheercode.connectfour.factory.BoardSizeFactory;
 import dev.cheercode.connectfour.factory.FromFileBoardFactory;
 import dev.cheercode.connectfour.factory.PlayerFactory;
 import dev.cheercode.connectfour.model.Disc;
-import dev.cheercode.connectfour.model.Player;
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 
-import java.util.*;
-
 public class GameStarter {
-    private static final String title = """
+    private static final String TITLE = """
             ==========================================================================================
             |                                      ИГРА 4 В РЯД                                      |
             | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
@@ -31,18 +29,18 @@ public class GameStarter {
     }
 
     public void start() {
-        System.out.println(title);
-        Queue<Player> players = createPlayers();
+        System.out.println(TITLE);
+        PlayerQueue players = createPlayers();
         Board.Size size = boardSizeFactory.create();
-//        Board board = new Board(size);
+//        Board board = new Board(new DefaultBoardState(size));
         Board board = new FromFileBoardFactory().create();
         Game game = new Game(board, players, renderer);
         game.start();
     }
 
-    private Queue<Player> createPlayers() {
+    private PlayerQueue createPlayers() {
         int playerCount = getPlayerCount();
-        Queue<Player> players = new ArrayDeque<>();
+        PlayerQueue players = new PlayerQueue();
 
         for (int i = 1; i <= playerCount; i++) {
             players.add(playerFactory.create(i));

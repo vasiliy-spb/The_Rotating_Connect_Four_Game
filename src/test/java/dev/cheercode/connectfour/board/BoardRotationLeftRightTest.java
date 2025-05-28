@@ -1,22 +1,34 @@
 package dev.cheercode.connectfour.board;
 
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.Direction;
-import dev.cheercode.connectfour.renderer.RendererForIdea;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardRotationLeftRightTest {
-
+    private boolean[][] getMask(Board.Size size) {
+        int height = size.getHeight();
+        int width = size.getWidth();
+        boolean[][] mask = new boolean[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mask[i][j] = true;
+            }
+        }
+        return mask;
+    }
+    
     /**
      * Тест 1: Поворот пустой доски влево.
      */
     @Test
     public void testRotateEmptyBoardLeft() {
-        Board board = new Board(Board.Size.DEFAULT); // DEFAULT: 6x7 (height x width)
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT))); // DEFAULT: 6x7 (height x width)
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Пустая доска перед поворотом (LEFT) ===");
         renderer.show(board);
@@ -44,7 +56,7 @@ public class BoardRotationLeftRightTest {
      */
     @Test
     public void testRotateEmptyBoardRight() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Пустая доска перед поворотом (RIGHT) ===");
         renderer.show(board);
@@ -71,7 +83,7 @@ public class BoardRotationLeftRightTest {
      */
     @Test
     public void testTokenTransferLeft() {
-        Board board = new Board(Board.Size.DEFAULT);  // 6x7
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));  // 6x7
         Renderer renderer = new RendererForIdea();
 
         // Вставляем токены в нижнюю строку исходной доски
@@ -112,7 +124,7 @@ public class BoardRotationLeftRightTest {
      */
     @Test
     public void testTokenTransferRight() {
-        Board board = new Board(Board.Size.DEFAULT);  // 6x7
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));  // 6x7
         Renderer renderer = new RendererForIdea();
 
         // Вставляем токены в нижнюю строку исходной доски
@@ -144,7 +156,7 @@ public class BoardRotationLeftRightTest {
      */
     @Test
     public void testFallingAfterRotationLeft() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         Renderer renderer = new RendererForIdea();
 
         // Вставляем токен в колонку 3 исходной доски
@@ -183,7 +195,7 @@ public class BoardRotationLeftRightTest {
     @Test
     public void testBoardDimensionsAfterRotation() {
         // Тестируем для поворота LEFT
-        Board boardLeft = new Board(Board.Size.DEFAULT); // 6x7
+        Board boardLeft = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT))); // 6x7
         boardLeft.rotate(Direction.LEFT);
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Доска после поворота (LEFT) ===");
@@ -192,7 +204,7 @@ public class BoardRotationLeftRightTest {
         assertEquals(6, boardLeft.getWidth(), "После поворота влево ширина должна равняться исходной высоте (6)");
 
         // Тестируем для поворота RIGHT
-        Board boardRight = new Board(Board.Size.DEFAULT); // 6x7
+        Board boardRight = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT))); // 6x7
         boardRight.rotate(Direction.RIGHT);
         System.out.println("=== Доска после поворота (RIGHT) ===");
         renderer.show(boardRight);

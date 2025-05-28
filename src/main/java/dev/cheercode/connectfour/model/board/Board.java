@@ -9,6 +9,10 @@ public class Board {
         this.state = new DefaultBoardState(size, mask);
     }
 
+    public Board(BoardState state) {
+        this.state = state;
+    }
+
     public int getHeight() {
         return state.getHeight();
     }
@@ -34,12 +38,7 @@ public class Board {
     }
 
     public boolean isBoardFilled() {
-        for (int col = 0; col < getWidth(); col++) {
-            if (!isColumnFilled(col)) {
-                return false;
-            }
-        }
-        return true;
+        return state.isBoardFilled();
     }
 
     public boolean isOnField(int row, int column) {

@@ -28,12 +28,12 @@ public class RendererForJar implements Renderer {
         for (int row = 0; row < height; row++) {
             field.append(getRowNumberTemplate(row + 1));
             field.append(getBackground());
-            for (int col = 0; col < width; col++) {
-                if (board.isEmptySlot(row, col)) {
+            for (int column = 0; column < width; column++) {
+                if (board.isEmptySlot(row, column)) {
                     field.append(EMPTY_SLOT);
                     continue;
                 }
-                Disc disc = board.get(row, col);
+                Disc disc = board.get(row, column);
                 String sprite = getSpriteFor(disc);
                 field.append(String.format(SLOT_TEMPLATE, sprite));
             }
@@ -114,8 +114,8 @@ public class RendererForJar implements Renderer {
     private StringBuilder buildFooter(int width) {
         StringBuilder line = new StringBuilder();
         line.append(FOOTER_SPACE);
-        for (int col = 1; col <= width; col++) {
-            line.append(String.format(FOOTER_SLOT_TEMPLATE, col));
+        for (int column = 1; column <= width; column++) {
+            line.append(String.format(FOOTER_SLOT_TEMPLATE, column));
         }
         line.append(NEW_LINE);
         return line;

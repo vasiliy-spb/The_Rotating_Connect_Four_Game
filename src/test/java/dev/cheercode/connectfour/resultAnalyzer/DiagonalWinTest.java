@@ -1,10 +1,11 @@
 package dev.cheercode.connectfour.resultAnalyzer;
 
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.game.ResultAnalyzer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
-import dev.cheercode.connectfour.renderer.RendererForIdea;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,10 +14,21 @@ public class DiagonalWinTest {
     private final Board.Size DEFAULT_SIZE = Board.Size.DEFAULT;
     private final Renderer renderer = new RendererForIdea();
 
+    private boolean[][] getMask(Board.Size size) {
+        int height = size.getHeight();
+        int width = size.getWidth();
+        boolean[][] mask = new boolean[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mask[i][j] = true;
+            }
+        }
+        return mask;
+    }
     @Test
     void diagonalWin_topLeftToBottomRight_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Диагональ из левого верхнего в правый нижний угол
         board.drop(0, Disc.RED);    // [5,0]
@@ -38,7 +50,7 @@ public class DiagonalWinTest {
     @Test
     void diagonalWin_topRightToBottomLeft_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Диагональ из правого верхнего в левый нижний угол
         board.drop(6, Disc.BLUE);   // [5,6]
@@ -60,7 +72,7 @@ public class DiagonalWinTest {
     @Test
     void diagonalWin_centerToBottomRight_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Диагональ из центра в правый нижний угол
         board.drop(2, Disc.GREEN);  // [5,2]
@@ -82,7 +94,7 @@ public class DiagonalWinTest {
     @Test
     void diagonalWin_centerToBottomLeft_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Диагональ из центра в левый нижний угол
         board.drop(4, Disc.YELLOW); // [5,4]
@@ -104,7 +116,7 @@ public class DiagonalWinTest {
     @Test
     void diagonalWin_leftEdgeToRight_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Диагональ от левого края вправо вниз
         board.drop(0, Disc.RED);    // [4,0]
@@ -126,7 +138,7 @@ public class DiagonalWinTest {
     @Test
     void diagonalWin_rightEdgeToLeft_shouldReturnTrue() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Диагональ от правого края влево вниз
         board.drop(6, Disc.BLUE);   // [4,6]
@@ -148,7 +160,7 @@ public class DiagonalWinTest {
     @Test
     void diagonal_interruptedLine_shouldNotWin() {
         // Given
-        Board board = new Board(DEFAULT_SIZE);
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Прерванная диагональная линия
         board.drop(2, Disc.GREEN);  // [5,2]

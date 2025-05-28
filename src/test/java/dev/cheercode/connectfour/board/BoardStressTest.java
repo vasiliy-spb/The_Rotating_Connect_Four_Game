@@ -1,10 +1,11 @@
 package dev.cheercode.connectfour.board;
 
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.Direction;
-import dev.cheercode.connectfour.renderer.RendererForIdea;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -12,13 +13,24 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardStressTest {
-
+    private boolean[][] getMask(Board.Size size) {
+        int height = size.getHeight();
+        int width = size.getWidth();
+        boolean[][] mask = new boolean[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mask[i][j] = true;
+            }
+        }
+        return mask;
+    }
+    
     /**
      * Тест 1: Массовая вставка токенов в разные колонки (симуляция реальной игры).
      */
     @Test
     public void testMassInsertionInDifferentColumns() {
-        Board board = new Board(Board.Size.DEFAULT);  // Например, DEFAULT: 6x7
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));  // Например, DEFAULT: 6x7
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Стресс-тест: Массовая вставка токенов (симуляция игры) ===");
 
@@ -45,7 +57,7 @@ public class BoardStressTest {
      */
     @Test
     public void testSequentialRotationsFullBoard() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         Renderer renderer = new RendererForIdea();
 
         Disc[] discs = Disc.values();
@@ -89,7 +101,7 @@ public class BoardStressTest {
      */
     @Test
     public void testSequentialRotationsHalfFilledBoard() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         Renderer renderer = new RendererForIdea();
         int totalCells = board.getHeight() * board.getWidth();  // Для DEFAULT: 42 ячейки
         int moves = totalCells / 2;  // Примерно половина: около 21 токена.
@@ -147,7 +159,7 @@ public class BoardStressTest {
      */
     @Test
     public void testSequentialRotationsQuarterFilledBoard() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         Renderer renderer = new RendererForIdea();
         int totalCells = board.getHeight() * board.getWidth();
         int moves = totalCells / 4;  // Примерно 25% заполненности (около 10 токенов для DEFAULT).
@@ -205,7 +217,7 @@ public class BoardStressTest {
      */
     @Test
     public void testSequentialRotationsThreeQuartersFilledBoard() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         Renderer renderer = new RendererForIdea();
         int totalCells = board.getHeight() * board.getWidth();  // Для DEFAULT: 42 ячейки.
         int moves = (totalCells * 3) / 4;  // Примерно 75% заполненности (около 31-32 токена).
@@ -263,7 +275,7 @@ public class BoardStressTest {
      */
     @Test
     public void testGameUntilBoardFull() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Начало игры: заполнение доски токенами ===");
 

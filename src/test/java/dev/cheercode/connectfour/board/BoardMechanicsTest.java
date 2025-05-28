@@ -1,13 +1,26 @@
 package dev.cheercode.connectfour.board;
 
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
-import dev.cheercode.connectfour.renderer.RendererForIdea;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardMechanicsTest {
+    private boolean[][] getMask(Board.Size size) {
+        int height = size.getHeight();
+        int width = size.getWidth();
+        boolean[][] mask = new boolean[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mask[i][j] = true;
+            }
+        }
+        return mask;
+    }
 
     /**
      * Тест: Заполнение одной колонки полностью.
@@ -15,7 +28,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testFillColumnCompletely() {
-        Board board = new Board(Board.Size.DEFAULT); // допустим, DEFAULT размер (6x7)
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT))); // допустим, DEFAULT размер (6x7)
         int targetColumn = 2;
         int height = board.getHeight();
 
@@ -39,7 +52,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testInsertIntoFullColumn() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         int targetColumn = 1;
         int height = board.getHeight();
 
@@ -66,7 +79,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testSequentialDiscDrop() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         int targetColumn = 4;
 
         // Вставляем два токена
@@ -88,7 +101,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testBoardIsFullyFilled() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         int height = board.getHeight();
         int width = board.getWidth();
 
@@ -114,7 +127,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testInsertTokenWhenBoardIsFull() {
-        Board board = new Board(Board.Size.DEFAULT);
+        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
         int height = board.getHeight();
         int width = board.getWidth();
 
