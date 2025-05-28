@@ -20,7 +20,6 @@ public class RendererForIdea implements Renderer {
     private static final Element SEPARATOR_SLOT = new SimpleElement("----+");
     private static final Element FOOTER_SPACE = new SimpleElement("     ");
     private static final Element NEW_LINE = new SimpleElement(System.lineSeparator());
-    private static final Element RESET = new SimpleElement("\u001B[0m");
     private static final BackgroundColor BACKGROUND_COLOR = BackgroundColor.BLUE;
 
     @Override
@@ -49,7 +48,6 @@ public class RendererForIdea implements Renderer {
                 field = new AppendElementDecorator(field, spriteSlot);
             }
 
-            field = new AppendElementDecorator(field, RESET);
             field = new AppendElementDecorator(field, NEW_LINE);
             Element separator = buildSeparator(width);
             field = new AppendElementDecorator(field, separator);
@@ -69,7 +67,6 @@ public class RendererForIdea implements Renderer {
             footer = new AppendElementDecorator(footer, slot);
         }
         footer = new AppendElementDecorator(footer, NEW_LINE);
-        footer = new AppendElementDecorator(footer, RESET);
         return footer;
     }
 
@@ -82,7 +79,6 @@ public class RendererForIdea implements Renderer {
         };
         sprite = new FormatElementDecorator(sprite, SLOT_TEMPLATE);
         sprite = new PaintBackgroundElementDecorator(sprite, BACKGROUND_COLOR);
-        sprite = new AppendElementDecorator(sprite, RESET);
         return sprite;
     }
 
@@ -93,7 +89,6 @@ public class RendererForIdea implements Renderer {
         }
         separatorLine = new PaintBackgroundElementDecorator(separatorLine, BACKGROUND_COLOR);
         separatorLine = new AppendElementDecorator(SEPARATOR_SPACE, separatorLine);
-        separatorLine = new AppendElementDecorator(separatorLine, RESET);
         separatorLine = new AppendElementDecorator(separatorLine, NEW_LINE);
         return separatorLine;
     }
