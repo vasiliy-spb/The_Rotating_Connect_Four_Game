@@ -22,7 +22,7 @@ public class RendererForIdea implements Renderer {
     private static final Element FOOTER_SPACE = new SimpleElement("     ");
     private static final Element NEW_LINE = new SimpleElement(System.lineSeparator());
     private static final Element RESET = new SimpleElement("\u001B[0m");
-    private static final BackgroundColor backgroundColor = BackgroundColor.BLUE;
+    private static final BackgroundColor BACKGROUND_COLOR = BackgroundColor.BLUE;
 
     @Override
     public void show(Board board) {
@@ -41,7 +41,7 @@ public class RendererForIdea implements Renderer {
 
             for (int column = 0; column < width; column++) {
                 if (board.isEmptySlot(row, column)) {
-                    Element slot = new PaintBackgroundElementDecorator(EMPTY_SLOT, backgroundColor);
+                    Element slot = new PaintBackgroundElementDecorator(EMPTY_SLOT, BACKGROUND_COLOR);
                     field = new AppendElementDecorator(field, slot);
                     continue;
                 }
@@ -82,9 +82,10 @@ public class RendererForIdea implements Renderer {
             case GREEN -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_GREEN);
         };
         sprite = new FormatableElementDecorator(sprite, SLOT_TEMPLATE);
-        sprite = new PaintBackgroundElementDecorator(sprite, backgroundColor);
+        sprite = new PaintBackgroundElementDecorator(sprite, BACKGROUND_COLOR);
         sprite = new AppendElementDecorator(sprite, RESET);
-        Element border = new PaintBackgroundElementDecorator(SLOT_BORDER, backgroundColor);
+
+        Element border = new PaintBackgroundElementDecorator(SLOT_BORDER, BACKGROUND_COLOR);
         sprite = new AppendElementDecorator(sprite, border);
         return sprite;
     }
@@ -94,7 +95,7 @@ public class RendererForIdea implements Renderer {
         for (int i = 0; i < width; i++) {
             separatorLine = new AppendElementDecorator(separatorLine, SEPARATOR_SLOT);
         }
-        separatorLine = new PaintBackgroundElementDecorator(separatorLine, backgroundColor);
+        separatorLine = new PaintBackgroundElementDecorator(separatorLine, BACKGROUND_COLOR);
         separatorLine = new AppendElementDecorator(SEPARATOR_SPACE, separatorLine);
         separatorLine = new AppendElementDecorator(separatorLine, RESET);
         separatorLine = new AppendElementDecorator(separatorLine, NEW_LINE);
