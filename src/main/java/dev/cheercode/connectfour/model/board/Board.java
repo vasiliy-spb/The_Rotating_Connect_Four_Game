@@ -5,10 +5,6 @@ import dev.cheercode.connectfour.model.Disc;
 public class Board {
     private BoardState state;
 
-    public Board(Size size, boolean[][] mask) {
-        this.state = new DefaultBoardState(size, mask);
-    }
-
     public Board(BoardState state) {
         this.state = state;
     }

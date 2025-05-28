@@ -9,23 +9,6 @@ public class RightRotatedBoardState extends RotatedBoardState {
         applyGravity();
     }
 
-//    private void init(BoardState previous) {
-//        for (int row = 0; row < width; row++) {
-//            for (int column = 0; column < height; column++) {
-//                mask[column][row] = previous.isOnField(width - 1 - row, column);
-//            }
-//        }
-//        for (int row = 0; row < width; row++) {
-//            for (int column = 0; column < height; column++) {
-//                try {
-//                    Disc disc = previous.get(width - 1 - row, column);
-//                    put(column, row, disc);
-//                } catch (IllegalArgumentException ignored) {
-//                }
-//            }
-//        }
-//    }
-
     @Override
     protected Disc getFrom(BoardState previous, int row, int column) {
         return previous.get(width - 1 - column, row);

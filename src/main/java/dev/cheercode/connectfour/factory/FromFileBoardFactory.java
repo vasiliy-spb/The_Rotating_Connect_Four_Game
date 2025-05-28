@@ -1,6 +1,7 @@
 package dev.cheercode.connectfour.factory;
 
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.model.board.DefaultBoardState;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -28,7 +29,7 @@ public class FromFileBoardFactory implements BoardFactory {
                     }
                 }
             }
-            Board board = new Board(size, mask);
+            Board board = new Board(new DefaultBoardState(size, mask));
             return board;
         } catch (IOException e) {
             throw new RuntimeException(e);

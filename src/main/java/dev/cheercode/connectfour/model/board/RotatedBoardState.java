@@ -19,7 +19,6 @@ public abstract class RotatedBoardState extends AbstractBoardState {
             for (int column = 0; column < width; column++) {
                 try {
                     Disc disc = getFrom(previous, row, column);
-//                    drop(column, disc);
                     put(row, column, disc);
                 } catch (IllegalArgumentException ignored) {
                 }
