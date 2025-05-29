@@ -11,17 +11,22 @@ import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.PaintBackg
 import dev.cheercode.connectfour.renderer.renderer_for_idea.decorator.PaintTextElementDecorator;
 
 public class RendererForIdea implements Renderer {
+    private static final BackgroundColor BACKGROUND_COLOR = BackgroundColor.BLUE;
     private static final String SLOT_TEMPLATE = " %s |";
     private static final String ROW_NUMBER_TEMPLATE = "%2s ";
     private static final String FOOTER_SLOT_TEMPLATE = " %s   ";
     private static final Element CIRCLE = new SimpleElement("⬤");
-    private static final Element EMPTY_SLOT = new SimpleElement("    |");
+    private static final Element EMPTY_SLOT = new SimpleElement("    ");
+    private static final Element PAINTED_EMPTY_SLOT = new PaintBackgroundElementDecorator(EMPTY_SLOT, BACKGROUND_COLOR);
+    private static final Element SLOT_BORDER = new SimpleElement("|");
+    private static final Element PAINTED_SLOT_BORDER = new PaintBackgroundElementDecorator(SLOT_BORDER, BACKGROUND_COLOR);
     private static final Element SEPARATOR_SPACE = new SimpleElement("   ");
-    private static final Element SEPARATOR_SLOT = new SimpleElement("----+");
+    private static final Element SEPARATOR_SLOT = new SimpleElement("----");
+    private static final Element PAINTED_SEPARATOR_SLOT = new PaintBackgroundElementDecorator(SEPARATOR_SLOT, BACKGROUND_COLOR);
+    private static final Element SEPARATOR_BORDER = new SimpleElement("+");
+    private static final Element PAINTED_SEPARATOR_BORDER = new PaintBackgroundElementDecorator(SEPARATOR_BORDER, BACKGROUND_COLOR);
     private static final Element FOOTER_SPACE = new SimpleElement("     ");
     private static final Element NEW_LINE = new SimpleElement(System.lineSeparator());
-    private static final Element RESET = new SimpleElement("\u001B[0m");
-    private static final BackgroundColor BACKGROUND_COLOR = BackgroundColor.BLUE;
 
     @Override
     public void show(Board board) {
@@ -29,19 +34,38 @@ public class RendererForIdea implements Renderer {
         int width = board.getWidth();
 
         Element field = new SimpleElement("");
-        Element headBorder = buildSeparator(width);
+
+        Element headBorder = buildSeparatorLine(-1, width, board);
+
         field = new AppendElementDecorator(field, headBorder);
 
         for (int row = 0; row < height; row++) {
-            Element rowNumber = new SimpleElement(row + 1);
-            rowNumber = new FormatElementDecorator(rowNumber, ROW_NUMBER_TEMPLATE);
 
+            Element rowNumber = new SimpleElement(row + 1);
+            if (!board.isOnField(row, 0)) {
+                rowNumber = new FormatElementDecorator(rowNumber, ROW_NUMBER_TEMPLATE);
+                rowNumber = new AppendElementDecorator(rowNumber, SLOT_BORDER);
+            } else {
+                rowNumber = new FormatElementDecorator(rowNumber, ROW_NUMBER_TEMPLATE);
+                rowNumber = new AppendElementDecorator(rowNumber, PAINTED_SLOT_BORDER);
+            }
             field = new AppendElementDecorator(field, rowNumber);
 
             for (int column = 0; column < width; column++) {
+                if (!board.isOnField(row, column)) {
+                    if (column + 1 < width && board.isOnField(row, column + 1)) {
+                        field = new AppendElementDecorator(field, EMPTY_SLOT);
+                        field = new AppendElementDecorator(field, PAINTED_SLOT_BORDER);
+                    } else {
+                        field = new AppendElementDecorator(field, EMPTY_SLOT);
+                        field = new AppendElementDecorator(field, SLOT_BORDER);
+                    }
+                    continue;
+                }
+
                 if (board.isEmptySlot(row, column)) {
-                    Element slot = new PaintBackgroundElementDecorator(EMPTY_SLOT, BACKGROUND_COLOR);
-                    field = new AppendElementDecorator(field, slot);
+                    field = new AppendElementDecorator(field, PAINTED_EMPTY_SLOT);
+                    field = new AppendElementDecorator(field, PAINTED_SLOT_BORDER);
                     continue;
                 }
                 Disc disk = board.get(row, column);
@@ -49,9 +73,8 @@ public class RendererForIdea implements Renderer {
                 field = new AppendElementDecorator(field, spriteSlot);
             }
 
-            field = new AppendElementDecorator(field, RESET);
             field = new AppendElementDecorator(field, NEW_LINE);
-            Element separator = buildSeparator(width);
+            Element separator = buildSeparatorLine(row, width, board);
             field = new AppendElementDecorator(field, separator);
         }
 
@@ -59,6 +82,33 @@ public class RendererForIdea implements Renderer {
         field = new AppendElementDecorator(field, footer);
 
         System.out.println(field.getValue());
+    }
+
+    private Element buildSeparatorLine(int row, int width, Board board) {
+        Element line = new SimpleElement("");
+        if ((row >= 0 && board.isOnField(row, 0)) || (row + 1 < board.getHeight() && board.isOnField(row + 1, 0))) {
+            line = new AppendElementDecorator(line, SEPARATOR_SPACE);
+            line = new AppendElementDecorator(line, PAINTED_SEPARATOR_BORDER);
+        } else {
+            line = new AppendElementDecorator(line, SEPARATOR_SPACE);
+            line = new AppendElementDecorator(line, SEPARATOR_BORDER);
+        }
+        for (int col = 0; col < width; col++) {
+            if ((row >= 0 && board.isOnField(row, col)) || (row + 1 < board.getHeight() && board.isOnField(row + 1, col))) {
+                line = new AppendElementDecorator(line, PAINTED_SEPARATOR_SLOT);
+                line = new AppendElementDecorator(line, PAINTED_SEPARATOR_BORDER);
+            } else {
+                if (col + 1 < width && ((row >= 0 && board.isOnField(row, col + 1)) || (row < board.getHeight() - 1 && board.isOnField(row + 1, col + 1)))) {
+                    line = new AppendElementDecorator(line, SEPARATOR_SLOT);
+                    line = new AppendElementDecorator(line, PAINTED_SEPARATOR_BORDER);
+                } else {
+                    line = new AppendElementDecorator(line, SEPARATOR_SLOT);
+                    line = new AppendElementDecorator(line, SEPARATOR_BORDER);
+                }
+            }
+        }
+        line = new AppendElementDecorator(line, NEW_LINE);
+        return line;
     }
 
     private Element buildFooter(int width) {
@@ -69,7 +119,6 @@ public class RendererForIdea implements Renderer {
             footer = new AppendElementDecorator(footer, slot);
         }
         footer = new AppendElementDecorator(footer, NEW_LINE);
-        footer = new AppendElementDecorator(footer, RESET);
         return footer;
     }
 
@@ -82,19 +131,6 @@ public class RendererForIdea implements Renderer {
         };
         sprite = new FormatElementDecorator(sprite, SLOT_TEMPLATE);
         sprite = new PaintBackgroundElementDecorator(sprite, BACKGROUND_COLOR);
-        sprite = new AppendElementDecorator(sprite, RESET);
         return sprite;
-    }
-
-    private static Element buildSeparator(int width) {
-        Element separatorLine = new SimpleElement("");
-        for (int i = 0; i < width; i++) {
-            separatorLine = new AppendElementDecorator(separatorLine, SEPARATOR_SLOT);
-        }
-        separatorLine = new PaintBackgroundElementDecorator(separatorLine, BACKGROUND_COLOR);
-        separatorLine = new AppendElementDecorator(SEPARATOR_SPACE, separatorLine);
-        separatorLine = new AppendElementDecorator(separatorLine, RESET);
-        separatorLine = new AppendElementDecorator(separatorLine, NEW_LINE);
-        return separatorLine;
     }
 }
