@@ -10,7 +10,7 @@ import java.io.IOException;
 public class FromFileBoardFactory implements BoardFactory {
     @Override
     public Board create() {
-        String path = "src/main/resources/board_masks/mask_01.txt";
+        String path = "src/main/resources/board_masks/mask_05.txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             StringBuilder input = new StringBuilder();
             while (reader.ready()) {
