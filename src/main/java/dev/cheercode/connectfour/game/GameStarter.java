@@ -30,8 +30,8 @@ public class GameStarter {
         System.out.println(TITLE);
         PlayerQueue players = createPlayers();
         Board.Size size = boardSizeFactory.create();
-        BoardMaskSelector boardMaskSelector = new BoardMaskSelector(BackgroundColor.BLUE);
-        Board board = new FromMaskBoardFactory(boardMaskSelector).create(size);
+        BoardShapeSelector boardShapeSelector = new BoardShapeSelector(BackgroundColor.BLUE);
+        Board board = new FromShapeBoardFactory(boardShapeSelector).create(size);
         Game game = new Game(board, players, renderer);
         game.start();
     }
