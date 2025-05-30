@@ -1,5 +1,6 @@
 package dev.cheercode.connectfour.factory;
 
+import dev.cheercode.connectfour.game.BoardShapeSelector;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.DefaultBoardState;
 

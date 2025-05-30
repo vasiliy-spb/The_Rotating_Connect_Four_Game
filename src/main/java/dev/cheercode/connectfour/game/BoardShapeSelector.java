@@ -1,4 +1,4 @@
-package dev.cheercode.connectfour.factory;
+package dev.cheercode.connectfour.game;
 
 import dev.cheercode.connectfour.dialog.Dialog;
 import dev.cheercode.connectfour.dialog.impl.IntegerMinMaxDialog;
