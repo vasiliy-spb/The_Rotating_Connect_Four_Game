@@ -135,12 +135,4 @@ public class BoardMaskSelector {
             throw new IllegalArgumentException("Mask reading error.");
         }
     }
-
-
-    // for test
-//    public static void main(String[] args) {
-//        BoardMaskSelector selector = new BoardMaskSelector();
-//        boolean[][] mask = selector.select(Board.Size.ROW7_COLUMN10);
-//        selector.printMask(mask);
-//    }
 }
