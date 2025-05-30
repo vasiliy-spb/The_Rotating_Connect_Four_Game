@@ -6,6 +6,8 @@ import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.color.BackgroundColor;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,6 +17,7 @@ import java.util.stream.StreamSupport;
 
 public class BoardShapeSelector {
     private static final int SHAPES_PER_ROW = 5;
+    private static final String SHAPES_DIRECTORY = "board_masks";
     private static final String COLOR_RESET = "\u001B[49m";
     private static final String OUT_OF_BOARD_SLOT = " ";
     private final String onBoardSlot;
@@ -24,14 +27,27 @@ public class BoardShapeSelector {
     }
 
     public boolean[][] select(Board.Size size) {
-        Path shapesDirectory = Paths.get("src/main/resources/board_masks/" + size.name().toLowerCase());
+        Path tailOfShapesDirectory = Path.of(SHAPES_DIRECTORY)
+                .resolve(size.name().toLowerCase());
 
-        if (!Files.exists(shapesDirectory) || !Files.isDirectory(shapesDirectory)) {
-            throw new IllegalArgumentException("Directory not found: " + shapesDirectory);
+        URL resourceUrl = getClass().getClassLoader().getResource(tailOfShapesDirectory.toString());
+        if (resourceUrl == null) {
+            throw new IllegalArgumentException("Directory not found: " + tailOfShapesDirectory);
+        }
+
+        Path fullShapesDirectory = null;
+        try {
+            fullShapesDirectory = Paths.get(resourceUrl.toURI());
+        } catch (URISyntaxException e) {
+            throw new IllegalStateException("Invalid shapes directory URI", e);
+        }
+
+        if (!Files.exists(fullShapesDirectory) || !Files.isDirectory(fullShapesDirectory)) {
+            throw new IllegalArgumentException("Directory not found: " + fullShapesDirectory);
         }
 
         List<boolean[][]> shapes;
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(shapesDirectory)) {
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(fullShapesDirectory)) {
             shapes = StreamSupport.stream(directoryStream.spliterator(), false)
                     .map(this::readShapeFrom)
                     .toList();
