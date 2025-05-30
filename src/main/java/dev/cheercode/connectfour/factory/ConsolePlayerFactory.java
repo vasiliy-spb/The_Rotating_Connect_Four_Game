@@ -56,8 +56,21 @@ public class ConsolePlayerFactory implements PlayerFactory {
     private String getAvailableColors() {
         return colorMap.entrySet().stream()
                 .filter(e -> !usedColors.contains(e.getValue()))
-                .map(e -> String.format("%d — %s", e.getKey(), e.getValue().name()))
+                .map(e -> String.format("%d — %s", e.getKey(), getNameFor(e.getValue())))
                 .collect(Collectors.joining("\n"));
+    }
+
+    private String getNameFor(Disc disc) {
+        return switch (disc) {
+            case BLACK -> "Чёрный";
+            case RED -> "Красный";
+            case GREEN -> "Зелёный";
+            case YELLOW -> "Жёлтый";
+            case BLUE -> "Синий";
+            case PURPLE -> "Фиолетовый";
+            case CYAN -> "Голубой";
+            case WHITE -> "Белый";
+        };
     }
 
     private Set<Character> getAvailableColorKeys() {
