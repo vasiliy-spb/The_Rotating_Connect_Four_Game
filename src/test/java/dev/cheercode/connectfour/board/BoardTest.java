@@ -24,7 +24,7 @@ public class BoardTest {
 
     @Test
     void testBoardInitialization_Default() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         // Для DEFAULT размер из enum: высота = 6, ширина = 7
         assertEquals(6, board.getHeight(), "Высота доски DEFAULT должна быть 6");
         assertEquals(7, board.getWidth(), "Ширина доски DEFAULT должна быть 7");
@@ -56,7 +56,7 @@ public class BoardTest {
 
     @Test
     void testSingleTokenInsertion() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Disc disc = Disc.RED;
         int targetColumn = 3;
 
@@ -75,7 +75,7 @@ public class BoardTest {
     @Test
     void testMultipleSizesAndTokenInsertion() {
         Board.Size[] sizes = {
-                Board.Size.DEFAULT,
+                Board.Size.ROW6_COLUMN7,
                 Board.Size.ROW7_COLUMN8,
                 Board.Size.ROW7_COLUMN9,
                 Board.Size.ROW7_COLUMN10
@@ -106,7 +106,7 @@ public class BoardTest {
     @Test
     void testRendererVisualization() {
         // Создаем доску стандартного размера
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         /*
          * Для наглядности вставляем токены в разные колонки.
          * Фишки будут «падать» к нижней строке:

@@ -2,13 +2,11 @@ package dev.cheercode.connectfour.game;
 
 import dev.cheercode.connectfour.dialog.Dialog;
 import dev.cheercode.connectfour.dialog.impl.IntegerMinMaxDialog;
-import dev.cheercode.connectfour.factory.BoardSizeFactory;
-import dev.cheercode.connectfour.factory.FromFileBoardFactory;
-import dev.cheercode.connectfour.factory.PlayerFactory;
+import dev.cheercode.connectfour.factory.*;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
-import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.renderer.Renderer;
+import dev.cheercode.connectfour.renderer.renderer_for_idea.color.BackgroundColor;
 
 public class GameStarter {
     private static final String TITLE = """
@@ -32,8 +30,8 @@ public class GameStarter {
         System.out.println(TITLE);
         PlayerQueue players = createPlayers();
         Board.Size size = boardSizeFactory.create();
-//        Board board = new Board(new DefaultBoardState(size));
-        Board board = new FromFileBoardFactory().create();
+        BoardMaskSelector boardMaskSelector = new BoardMaskSelector(BackgroundColor.BLUE);
+        Board board = new FromMaskBoardFactory(boardMaskSelector).create(size);
         Game game = new Game(board, players, renderer);
         game.start();
     }
@@ -51,7 +49,7 @@ public class GameStarter {
 
     private int getPlayerCount() {
         int min = 2;
-        int max = Disc.values().length;
+        int max = Math.min(Disc.values().length, 4);
         Dialog<Integer> dialog = new IntegerMinMaxDialog(
                 String.format("Выберите количество игроков (%d - %d)", min, max),
                 "Неправильный ввод.",

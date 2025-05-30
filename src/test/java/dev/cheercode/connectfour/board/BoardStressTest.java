@@ -30,7 +30,7 @@ public class BoardStressTest {
      */
     @Test
     public void testMassInsertionInDifferentColumns() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));  // Например, DEFAULT: 6x7
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));  // Например, DEFAULT: 6x7
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Стресс-тест: Массовая вставка токенов (симуляция игры) ===");
 
@@ -57,7 +57,7 @@ public class BoardStressTest {
      */
     @Test
     public void testSequentialRotationsFullBoard() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
 
         Disc[] discs = Disc.values();
@@ -101,7 +101,7 @@ public class BoardStressTest {
      */
     @Test
     public void testSequentialRotationsHalfFilledBoard() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         int totalCells = board.getHeight() * board.getWidth();  // Для DEFAULT: 42 ячейки
         int moves = totalCells / 2;  // Примерно половина: около 21 токена.
@@ -159,7 +159,7 @@ public class BoardStressTest {
      */
     @Test
     public void testSequentialRotationsQuarterFilledBoard() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         int totalCells = board.getHeight() * board.getWidth();
         int moves = totalCells / 4;  // Примерно 25% заполненности (около 10 токенов для DEFAULT).
@@ -217,7 +217,7 @@ public class BoardStressTest {
      */
     @Test
     public void testSequentialRotationsThreeQuartersFilledBoard() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         int totalCells = board.getHeight() * board.getWidth();  // Для DEFAULT: 42 ячейки.
         int moves = (totalCells * 3) / 4;  // Примерно 75% заполненности (около 31-32 токена).
@@ -275,7 +275,7 @@ public class BoardStressTest {
      */
     @Test
     public void testGameUntilBoardFull() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Начало игры: заполнение доски токенами ===");
 

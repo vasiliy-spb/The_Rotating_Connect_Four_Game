@@ -83,12 +83,33 @@ public class RendererForJar implements Renderer {
 
     private String getSpriteFor(Disc disc) {
         String colorCode = switch (disc) {
+            case BLACK -> getBlack();
             case RED -> getRed();
-            case BLUE -> getBlue();
-            case YELLOW -> getYellow();
             case GREEN -> getGreen();
+            case YELLOW -> getYellow();
+            case BLUE -> getBlue();
+            case PURPLE -> getPurple();
+            case CYAN -> getCyan();
+            case WHITE -> getWhite();
         };
         return colorCode + CIRCLE + getBackground() + getBorder();
+    }
+
+    private String getWhite() {
+//        return Ansi.ansi().fgBrightRed().toString();
+        return "\u001B[97m";
+    }
+
+    private String getCyan() {
+        return Ansi.ansi().fgBrightCyan().toString();
+    }
+
+    private String getPurple() {
+        return Ansi.ansi().fgBrightMagenta().toString();
+    }
+
+    private String getBlack() {
+        return Ansi.ansi().fgBrightBlack().toString();
     }
 
     private String getRed() {

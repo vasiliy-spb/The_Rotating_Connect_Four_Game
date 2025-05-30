@@ -5,9 +5,14 @@ import dev.cheercode.connectfour.model.board.Board;
 
 public class RenderForIdeaWithEmoji implements Renderer {
     private static final String RED_CIRCLE = "\uD83D\uDD34";
+    private static final String PURPLE_CIRCLE = "\uD83D\uDFE3";
     private static final String BLUE_CIRCLE = "\uD83D\uDD35";
     private static final String GREEN_CIRCLE = "\uD83D\uDFE2";
     private static final String YELLOW_CIRCLE = "\uD83D\uDFE1";
+    private static final String ORANGE_CIRCLE = "\uD83D\uDFE0";
+    private static final String BLACK_CIRCLE = "⚫";
+    private static final String WHITE_CIRCLE = "⚪";
+    private static final String BROWN_CIRCLE = "\uD83D\uDFE4";
     private static final String BACKGROUND_COLOR = "\u001B[7m";
     private static final String BORDER_COLOR = "\u001B[34m";
     private static final String RESET = "\u001B[0m";
@@ -63,10 +68,14 @@ public class RenderForIdeaWithEmoji implements Renderer {
 
     private String getSpriteFor(Disc disc) {
         return switch (disc) {
+            case BLACK -> BLACK_CIRCLE;
             case RED -> RED_CIRCLE;
-            case BLUE -> BLUE_CIRCLE;
             case YELLOW -> YELLOW_CIRCLE;
             case GREEN -> GREEN_CIRCLE;
+            case BLUE -> BLUE_CIRCLE;
+            case PURPLE -> PURPLE_CIRCLE;
+            case CYAN -> BROWN_CIRCLE;
+            case WHITE -> WHITE_CIRCLE;
         };
     }
 

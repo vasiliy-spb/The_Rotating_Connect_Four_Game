@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VerticalWinTest {
-    private final Board.Size DEFAULT_SIZE = Board.Size.DEFAULT;
+    private final Board.Size DEFAULT_SIZE = Board.Size.ROW6_COLUMN7;
     private final Renderer renderer = new RendererForIdea();
     private boolean[][] getMask(Board.Size size) {
         int height = size.getHeight();

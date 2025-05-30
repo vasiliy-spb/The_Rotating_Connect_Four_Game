@@ -28,7 +28,7 @@ public class BoardRotationUpsideDownTest {
      */
     @Test
     public void testUpsideDownEmptyBoard() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
 
         System.out.println("=== Исходная пустая доска перед UPSIDE_DOWN ===");
@@ -62,7 +62,7 @@ public class BoardRotationUpsideDownTest {
      */
     @Test
     public void testUpsideDownRotationWithTokens() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         int height = board.getHeight();
         int width = board.getWidth();  // Для DEFAULT: width = 7, значит индекс последней колонки = 6
@@ -101,7 +101,7 @@ public class BoardRotationUpsideDownTest {
      */
     @Test
     public void testFallingTokensAfterUpsideDownRotation() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         int height = board.getHeight();
         int width = board.getWidth();  // Для DEFAULT: width = 7
@@ -137,7 +137,7 @@ public class BoardRotationUpsideDownTest {
      */
     @Test
     public void testBoardDimensionsAfterUpsideDown() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         int originalHeight = board.getHeight();
         int originalWidth = board.getWidth();
 

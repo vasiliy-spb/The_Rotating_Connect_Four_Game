@@ -28,7 +28,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testFillColumnCompletely() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT))); // допустим, DEFAULT размер (6x7)
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7))); // допустим, DEFAULT размер (6x7)
         int targetColumn = 2;
         int height = board.getHeight();
 
@@ -52,7 +52,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testInsertIntoFullColumn() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         int targetColumn = 1;
         int height = board.getHeight();
 
@@ -79,7 +79,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testSequentialDiscDrop() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         int targetColumn = 4;
 
         // Вставляем два токена
@@ -101,7 +101,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testBoardIsFullyFilled() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         int height = board.getHeight();
         int width = board.getWidth();
 
@@ -127,7 +127,7 @@ public class BoardMechanicsTest {
      */
     @Test
     public void testInsertTokenWhenBoardIsFull() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT, getMask(Board.Size.DEFAULT)));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         int height = board.getHeight();
         int width = board.getWidth();
 

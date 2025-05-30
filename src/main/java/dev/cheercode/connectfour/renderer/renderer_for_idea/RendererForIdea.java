@@ -124,10 +124,15 @@ public class RendererForIdea implements Renderer {
 
     private Element buildSpriteSlotFor(Disc disk) {
         Element sprite = switch (disk) {
+            case BLACK -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_BLACK);
             case RED -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_RED);
+            case GREEN -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_GREEN);
             case YELLOW -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_YELLOW);
             case BLUE -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_BLUE);
-            case GREEN -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_GREEN);
+            case PURPLE -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_PURPLE);
+            case CYAN -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_CYAN);
+            case WHITE -> new PaintTextElementDecorator(CIRCLE, TextColor.BRIGHT_WHITE);
+            default -> CIRCLE;
         };
         sprite = new FormatElementDecorator(sprite, SLOT_TEMPLATE);
         sprite = new PaintBackgroundElementDecorator(sprite, BACKGROUND_COLOR);
