@@ -8,6 +8,7 @@ import dev.cheercode.connectfour.game.GameStarter;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 
+// version 1
 public class MainForIdea {
     public static void main(String[] args) {
         PlayerFactory playerFactory = new ConsolePlayerFactory();
