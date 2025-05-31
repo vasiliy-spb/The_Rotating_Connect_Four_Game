@@ -1,6 +1,6 @@
 package dev.cheercode.connectfour.game;
 
-import dev.cheercode.connectfour.model.Player;
+import dev.cheercode.connectfour.model.player.Player;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

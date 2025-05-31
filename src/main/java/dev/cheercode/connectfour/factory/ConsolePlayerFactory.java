@@ -4,8 +4,8 @@ import dev.cheercode.connectfour.dialog.Dialog;
 import dev.cheercode.connectfour.dialog.impl.CharacterDialog;
 import dev.cheercode.connectfour.dialog.impl.StringDialog;
 import dev.cheercode.connectfour.model.Disc;
-import dev.cheercode.connectfour.model.HumanConsoleInputStrategy;
-import dev.cheercode.connectfour.model.Player;
+import dev.cheercode.connectfour.model.player.HumanConsoleInputStrategy;
+import dev.cheercode.connectfour.model.player.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;

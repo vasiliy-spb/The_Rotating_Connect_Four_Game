@@ -3,7 +3,7 @@ package dev.cheercode.connectfour.game;
 import dev.cheercode.connectfour.dialog.impl.IntegerMinMaxDialog;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.dialog.Dialog;
-import dev.cheercode.connectfour.model.Player;
+import dev.cheercode.connectfour.model.player.Player;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Direction;
 import dev.cheercode.connectfour.renderer.Renderer;
