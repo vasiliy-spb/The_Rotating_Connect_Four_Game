@@ -5,15 +5,15 @@ import dev.cheercode.connectfour.dialog.impl.IntegerMinMaxDialog;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.color.BackgroundColor;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.DirectoryStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.StreamSupport;
+import java.util.stream.Collectors;
 
 public class BoardShapeSelector {
     private static final int SHAPES_PER_ROW = 5;
@@ -27,36 +27,45 @@ public class BoardShapeSelector {
     }
 
     public boolean[][] select(Board.Size size) {
-        Path tailOfShapesDirectory = Path.of(SHAPES_DIRECTORY)
-                .resolve(size.name().toLowerCase());
+        // Собираем путь до папки с формами для заданного размера
+        String folderPath = SHAPES_DIRECTORY + "/" + size.name().toLowerCase();
+        String listFilePath = folderPath + "/shapes.list";
 
-        URL resourceUrl = getClass().getClassLoader().getResource(tailOfShapesDirectory.toString());
-        if (resourceUrl == null) {
-            throw new IllegalArgumentException("Directory not found: " + tailOfShapesDirectory);
+        // Загружаем файл shapes.list из ресурсов
+        InputStream listStream = getClass().getClassLoader().getResourceAsStream(listFilePath);
+        if (listStream == null) {
+            throw new IllegalArgumentException("Shapes list file was not found:" + listFilePath);
         }
 
-        Path fullShapesDirectory = null;
-        try {
-            fullShapesDirectory = Paths.get(resourceUrl.toURI());
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException("Invalid shapes directory URI", e);
-        }
-
-        if (!Files.exists(fullShapesDirectory) || !Files.isDirectory(fullShapesDirectory)) {
-            throw new IllegalArgumentException("Directory not found: " + fullShapesDirectory);
-        }
-
-        List<boolean[][]> shapes;
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(fullShapesDirectory)) {
-            shapes = StreamSupport.stream(directoryStream.spliterator(), false)
-                    .map(this::readShapeFrom)
-                    .toList();
+        // Читаем список имён файлов (каждая строка = имя файла с формой)
+        List<String> fileNames;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(listStream))) {
+            fileNames = br.lines()
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .collect(Collectors.toList());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Shapes file reading error", e);
+        }
+
+        if (fileNames.isEmpty()) {
+            throw new IllegalArgumentException("Empty shapes list: " + listFilePath);
+        }
+
+        // Загружаем каждую форму из списка
+        List<boolean[][]> shapes = new ArrayList<>();
+        for (String fileName : fileNames) {
+            String filePath = folderPath + "/" + fileName;
+            InputStream shapeStream = getClass().getClassLoader().getResourceAsStream(filePath);
+            if (shapeStream == null) {
+                throw new IllegalArgumentException("File with a shape was not found: " + filePath);
+            }
+            boolean[][] shape = readShapeFromStream(shapeStream);
+            shapes.add(shape);
         }
 
         if (shapes.isEmpty()) {
-            throw new IllegalArgumentException("Not enough shapes to show for size: " + size.name());
+            throw new IllegalArgumentException("No available shapes for size: " + size.name());
         }
 
         int minOption = 1;
@@ -66,6 +75,67 @@ public class BoardShapeSelector {
         int maskIndex = askShapeIndex(selectionTitle, minOption, maxOption);
         return shapes.get(maskIndex);
     }
+
+    // Метод для чтения формы из входного потока
+    private boolean[][] readShapeFromStream(InputStream shapeStream) {
+        List<String> lines;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(shapeStream))) {
+            lines = reader.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException("Shape File Reading Error", e);
+        }
+        int rows = lines.size();
+        int columns = (rows > 0) ? lines.get(0).length() : 0;
+        boolean[][] shape = new boolean[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            String line = lines.get(i);
+            for (int j = 0; j < columns; j++) {
+                shape[i][j] = line.charAt(j) == '+';
+            }
+        }
+        return shape;
+    }
+
+//    public boolean[][] select(Board.Size size) {
+//        Path tailOfShapesDirectory = Path.of(SHAPES_DIRECTORY)
+//                .resolve(size.name().toLowerCase());
+//
+//        URL resourceUrl = getClass().getClassLoader().getResource(tailOfShapesDirectory.toString());
+//        if (resourceUrl == null) {
+//            throw new IllegalArgumentException("Directory not found: " + tailOfShapesDirectory);
+//        }
+//
+//        Path fullShapesDirectory = null;
+//        try {
+//            fullShapesDirectory = Paths.get(resourceUrl.toURI());
+//        } catch (URISyntaxException e) {
+//            throw new IllegalStateException("Invalid shapes directory URI", e);
+//        }
+//
+//        if (!Files.exists(fullShapesDirectory) || !Files.isDirectory(fullShapesDirectory)) {
+//            throw new IllegalArgumentException("Directory not found: " + fullShapesDirectory);
+//        }
+//
+//        List<boolean[][]> shapes;
+//        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(fullShapesDirectory)) {
+//            shapes = StreamSupport.stream(directoryStream.spliterator(), false)
+//                    .map(this::readShapeFrom)
+//                    .toList();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        if (shapes.isEmpty()) {
+//            throw new IllegalArgumentException("Not enough shapes to show for size: " + size.name());
+//        }
+//
+//        int minOption = 1;
+//        int maxOption = shapes.size();
+//
+//        String selectionTitle = buildSelectionTitle(shapes, minOption, maxOption);
+//        int maskIndex = askShapeIndex(selectionTitle, minOption, maxOption);
+//        return shapes.get(maskIndex);
+//    }
 
     private String buildSelectionTitle(List<boolean[][]> shapes, int min, int max) {
         StringBuilder title = new StringBuilder();
