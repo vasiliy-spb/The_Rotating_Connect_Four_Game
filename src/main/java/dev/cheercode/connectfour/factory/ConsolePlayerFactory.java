@@ -4,6 +4,7 @@ import dev.cheercode.connectfour.dialog.Dialog;
 import dev.cheercode.connectfour.dialog.impl.CharacterDialog;
 import dev.cheercode.connectfour.dialog.impl.StringDialog;
 import dev.cheercode.connectfour.model.Disc;
+import dev.cheercode.connectfour.model.HumanConsoleInputStrategy;
 import dev.cheercode.connectfour.model.Player;
 
 import java.util.*;
@@ -26,7 +27,7 @@ public class ConsolePlayerFactory implements PlayerFactory {
     public Player create(int playerNumber) {
         String name = askName(playerNumber);
         Disc color = askColor(playerNumber);
-        return new Player(name, color);
+        return new Player(name, color, new HumanConsoleInputStrategy());
     }
 
     private String askName(int playerNumber) {

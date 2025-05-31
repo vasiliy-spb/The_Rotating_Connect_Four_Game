@@ -4,6 +4,7 @@ import dev.cheercode.connectfour.factory.FromFileBoardFactory;
 import dev.cheercode.connectfour.game.Game;
 import dev.cheercode.connectfour.game.PlayerQueue;
 import dev.cheercode.connectfour.model.Disc;
+import dev.cheercode.connectfour.model.HumanConsoleInputStrategy;
 import dev.cheercode.connectfour.model.Player;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.renderer.Renderer;
@@ -14,8 +15,8 @@ public class QuickStartMain {
         Board board = new FromFileBoardFactory().create(Board.Size.ROW6_COLUMN7);
 
         PlayerQueue players = new PlayerQueue();
-        players.add(new Player("Игрок 1", Disc.RED));
-        players.add(new Player("Игрок 2", Disc.YELLOW));
+        players.add(new Player("Игрок 1", Disc.RED, new HumanConsoleInputStrategy()));
+        players.add(new Player("Игрок 2", Disc.YELLOW, new HumanConsoleInputStrategy()));
 
         Renderer renderer = new RendererForIdea();
 
