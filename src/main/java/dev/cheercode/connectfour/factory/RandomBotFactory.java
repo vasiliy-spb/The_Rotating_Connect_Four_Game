@@ -6,22 +6,21 @@ import dev.cheercode.connectfour.model.player.BotRandomStrategy;
 import dev.cheercode.connectfour.model.player.Player;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RandomBotFactory implements PlayerFactory {
     private final Random random;
-    private Set<Disc> usedColors;
 
     public RandomBotFactory() {
-        this.usedColors = new HashSet<>();
         this.random = new Random();
     }
 
     @Override
     public Player create(PlayerQueue playerQueue) {
         List<Player> players = playerQueue.toList();
-        players.stream()
+        Set<Disc> usedColors = players.stream()
                 .map(Player::getDisc)
-                .forEach(usedColors::add);
+                .collect(Collectors.toSet());
         List<Disc> availableDiscs = Arrays.stream(Disc.values())
                 .filter(d -> !usedColors.contains(d))
                 .toList();

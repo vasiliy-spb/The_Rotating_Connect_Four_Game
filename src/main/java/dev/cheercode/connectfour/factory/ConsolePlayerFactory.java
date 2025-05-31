@@ -12,36 +12,26 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ConsolePlayerFactory implements PlayerFactory {
-    private final Map<Integer, Disc> colorMap;
-    private Set<String> usedNames;
-    private Set<Disc> usedColors;
-
-    public ConsolePlayerFactory() {
-        this.colorMap = new HashMap<>();
-        this.usedNames = new HashSet<>();
-        this.usedColors = new HashSet<>();
-    }
-
     @Override
     public Player create(PlayerQueue playerQueue) {
         List<Player> players = playerQueue.toList();
-        players.stream()
+        Set<String> usedNames = players.stream()
                 .map(p -> p.getName().toLowerCase())
-                .forEach(usedNames::add);
-        players.stream()
+                .collect(Collectors.toSet());
+        Set<Disc> usedColors = players.stream()
                 .map(Player::getDisc)
-                .forEach(usedColors::add);
-        Arrays.stream(Disc.values())
+                .collect(Collectors.toSet());
+        Map<Integer, Disc> colorMap = Arrays.stream(Disc.values())
                 .filter(d -> !usedColors.contains(d))
-                .forEach(d -> colorMap.put(d.ordinal() + 1, d));
+                .collect(Collectors.toMap(d -> d.ordinal() + 1, d -> d));
 
         int playerNumber = playerQueue.size() + 1;
-        String name = askName(playerNumber);
-        Disc color = askColor(playerNumber);
+        String name = askName(playerNumber, usedNames);
+        Disc color = askColor(playerNumber, usedColors, colorMap);
         return new Player(name, color, new HumanConsoleInputStrategy());
     }
 
-    private String askName(int playerNumber) {
+    private String askName(int playerNumber, Set<String> usedNames) {
         Dialog<String> dialog = new StringDialog(
                 String.format("Введите имя игрока %d: ", playerNumber),
                 "Имя не может быть пустым или повторяться.\nУже используются имена: " +
@@ -52,18 +42,18 @@ public class ConsolePlayerFactory implements PlayerFactory {
         return name;
     }
 
-    private Disc askColor(int playerNumber) {
+    private Disc askColor(int playerNumber, Set<Disc> usedColors, Map<Integer, Disc> colorMap) {
         Dialog<Character> dialog = new CharacterDialog(
                 String.format("Выберите цвет для игрока %d:\n%s",
-                        playerNumber, getAvailableColors()),
+                        playerNumber, getAvailableColors(usedColors, colorMap)),
                 "Неправильный ввод или цвет уже занят.",
-                getAvailableColorKeys()
+                getAvailableColorKeys(usedColors, colorMap)
         );
         Disc color = colorMap.get(dialog.input() - '0');
         return color;
     }
 
-    private String getAvailableColors() {
+    private String getAvailableColors(Set<Disc> usedColors, Map<Integer, Disc> colorMap) {
         return colorMap.entrySet().stream()
                 .filter(e -> !usedColors.contains(e.getValue()))
                 .map(e -> String.format("%d — %s", e.getKey(), getNameFor(e.getValue())))
@@ -83,7 +73,7 @@ public class ConsolePlayerFactory implements PlayerFactory {
         };
     }
 
-    private Set<Character> getAvailableColorKeys() {
+    private Set<Character> getAvailableColorKeys(Set<Disc> usedColors, Map<Integer, Disc> colorMap) {
         return colorMap.entrySet().stream()
                 .filter(e -> !usedColors.contains(e.getValue()))
                 .map(e -> (char) (e.getKey() + '0'))
