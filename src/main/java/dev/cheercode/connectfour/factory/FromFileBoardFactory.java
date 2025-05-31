@@ -6,11 +6,17 @@ import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
 public class FromFileBoardFactory implements BoardFactory {
     @Override
     public Board create(Board.Size size) {
-        String path = "src/main/resources/board_masks/" + size.name().toLowerCase() + "/mask_05.txt";
+        Random random = new Random();
+        String maskNumber = String.valueOf(random.nextInt(32));
+        if (maskNumber.length() == 1) {
+            maskNumber = "0" + maskNumber;
+        }
+        String path = "src/main/resources/board_masks/" + size.name().toLowerCase() + "/mask_" + maskNumber + ".txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             StringBuilder input = new StringBuilder();
             while (reader.ready()) {
