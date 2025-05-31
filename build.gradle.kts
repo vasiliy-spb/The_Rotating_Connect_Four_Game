@@ -34,3 +34,40 @@ tasks.shadowJar {
         )
     }
 }
+
+val boardSizes = listOf("row6_column7", "row7_column8", "row7_column9", "row7_column10")
+
+tasks.register("generatedShapesList") {
+    doLast {
+        boardSizes.forEach {
+            size ->
+            val inputDir = file("src/main/resources/board_masks/$size")
+            if (inputDir.exists() && inputDir.isDirectory) {
+                val txtFiles = inputDir
+                        .listFiles { file -> file.extension == "txt" }
+                        ?.sortedBy { it.name }
+                        ?.toList() ?: emptyList()
+
+                val outputDir = file("${buildDir}/generated-resources/board_masks/$size")
+                outputDir.mkdirs()
+                val outputFile = File(outputDir, "shapes.list")
+                outputFile.writeText(txtFiles.joinToString(separator = "\n") { it.name })
+                println("Generated ${outputFile.absolutePath}")
+            } else {
+                println("Directory not found or is not a directory: ${inputDir.absolutePath}")
+            }
+        }
+    }
+}
+
+sourceSets {
+    getByName("main") {
+        resources {
+            srcDir("$buildDir/generated-resources")
+        }
+    }
+}
+
+tasks.named("processResources") {
+    dependsOn("generatedShapesList")
+}

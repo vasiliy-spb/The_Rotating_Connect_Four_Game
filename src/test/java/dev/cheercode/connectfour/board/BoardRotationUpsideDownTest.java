@@ -10,14 +10,25 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardRotationUpsideDownTest {
-
+    private boolean[][] getMask(Board.Size size) {
+        int height = size.getHeight();
+        int width = size.getWidth();
+        boolean[][] mask = new boolean[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mask[i][j] = true;
+            }
+        }
+        return mask;
+    }
+    
     /**
      * Тест 1: Переворот пустой доски.
      * Ожидается, что все ячейки останутся пустыми после переворота.
      */
     @Test
     public void testUpsideDownEmptyBoard() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
 
         System.out.println("=== Исходная пустая доска перед UPSIDE_DOWN ===");
@@ -51,7 +62,7 @@ public class BoardRotationUpsideDownTest {
      */
     @Test
     public void testUpsideDownRotationWithTokens() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         int height = board.getHeight();
         int width = board.getWidth();  // Для DEFAULT: width = 7, значит индекс последней колонки = 6
@@ -90,7 +101,7 @@ public class BoardRotationUpsideDownTest {
      */
     @Test
     public void testFallingTokensAfterUpsideDownRotation() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         int height = board.getHeight();
         int width = board.getWidth();  // Для DEFAULT: width = 7
@@ -126,7 +137,7 @@ public class BoardRotationUpsideDownTest {
      */
     @Test
     public void testBoardDimensionsAfterUpsideDown() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         int originalHeight = board.getHeight();
         int originalWidth = board.getWidth();
 

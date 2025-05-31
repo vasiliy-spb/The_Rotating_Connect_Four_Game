@@ -1,8 +1,12 @@
 package dev.cheercode.connectfour.model;
 
 public enum Disc {
+    BLACK,
     RED,
-    BLUE,
+    GREEN,
     YELLOW,
-    GREEN;
+    BLUE,
+    PURPLE,
+    CYAN,
+    WHITE;
 }

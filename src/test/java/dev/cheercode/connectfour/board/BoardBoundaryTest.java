@@ -7,9 +7,21 @@ import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.Direction;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardBoundaryTest {
+    private boolean[][] getMask(Board.Size size) {
+        int height = size.getHeight();
+        int width = size.getWidth();
+        boolean[][] mask = new boolean[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mask[i][j] = true;
+            }
+        }
+        return mask;
+    }
 
     /**
      * Тест 1: Вставка токенов в последнюю строку самой высокой доски (Size.ROW7_COLUMN10).
@@ -19,7 +31,7 @@ public class BoardBoundaryTest {
     @Test
     public void testInsertionInLastRowHighestBoard() {
         // Создаем доску размера ROW7_COLUMN10 (в данном случае высота 7, ширина 10)
-        Board board = new Board(new DefaultBoardState(Board.Size.ROW7_COLUMN10));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW7_COLUMN10, getMask(Board.Size.ROW7_COLUMN10)));
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Исходная доска (ROW7_COLUMN10) перед заполнением колонки ===");
         renderer.show(board);
@@ -46,7 +58,7 @@ public class BoardBoundaryTest {
      */
     @Test
     public void testGetEmptyCellThrowsException() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Исходная доска (DEFAULT) для теста извлечения пустой ячейки ===");
         renderer.show(board);
@@ -63,7 +75,7 @@ public class BoardBoundaryTest {
      */
     @Test
     public void testPutTokenInvalidColumn() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         System.out.println("=== Исходная доска (DEFAULT) для теста недопустимых столбцов ===");
         renderer.show(board);
@@ -89,7 +101,7 @@ public class BoardBoundaryTest {
      */
     @Test
     public void testPartialFillAndFullBoardMethods() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
 
         // Заполняем колонку 0 частично (например, 3 токена, а максимум 6)
@@ -121,7 +133,7 @@ public class BoardBoundaryTest {
         Renderer renderer = new RendererForIdea();
 
         // (a) Переворот пустой доски
-        Board emptyBoard = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board emptyBoard = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         System.out.println("=== Пустая доска перед переворотом UPSIDE_DOWN ===");
         renderer.show(emptyBoard);
         emptyBoard.rotate(Direction.UPSIDE_DOWN);
@@ -136,7 +148,7 @@ public class BoardBoundaryTest {
         }
 
         // (b) Переворот частично заполненной доски
-        Board partialBoard = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board partialBoard = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         // Вставляем несколько токенов в колонку 2 (2 токена)
         partialBoard.drop(2, Disc.YELLOW);
         partialBoard.drop(2, Disc.BLUE);
@@ -170,7 +182,7 @@ public class BoardBoundaryTest {
      */
     @Test
     public void testRotationWithSingleToken() {
-        Board board = new Board(new DefaultBoardState(Board.Size.DEFAULT));
+        Board board = new Board(new DefaultBoardState(Board.Size.ROW6_COLUMN7, getMask(Board.Size.ROW6_COLUMN7)));
         Renderer renderer = new RendererForIdea();
         // Вставляем один токен в колонку 3 (исходно в позиции (height-1, 5))
         board.drop(5, Disc.RED);

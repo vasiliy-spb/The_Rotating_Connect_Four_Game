@@ -10,13 +10,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HorizontalWinTest {
-    private final Board.Size DEFAULT_SIZE = Board.Size.DEFAULT;
+    private final Board.Size DEFAULT_SIZE = Board.Size.ROW6_COLUMN7;
     private final Renderer renderer = new RendererForIdea();
-
+    private boolean[][] getMask(Board.Size size) {
+        int height = size.getHeight();
+        int width = size.getWidth();
+        boolean[][] mask = new boolean[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mask[i][j] = true;
+            }
+        }
+        return mask;
+    }
     @Test
     void horizontalWin_leftEdge_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Красные токены в левой части строки (нижние ряды)
         board.drop(0, Disc.RED);
@@ -39,7 +49,7 @@ public class HorizontalWinTest {
     @Test
     void horizontalWin_center_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Синие токены в центре
         board.drop(2, Disc.BLUE);
@@ -61,7 +71,7 @@ public class HorizontalWinTest {
     @Test
     void horizontalWin_rightEdge_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Желтые токены у правого края
         board.drop(6, Disc.YELLOW);
@@ -83,7 +93,7 @@ public class HorizontalWinTest {
     @Test
     void horizontalWin_moreThan4_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // 5 зеленых токенов подряд
         board.drop(1, Disc.GREEN);
@@ -106,7 +116,7 @@ public class HorizontalWinTest {
     @Test
     void horizontal_interruptedLine_shouldNotWin() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Прерванная линия
         board.drop(1, Disc.RED);
@@ -130,7 +140,7 @@ public class HorizontalWinTest {
     void horizontalWin_differentRows_shouldAllWin() {
         // Test all rows
         for (int row = 0; row < DEFAULT_SIZE.getHeight(); row++) {
-            Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+            Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
             // Fill entire row
             for (int col = 0; col < 4; col++) {
@@ -146,7 +156,7 @@ public class HorizontalWinTest {
     @Test
     void horizontalWin_farLeftWithEmptySpaces_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Крайняя левая позиция с пустыми ячейками справа
         board.drop(0, Disc.RED);  // Ряд 6
@@ -169,7 +179,7 @@ public class HorizontalWinTest {
     @Test
     void horizontalWin_farRightWithEmptySpaces_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Крайняя правая позиция с пустыми ячейками слева
         board.drop(6, Disc.BLUE);  // Ряд 6
@@ -192,7 +202,7 @@ public class HorizontalWinTest {
     @Test
     void horizontalWin_leftEdgeWithOtherTokens_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Победа у левого края с другими токенами на доске
         board.drop(0, Disc.GREEN);
@@ -220,7 +230,7 @@ public class HorizontalWinTest {
     @Test
     void horizontalWin_rightEdgeWithOtherTokens_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Победа у правого края с другими токенами на доске
         board.drop(3, Disc.YELLOW);

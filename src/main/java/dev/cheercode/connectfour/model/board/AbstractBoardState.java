@@ -2,11 +2,10 @@ package dev.cheercode.connectfour.model.board;
 
 import dev.cheercode.connectfour.model.Disc;
 
-import java.util.Arrays;
-
 public abstract class AbstractBoardState implements BoardState {
     protected final int height;
     protected final int width;
+    protected final boolean[][] mask;
     private final Disc[][] grid;
     private final int[] rowPosition;
 
@@ -14,8 +13,32 @@ public abstract class AbstractBoardState implements BoardState {
         this.height = height;
         this.width = width;
         this.grid = new Disc[height][width];
+        this.mask = new boolean[height][width];
         this.rowPosition = new int[width];
-        Arrays.fill(rowPosition, height - 1);
+        initMask(height, width, mask);
+    }
+
+    public AbstractBoardState(Board.Size size, boolean[][] mask) {
+        this.height = size.getHeight();
+        this.width = size.getWidth();
+        this.grid = new Disc[height][width];
+        this.mask = mask;
+        this.rowPosition = new int[width];
+        initMask(height, width, mask);
+    }
+
+    private void initMask(int height, int width, boolean[][] mask) {
+        for (int column = 0; column < width; column++) {
+            while (rowPosition[column] < height && !mask[rowPosition[column]][column]) {
+                rowPosition[column]++;
+            }
+            for (int row = rowPosition[column]; row < height; row++) {
+                if (!mask[row][column]) {
+                    break;
+                }
+                rowPosition[column] = row;
+            }
+        }
     }
 
     @Override
@@ -55,6 +78,9 @@ public abstract class AbstractBoardState implements BoardState {
         int row = rowPosition[column];
         grid[row][column] = disc;
         rowPosition[column]--;
+        while (rowPosition[column] >= 0 && !mask[rowPosition[column]][column]) {
+            rowPosition[column]--;
+        }
     }
 
     @Override
@@ -94,4 +120,63 @@ public abstract class AbstractBoardState implements BoardState {
             default -> throw new IllegalArgumentException("Unsupported direction: " + direction.name());
         };
     }
+
+    @Override
+    public boolean isOnField(int row, int column) {
+        try {
+            checkBounds(row, column);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return mask[row][column];
+    }
+
+    protected void applyGravity() {
+        for (int column = 0; column < width; column++) {
+            applyGravityTo(column);
+            while (rowPosition[column] >= 0 && !mask[rowPosition[column]][column]) {
+                rowPosition[column]--;
+            }
+        }
+    }
+
+    private void applyGravityTo(int column) {
+        int bottom = findNextIndexOnFieldAfter(height, column);
+        while (bottom >= 0) {
+            int top = getTopFor(bottom, column);
+            rowPosition[column] = bottom;
+            while (bottom > top) {
+                if (grid[bottom][column] != null) {
+                    if (bottom != rowPosition[column]) {
+                        grid[rowPosition[column]][column] = grid[bottom][column];
+                        grid[bottom][column] = null;
+                    }
+                    rowPosition[column]--;
+                }
+                bottom--;
+            }
+            bottom = findNextIndexOnFieldAfter(top, column);
+        }
+    }
+
+    private int getTopFor(int row, int column) {
+        while (row >= 0 && mask[row][column]) {
+            row--;
+        }
+        return row;
+    }
+
+    private int findNextIndexOnFieldAfter(int row, int column) {
+        for (int j = row - 1; j >= 0; j--) {
+            if (mask[j][column]) {
+                return j;
+            }
+        }
+        return -1;
+    }
+
+    protected void put(int row, int column, Disc disc) {
+        grid[row][column] = disc;
+    }
 }
+

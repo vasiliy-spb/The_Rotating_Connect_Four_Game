@@ -74,6 +74,10 @@ public class ResultAnalyzer {
     }
 
     private boolean isValid(int row, int column) {
+        return isInBounds(row, column) && board.isOnField(row, column);
+    }
+
+    private boolean isInBounds(int row, int column) {
         return row >= 0 && row < board.getHeight() && column >= 0 && column < board.getWidth();
     }
 

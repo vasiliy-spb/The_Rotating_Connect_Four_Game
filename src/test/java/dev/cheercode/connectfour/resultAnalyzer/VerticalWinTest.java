@@ -10,13 +10,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VerticalWinTest {
-    private final Board.Size DEFAULT_SIZE = Board.Size.DEFAULT;
+    private final Board.Size DEFAULT_SIZE = Board.Size.ROW6_COLUMN7;
     private final Renderer renderer = new RendererForIdea();
-
+    private boolean[][] getMask(Board.Size size) {
+        int height = size.getHeight();
+        int width = size.getWidth();
+        boolean[][] mask = new boolean[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mask[i][j] = true;
+            }
+        }
+        return mask;
+    }
     @Test
     void verticalWin_leftmostColumn_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Вертикальная линия в крайнем левом столбце (колонка 0)
         board.drop(0, Disc.RED);    // Ряд 6
@@ -38,7 +48,7 @@ public class VerticalWinTest {
     @Test
     void verticalWin_rightmostColumn_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         int width = board.getWidth();
 
@@ -62,7 +72,7 @@ public class VerticalWinTest {
     @Test
     void verticalWin_centerColumn_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Вертикальная линия в центральном столбце (колонка 3)
         board.drop(3, Disc.BLUE);   // Ряд 6
@@ -84,7 +94,7 @@ public class VerticalWinTest {
     @Test
     void verticalWin_bottomEdge_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Вертикальная линия у нижнего края (первые 4 ряда)
         board.drop(2, Disc.GREEN);  // Ряд 6
@@ -106,7 +116,7 @@ public class VerticalWinTest {
     @Test
     void verticalWin_moreThan4_shouldReturnTrue() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // 5 токенов в колонке (должно все равно считаться победой)
         board.drop(4, Disc.YELLOW);  // Ряд 6
@@ -129,7 +139,7 @@ public class VerticalWinTest {
     @Test
     void vertical_interruptedLine_shouldNotWin() {
         // Given
-        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE));
+        Board board = new Board(new DefaultBoardState(DEFAULT_SIZE, getMask(DEFAULT_SIZE)));
 
         // Прерванная вертикальная линия
         board.drop(1, Disc.RED);    // Ряд 6

@@ -37,12 +37,16 @@ public class Board {
         return state.isBoardFilled();
     }
 
+    public boolean isOnField(int row, int column) {
+        return state.isOnField(row, column);
+    }
+
     public void rotate(Direction direction) {
         state = state.rotate(direction);
     }
 
     public enum Size {
-        DEFAULT(6, 7),
+        ROW6_COLUMN7(6, 7),
         ROW7_COLUMN8(7, 8),
         ROW7_COLUMN9(7, 9),
         ROW7_COLUMN10(7, 10);
