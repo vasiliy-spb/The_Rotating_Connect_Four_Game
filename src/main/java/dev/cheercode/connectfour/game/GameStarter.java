@@ -19,18 +19,19 @@ public class GameStarter {
     private final PlayerFactory playerFactory;
     private final BoardSizeFactory boardSizeFactory;
     private final Renderer renderer;
+    private final BoardShapeSelector boardShapeSelector;
 
-    public GameStarter(PlayerFactory playerFactory, Renderer renderer, BoardSizeFactory boardSizeFactory) {
+    public GameStarter(PlayerFactory playerFactory, Renderer renderer, BoardSizeFactory boardSizeFactory, BoardShapeSelector boardShapeSelector) {
         this.playerFactory = playerFactory;
         this.renderer = renderer;
         this.boardSizeFactory = boardSizeFactory;
+        this.boardShapeSelector = boardShapeSelector;
     }
 
     public void start() {
         System.out.println(TITLE);
         PlayerQueue players = createPlayers();
         Board.Size size = boardSizeFactory.create();
-        BoardShapeSelector boardShapeSelector = new BoardShapeSelector(BackgroundColor.BLUE);
         Board board = new FromShapeBoardFactory(boardShapeSelector).create(size);
         Game game = new Game(board, players, renderer);
         game.start();

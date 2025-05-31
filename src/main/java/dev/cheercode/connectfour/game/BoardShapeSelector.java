@@ -118,7 +118,10 @@ public class BoardShapeSelector {
         for (int i = from + 1; i <= to; i++) {
             numbersRow.append(i).append(" ".repeat(spacesWidth));
             if (i < to) {
-                numbersRow.append("\t|\t");
+                if (i < 10) {
+                    numbersRow.append(" ");
+                }
+                numbersRow.append("   |    ");
             }
         }
         return numbersRow.toString();
@@ -133,7 +136,7 @@ public class BoardShapeSelector {
                     shapePreviews.append(shape[row][column] ? onBoardSlot : OUT_OF_BOARD_SLOT);
                 }
                 if (shapeIndex < to - 1) {
-                    shapePreviews.append("\t|\t");
+                    shapePreviews.append("    |    ");
                 }
             }
             shapePreviews.append("\n");
