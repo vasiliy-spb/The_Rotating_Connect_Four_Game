@@ -9,8 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,17 +25,14 @@ public class BoardShapeSelector {
     }
 
     public boolean[][] select(Board.Size size) {
-        // Собираем путь до папки с формами для заданного размера
         String folderPath = SHAPES_DIRECTORY + "/" + size.name().toLowerCase();
         String listFilePath = folderPath + "/shapes.list";
 
-        // Загружаем файл shapes.list из ресурсов
         InputStream listStream = getClass().getClassLoader().getResourceAsStream(listFilePath);
         if (listStream == null) {
             throw new IllegalArgumentException("Shapes list file was not found:" + listFilePath);
         }
 
-        // Читаем список имён файлов (каждая строка = имя файла с формой)
         List<String> fileNames;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(listStream))) {
             fileNames = br.lines()
@@ -52,7 +47,6 @@ public class BoardShapeSelector {
             throw new IllegalArgumentException("Empty shapes list: " + listFilePath);
         }
 
-        // Загружаем каждую форму из списка
         List<boolean[][]> shapes = new ArrayList<>();
         for (String fileName : fileNames) {
             String filePath = folderPath + "/" + fileName;
@@ -76,7 +70,6 @@ public class BoardShapeSelector {
         return shapes.get(maskIndex);
     }
 
-    // Метод для чтения формы из входного потока
     private boolean[][] readShapeFromStream(InputStream shapeStream) {
         List<String> lines;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(shapeStream))) {
@@ -95,47 +88,6 @@ public class BoardShapeSelector {
         }
         return shape;
     }
-
-//    public boolean[][] select(Board.Size size) {
-//        Path tailOfShapesDirectory = Path.of(SHAPES_DIRECTORY)
-//                .resolve(size.name().toLowerCase());
-//
-//        URL resourceUrl = getClass().getClassLoader().getResource(tailOfShapesDirectory.toString());
-//        if (resourceUrl == null) {
-//            throw new IllegalArgumentException("Directory not found: " + tailOfShapesDirectory);
-//        }
-//
-//        Path fullShapesDirectory = null;
-//        try {
-//            fullShapesDirectory = Paths.get(resourceUrl.toURI());
-//        } catch (URISyntaxException e) {
-//            throw new IllegalStateException("Invalid shapes directory URI", e);
-//        }
-//
-//        if (!Files.exists(fullShapesDirectory) || !Files.isDirectory(fullShapesDirectory)) {
-//            throw new IllegalArgumentException("Directory not found: " + fullShapesDirectory);
-//        }
-//
-//        List<boolean[][]> shapes;
-//        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(fullShapesDirectory)) {
-//            shapes = StreamSupport.stream(directoryStream.spliterator(), false)
-//                    .map(this::readShapeFrom)
-//                    .toList();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        if (shapes.isEmpty()) {
-//            throw new IllegalArgumentException("Not enough shapes to show for size: " + size.name());
-//        }
-//
-//        int minOption = 1;
-//        int maxOption = shapes.size();
-//
-//        String selectionTitle = buildSelectionTitle(shapes, minOption, maxOption);
-//        int maskIndex = askShapeIndex(selectionTitle, minOption, maxOption);
-//        return shapes.get(maskIndex);
-//    }
 
     private String buildSelectionTitle(List<boolean[][]> shapes, int min, int max) {
         StringBuilder title = new StringBuilder();
@@ -192,33 +144,5 @@ public class BoardShapeSelector {
     private int askShapeIndex(String selectionMessage, int min, int max) {
         Dialog<Integer> dialog = new IntegerMinMaxDialog(selectionMessage, "Неправильный ввод.", min, max);
         return dialog.input() - 1;
-    }
-
-    private void printShape(boolean[][] shape) {
-        for (int row = 0; row < shape.length; row++) {
-            for (int column = 0; column < shape[0].length; column++) {
-                System.out.print(shape[row][column] ? onBoardSlot : OUT_OF_BOARD_SLOT);
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    private boolean[][] readShapeFrom(Path path) {
-        try {
-            List<String> lines = Files.readAllLines(path);
-            int rows = lines.size();
-            int columns = lines.get(0).length();
-            boolean[][] shape = new boolean[rows][columns];
-            for (int rom = 0; rom < rows; rom++) {
-                String line = lines.get(rom);
-                for (int column = 0; column < columns; column++) {
-                    shape[rom][column] = line.charAt(column) == '+';
-                }
-            }
-            return shape;
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Shape reading error.");
-        }
     }
 }
