@@ -6,7 +6,6 @@ import dev.cheercode.connectfour.factory.*;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.renderer.Renderer;
-import dev.cheercode.connectfour.renderer.renderer_for_idea.color.BackgroundColor;
 
 public class GameStarter {
     private static final String TITLE = """
@@ -17,12 +16,14 @@ public class GameStarter {
             ==========================================================================================
             """;
     private final PlayerFactory playerFactory;
+    private final PlayerFactory botFactory;
     private final BoardSizeFactory boardSizeFactory;
     private final Renderer renderer;
     private final BoardShapeSelector boardShapeSelector;
 
-    public GameStarter(PlayerFactory playerFactory, Renderer renderer, BoardSizeFactory boardSizeFactory, BoardShapeSelector boardShapeSelector) {
+    public GameStarter(PlayerFactory playerFactory, PlayerFactory botFactory, Renderer renderer, BoardSizeFactory boardSizeFactory, BoardShapeSelector boardShapeSelector) {
         this.playerFactory = playerFactory;
+        this.botFactory = botFactory;
         this.renderer = renderer;
         this.boardSizeFactory = boardSizeFactory;
         this.boardShapeSelector = boardShapeSelector;
@@ -41,15 +42,19 @@ public class GameStarter {
         int playerCount = getPlayerCount();
         PlayerQueue players = new PlayerQueue();
 
-        for (int i = 1; i <= playerCount; i++) {
-            players.add(playerFactory.create(i));
+        for (int i = 0; i < playerCount; i++) {
+            players.add(playerFactory.create(players));
+        }
+
+        if (players.size() == 1) {
+            players.add(botFactory.create(players));
         }
 
         return players;
     }
 
     private int getPlayerCount() {
-        int min = 2;
+        int min = 1;
         int max = Math.min(Disc.values().length, 4);
         Dialog<Integer> dialog = new IntegerMinMaxDialog(
                 String.format("Выберите количество игроков (%d - %d)", min, max),

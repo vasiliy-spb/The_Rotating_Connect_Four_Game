@@ -1,9 +1,6 @@
 package dev.cheercode.connectfour;
 
-import dev.cheercode.connectfour.factory.ConsolePlayerFactory;
-import dev.cheercode.connectfour.factory.PlayerFactory;
-import dev.cheercode.connectfour.factory.BoardSizeFactory;
-import dev.cheercode.connectfour.factory.ConsoleBoardSizeFactory;
+import dev.cheercode.connectfour.factory.*;
 import dev.cheercode.connectfour.game.BoardShapeSelector;
 import dev.cheercode.connectfour.game.GameStarter;
 import dev.cheercode.connectfour.renderer.Renderer;
@@ -27,10 +24,11 @@ public class MainForJar {
             AnsiConsole.systemInstall();
 
             PlayerFactory playerFactory = new ConsolePlayerFactory();
+            PlayerFactory botFactory = new RandomBotFactory();
             Renderer renderer = new RendererForJar();
             BoardSizeFactory boardSizeFactory = new ConsoleBoardSizeFactory();
             BoardShapeSelector boardShapeSelector = new BoardShapeSelector(BackgroundColor.CYAN);
-            GameStarter gameStarter = new GameStarter(playerFactory, renderer, boardSizeFactory, boardShapeSelector);
+            GameStarter gameStarter = new GameStarter(playerFactory, botFactory, renderer, boardSizeFactory, boardShapeSelector);
             gameStarter.start();
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);

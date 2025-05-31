@@ -125,12 +125,7 @@ public class Game {
     }
 
     private int askColumnIndex() {
-        int min = 1;
-        int max = board.getWidth();
-        String title = String.format(DIALOG_TITLE_TEMPLATE, currentPlayer.getName(), min, max);
-        Dialog<Integer> dialog = new IntegerMinMaxDialog(title, DIALOG_ERROR_MESSAGE, min, max);
-        int columnNumber = dialog.input();
-        return columnNumber - 1;
+        return currentPlayer.makeMove(board);
     }
 
     private boolean isGameOver() {

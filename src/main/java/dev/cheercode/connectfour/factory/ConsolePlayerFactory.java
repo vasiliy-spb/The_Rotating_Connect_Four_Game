@@ -3,6 +3,7 @@ package dev.cheercode.connectfour.factory;
 import dev.cheercode.connectfour.dialog.Dialog;
 import dev.cheercode.connectfour.dialog.impl.CharacterDialog;
 import dev.cheercode.connectfour.dialog.impl.StringDialog;
+import dev.cheercode.connectfour.game.PlayerQueue;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.player.HumanConsoleInputStrategy;
 import dev.cheercode.connectfour.model.player.Player;
@@ -11,20 +12,30 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ConsolePlayerFactory implements PlayerFactory {
-    private final Set<String> usedNames;
-    private final Set<Disc> usedColors;
     private final Map<Integer, Disc> colorMap;
+    private Set<String> usedNames;
+    private Set<Disc> usedColors;
 
     public ConsolePlayerFactory() {
+        this.colorMap = new HashMap<>();
         this.usedNames = new HashSet<>();
         this.usedColors = new HashSet<>();
-        this.colorMap = new HashMap<>();
-        Arrays.stream(Disc.values())
-                .forEach(d -> colorMap.put(d.ordinal() + 1, d));
     }
 
     @Override
-    public Player create(int playerNumber) {
+    public Player create(PlayerQueue playerQueue) {
+        List<Player> players = playerQueue.toList();
+        players.stream()
+                .map(p -> p.getName().toLowerCase())
+                .forEach(usedNames::add);
+        players.stream()
+                .map(Player::getDisc)
+                .forEach(usedColors::add);
+        Arrays.stream(Disc.values())
+                .filter(d -> !usedColors.contains(d))
+                .forEach(d -> colorMap.put(d.ordinal() + 1, d));
+
+        int playerNumber = playerQueue.size() + 1;
         String name = askName(playerNumber);
         Disc color = askColor(playerNumber);
         return new Player(name, color, new HumanConsoleInputStrategy());
@@ -38,7 +49,6 @@ public class ConsolePlayerFactory implements PlayerFactory {
                 usedNames
         );
         String name = dialog.input();
-        usedNames.add(name.toLowerCase());
         return name;
     }
 
@@ -50,7 +60,6 @@ public class ConsolePlayerFactory implements PlayerFactory {
                 getAvailableColorKeys()
         );
         Disc color = colorMap.get(dialog.input() - '0');
-        usedColors.add(color);
         return color;
     }
 

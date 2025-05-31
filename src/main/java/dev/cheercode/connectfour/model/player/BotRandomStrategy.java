@@ -9,6 +9,11 @@ public class BotRandomStrategy implements MoveStrategy {
 
     @Override
     public int chooseColumn(Player player, Board board) {
-        return RANDOM.nextInt(board.getWidth());
+        int columnIndex = RANDOM.nextInt(board.getWidth());
+        while (board.isColumnFilled(columnIndex)) {
+            columnIndex = RANDOM.nextInt(board.getWidth());
+        }
+        System.out.printf("Игрок %s делает ход: %d\n", player.getName(), columnIndex + 1);
+        return columnIndex;
     }
 }
