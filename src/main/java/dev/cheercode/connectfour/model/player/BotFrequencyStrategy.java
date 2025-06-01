@@ -147,7 +147,6 @@ public class BotFrequencyStrategy implements MoveStrategy {
             if (row < 0) {
                 continue;
             }
-
 //            System.out.println();
 //            System.out.println("---------------------------------------------------------------");
 //            System.out.println("row-column= " + row + ":" + column);
