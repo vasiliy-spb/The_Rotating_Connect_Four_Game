@@ -13,6 +13,12 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class BotFrequencyStrategy implements MoveStrategy {
+
+    private static final int[][] DIRECTIONS = {
+            {-1, -1}, {-1, 0}, {-1, 1},
+            {0, -1}
+    };
+
     public static void main(String[] args) throws IOException {
 //        randomTest();
         customTest();
@@ -78,7 +84,7 @@ public class BotFrequencyStrategy implements MoveStrategy {
     @Override
     public int chooseColumn(Player player, Board board) {
         int[] lowestPositions = createLowestPositions(board);
-        int[] profit = calculateFrofitForLowestPositions(player.getDisc(), board, lowestPositions);
+        int[] profit = calculateProfitForLowestPositions(player.getDisc(), board, lowestPositions);
         return chooseMostProfitableColumn(profit);
     }
 
@@ -105,15 +111,11 @@ public class BotFrequencyStrategy implements MoveStrategy {
             }
             lowestPositions[column]--;
         }
-        System.out.println("Arrays.toString(lowestPositions) = " + Arrays.toString(lowestPositions));
+//        System.out.println("Arrays.toString(lowestPositions) = " + Arrays.toString(lowestPositions));
         return lowestPositions;
     }
 
-    private int[] calculateFrofitForLowestPositions(Disc disc, Board board, int[] lowestPositions) {
-        int[][] directions = {
-                {-1, -1}, {-1, 0}, {-1, 1},
-                {0, -1}
-        };
+    private int[] calculateProfitForLowestPositions(Disc disc, Board board, int[] lowestPositions) {
         int height = board.getHeight();
         int width = board.getWidth();
         int[][] frequencyMatrix = new int[height][width];
@@ -134,54 +136,43 @@ public class BotFrequencyStrategy implements MoveStrategy {
                 }
             }
         }
-        System.out.println("frequencyMatrix before");
-        printMatrix(frequencyMatrix);
-        System.out.println();
+
+//        System.out.println("frequencyMatrix before");
+//        printMatrix(frequencyMatrix);
+//        System.out.println();
+
         int[] profit = new int[width];
         for (int column = 0; column < width; column++) {
             int row = lowestPositions[column];
             if (row < 0) {
                 continue;
             }
-            System.out.println();
-            System.out.println("---------------------------------------------------------------");
-            System.out.println("row-column= " + row + ":" + column);
-            for (int[] direction : directions) {
-                System.out.print("Arrays.toString(direction) = " + Arrays.toString(direction) + " : ");
-//                if (!isValidDirection(row, column, direction, frequencyMatrix)) {
-//                    System.out.println(false);
-//                    continue;
-//                }
+
+//            System.out.println();
+//            System.out.println("---------------------------------------------------------------");
+//            System.out.println("row-column= " + row + ":" + column);
+
+            for (int[] direction : DIRECTIONS) {
+
+//                System.out.print("Arrays.toString(direction) = " + Arrays.toString(direction) + " : ");
 
                 CheckDirectionResult result = checkProfitForDirection(row, column, direction, frequencyMatrix);
                 if (result.length() < 4) {
-                    System.out.println(false);
+//                    System.out.println(false);
                     continue;
                 }
-                System.out.println(true);
+//                System.out.println(true);
                 profit[column] += result.profit();
-                System.out.println("prof = " + result.profit());
-                System.out.println();
+
+//                System.out.println("profit = " + result.profit());
+//                System.out.println();
             }
         }
 
-//        System.out.println("frequencyMatrix after");
-//        printMatrix(frequencyMatrix);
+//        System.out.println();
+//        System.out.println("Arrays.toString(profit) = " + Arrays.toString(profit));
 //        System.out.println();
 
-        for (int column = 0; column < width; column++) {
-            if (lowestPositions[column] >= 0) {
-                frequencyMatrix[lowestPositions[column]][column] = profit[column];
-            }
-        }
-
-        System.out.println();
-        System.out.println("Arrays.toString(profit) = " + Arrays.toString(profit));
-        System.out.println();
-
-        System.out.println("frequencyMatrix with profit");
-        printMatrix(frequencyMatrix);
-        System.out.println();
         return profit;
     }
 
@@ -218,11 +209,6 @@ public class BotFrequencyStrategy implements MoveStrategy {
             currentColumn += direction[1];
         }
 
-        System.out.println("leftLength = " + leftLength);
-        System.out.println("rightLength = " + rightLength);
-        System.out.println("leftProfit = " + leftProfit);
-        System.out.println("rightProfit = " + rightProfit);
-
         int totalLength = leftLength + rightLength + 1;
         int totalProfit = leftProfit + rightProfit + frequencyMatrix[row][column];
         if (totalLength > 4) {
@@ -233,25 +219,6 @@ public class BotFrequencyStrategy implements MoveStrategy {
 
     private boolean isValid(int row, int column, int height, int width) {
         return row >= 0 && row < height && column >= 0 && column < width;
-    }
-
-    private int chooseMostProfitableColumn(int[][] frequencyMatrix, int[] lowestPositions) {
-        int max = 0;
-        for (int column = 0; column < lowestPositions.length; column++) {
-            if (lowestPositions[column] < 0) {
-                continue;
-            }
-            max = Math.max(max, frequencyMatrix[lowestPositions[column]][column]);
-        }
-        for (int column = 0; column < lowestPositions.length; column++) {
-            if (lowestPositions[column] < 0) {
-                continue;
-            }
-            if (frequencyMatrix[lowestPositions[column]][column] == max) {
-                return column;
-            }
-        }
-        throw new IllegalStateException("Not a single column is chosen.");
     }
 
     private int chooseMostProfitableColumn(int[] profit) {
@@ -270,5 +237,3 @@ public class BotFrequencyStrategy implements MoveStrategy {
     ) {
     }
 }
-
-// 0, 4, 4, 17, 16, 27, 4, 15, 11, 0
