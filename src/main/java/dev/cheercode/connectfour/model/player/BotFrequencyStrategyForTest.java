@@ -8,15 +8,15 @@ public class BotFrequencyStrategyForTest {
         return new BotFrequencyStrategy().findColumnBottoms(board);
     }
 
-    public int[] calculateProfitForLowestPositions(Disc disc, Board board, int[] lowestPositions) {
-        return new BotFrequencyStrategy().calculateProfitForLowestPositions(disc, board, lowestPositions);
+    public int[] calculateScoresForColumnBottoms(Disc disc, Board board, int[] lowestPositions) {
+        return new BotFrequencyStrategy().calculateScoresForColumnBottoms(disc, board, lowestPositions);
     }
 
     public int[][] createFrequencyMatrix(Disc disc, Board board) {
-        return new BotFrequencyStrategy().createFrequencyMatrix(disc, board);
+        return new BotFrequencyStrategy().createScoreMatrix(disc, board);
     }
 
-    public BotFrequencyStrategy.DirectionProfit accumulateProfitForBothWayInDirection(int row, int column, int[] direction, int[][] frequencyMatrix) {
-        return new BotFrequencyStrategy().accumulateProfitForBothWayInDirection(row, column, direction, frequencyMatrix);
+    public BotFrequencyStrategy.LineScore accumulateProfitForBothWayInDirection(int row, int column, int[][] frequencyMatrix, int[] direction) {
+        return new BotFrequencyStrategy().evaluateLineScore(row, column, frequencyMatrix, direction);
     }
 }

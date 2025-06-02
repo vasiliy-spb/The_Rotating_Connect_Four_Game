@@ -7,6 +7,11 @@ import dev.cheercode.connectfour.model.board.Board;
 import java.util.Arrays;
 
 public class BotFrequencyStrategy implements MoveStrategy {
+    private static final int DISABLE_SLOT_SCORE = -1;
+    private static final int EMPTY_SLOT_SCORE = 1;
+    private static final int PLAYER_DISC_SCORE = 8;
+    private static final int OTHER_PLAYER_DISC_SCORE = -8;
+    private static final int MIN_LINE_SCORE_LENGTH = 4;
     private static final int[][] DIRECTIONS = {
             {-1, -1}, {-1, 0}, {-1, 1},
             {0, -1}
@@ -15,7 +20,7 @@ public class BotFrequencyStrategy implements MoveStrategy {
     @Override
     public int chooseColumn(Player player, Board board) {
         int[] columnBottoms = findColumnBottoms(board);
-        int[] profits = calculateProfitForLowestPositions(player.getDisc(), board, columnBottoms);
+        int[] profits = calculateScoresForColumnBottoms(player.getDisc(), board, columnBottoms);
         return chooseMostProfitableColumn(profits);
     }
 
@@ -56,59 +61,64 @@ public class BotFrequencyStrategy implements MoveStrategy {
     }
 
     @TestedByReflection
-    protected int[] calculateProfitForLowestPositions(Disc disc, Board board, int[] lowestPositions) {
-        int[][] frequencyMatrix = createFrequencyMatrix(disc, board);
-
-        int width = board.getWidth();
-        int[] profit = new int[width];
-        for (int column = 0; column < width; column++) {
-            int row = lowestPositions[column];
-            if (row < 0) {
-                continue;
-            }
-            for (int[] direction : DIRECTIONS) {
-                DirectionProfit result = accumulateProfitForBothWayInDirection(row, column, direction, frequencyMatrix);
-                if (result.length() < 4) {
-                    continue;
-                }
-                profit[column] += result.profit();
-            }
-        }
-        return profit;
+    protected int[] calculateScoresForColumnBottoms(Disc disc, Board board, int[] columnBottoms) {
+        int[][] scoreMatrix = createScoreMatrix(disc, board);
+        return calculateColumnBottomsScores(scoreMatrix, columnBottoms, board.getWidth());
     }
 
     @TestedByReflection
-    protected int[][] createFrequencyMatrix(Disc disc, Board board) {
+    protected int[][] createScoreMatrix(Disc playerDisc, Board board) {
         int height = board.getHeight();
         int width = board.getWidth();
-        int[][] frequencyMatrix = new int[height][width];
-        for (int row = 0; row < frequencyMatrix.length; row++) {
-            for (int column = 0; column < frequencyMatrix[0].length; column++) {
+        int[][] scoreMatrix = new int[height][width];
+        for (int row = 0; row < height; row++) {
+            for (int column = 0; column < width; column++) {
                 if (!board.isOnField(row, column)) {
-                    frequencyMatrix[row][column] = -1;
+                    scoreMatrix[row][column] = DISABLE_SLOT_SCORE;
                     continue;
                 }
                 if (board.isEmptySlot(row, column)) {
-                    frequencyMatrix[row][column] = 1;
+                    scoreMatrix[row][column] = EMPTY_SLOT_SCORE;
                     continue;
                 }
-                if (board.get(row, column) == disc) {
-                    frequencyMatrix[row][column] = 8;
+                if (board.get(row, column) == playerDisc) {
+                    scoreMatrix[row][column] = PLAYER_DISC_SCORE;
                 } else {
-                    frequencyMatrix[row][column] = -8;
+                    scoreMatrix[row][column] = OTHER_PLAYER_DISC_SCORE;
                 }
             }
         }
-        return frequencyMatrix;
+        return scoreMatrix;
+    }
+
+    private int[] calculateColumnBottomsScores(int[][] scoreMatrix, int[] columnBottoms, int width) {
+        int[] scores = new int[width];
+        for (int column = 0; column < width; column++) {
+            scores[column] = calculateScores(scoreMatrix, columnBottoms[column], column);
+        }
+        return scores;
+    }
+
+    private int calculateScores(int[][] scoreMatrix, int row, int column) {
+        int totalScore = 0;
+        for (int[] direction : DIRECTIONS) {
+            LineScore lineScore = evaluateLineScore(row, column, scoreMatrix, direction);
+            totalScore += getValidLineScore(lineScore);
+        }
+        return totalScore;
+    }
+
+    private int getValidLineScore(LineScore lineScore) {
+        return lineScore.length() >= MIN_LINE_SCORE_LENGTH ? lineScore.score() : 0;
     }
 
     @TestedByReflection
-    protected DirectionProfit accumulateProfitForBothWayInDirection(int row, int column, int[] direction, int[][] frequencyMatrix) {
+    protected LineScore evaluateLineScore(int row, int column, int[][] frequencyMatrix, int[] direction) {
         int currentRow = row;
         int currentColumn = column;
         int leftProfit = 0;
         int leftLength = 0;
-        while ((currentRow != row - direction[0] * 4 || currentColumn != column - direction[1] * 4) && isValid(currentRow, currentColumn, frequencyMatrix.length, frequencyMatrix[0].length)) {
+        while ((currentRow != row - direction[0] * MIN_LINE_SCORE_LENGTH || currentColumn != column - direction[1] * MIN_LINE_SCORE_LENGTH) && isValid(currentRow, currentColumn, frequencyMatrix.length, frequencyMatrix[0].length)) {
             if (frequencyMatrix[currentRow][currentColumn] < 0) {
                 break;
             }
@@ -124,7 +134,7 @@ public class BotFrequencyStrategy implements MoveStrategy {
         currentColumn = column;
         int rightProfit = 0;
         int rightLength = 0;
-        while ((currentRow != row + direction[0] * 4 || currentColumn != column + direction[1] * 4) && isValid(currentRow, currentColumn, frequencyMatrix.length, frequencyMatrix[0].length)) {
+        while ((currentRow != row + direction[0] * MIN_LINE_SCORE_LENGTH || currentColumn != column + direction[1] * MIN_LINE_SCORE_LENGTH) && isValid(currentRow, currentColumn, frequencyMatrix.length, frequencyMatrix[0].length)) {
             if (frequencyMatrix[currentRow][currentColumn] < 0) {
                 break;
             }
@@ -138,29 +148,29 @@ public class BotFrequencyStrategy implements MoveStrategy {
 
         int totalLength = leftLength + rightLength + 1;
         int totalProfit = leftProfit + rightProfit + frequencyMatrix[row][column];
-        if (totalLength > 4) {
+        if (totalLength > MIN_LINE_SCORE_LENGTH) {
             totalProfit += frequencyMatrix[row][column];
         }
-        return new DirectionProfit(totalLength, totalProfit);
+        return new LineScore(totalLength, totalProfit);
     }
 
     private boolean isValid(int row, int column, int height, int width) {
         return row >= 0 && row < height && column >= 0 && column < width;
     }
 
-    private int chooseMostProfitableColumn(int[] profit) {
-        int maxProfit = Arrays.stream(profit).max().getAsInt();
-        for (int column = 0; column < profit.length; column++) {
-            if (profit[column] == maxProfit) {
+    private int chooseMostProfitableColumn(int[] profits) {
+        int maxProfit = Arrays.stream(profits).max().getAsInt();
+        for (int column = 0; column < profits.length; column++) {
+            if (profits[column] == maxProfit) {
                 return column;
             }
         }
         throw new IllegalStateException("Not a single column is chosen.");
     }
 
-    protected record DirectionProfit(
+    protected record LineScore(
             int length,
-            int profit
+            int score
     ) {
     }
 }
