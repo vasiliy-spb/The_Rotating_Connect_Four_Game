@@ -3,6 +3,8 @@ package dev.cheercode.connectfour.model.player;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 
+import java.util.function.BinaryOperator;
+
 public class BotFrequencyStrategyForTest {
     public int[] findColumnBottoms(Board board) {
         return new BotFrequencyStrategy().findColumnBottoms(board);
@@ -16,7 +18,7 @@ public class BotFrequencyStrategyForTest {
         return new BotFrequencyStrategy().createScoreMatrix(disc, board);
     }
 
-    public BotFrequencyStrategy.LineScore accumulateProfitForBothWayInDirection(int row, int column, int[][] frequencyMatrix, int[] direction) {
-        return new BotFrequencyStrategy().evaluateLineScore(row, column, frequencyMatrix, direction);
+    public BotFrequencyStrategy.LineScore evaluateLineScore(int row, int column, int[][] scoreMatrix, int[] direction) {
+        return new BotFrequencyStrategy().evaluateLineScore(row, column, scoreMatrix, direction);
     }
 }
