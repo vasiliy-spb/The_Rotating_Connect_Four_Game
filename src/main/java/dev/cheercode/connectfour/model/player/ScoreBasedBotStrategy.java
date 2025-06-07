@@ -7,7 +7,7 @@ import dev.cheercode.connectfour.model.board.Board;
 import java.util.Arrays;
 import java.util.function.BinaryOperator;
 
-public class BotFrequencyStrategy implements MoveStrategy {
+public class ScoreBasedBotStrategy implements MoveStrategy {
     private static final int DISABLED_SLOT_SCORE = -1;
     private static final int EMPTY_SLOT_SCORE = 1;
     private static final int PLAYER_DISC_SCORE = 8;
@@ -26,7 +26,7 @@ public class BotFrequencyStrategy implements MoveStrategy {
     }
 
     @TestedByReflection
-    protected int[] findColumnBottoms(Board board) {
+    private int[] findColumnBottoms(Board board) {
         int width = board.getWidth();
         int[] columnBottoms = new int[width];
 
@@ -62,13 +62,13 @@ public class BotFrequencyStrategy implements MoveStrategy {
     }
 
     @TestedByReflection
-    protected int[] calculateScoresForColumnBottoms(Disc disc, Board board, int[] columnBottoms) {
+    private int[] calculateScoresForColumnBottoms(Disc disc, Board board, int[] columnBottoms) {
         int[][] scoreMatrix = createScoreMatrix(disc, board);
         return calculateAllScores(scoreMatrix, columnBottoms, board.getWidth());
     }
 
     @TestedByReflection
-    protected int[][] createScoreMatrix(Disc playerDisc, Board board) {
+    private int[][] createScoreMatrix(Disc playerDisc, Board board) {
         int height = board.getHeight();
         int width = board.getWidth();
         int[][] matrix = new int[height][width];
@@ -102,6 +102,9 @@ public class BotFrequencyStrategy implements MoveStrategy {
     }
 
     private int calculateScore(int[][] scoreMatrix, int row, int column) {
+        if (row < 0) {
+            return -1;
+        }
         int totalScore = 0;
         for (int[] direction : DIRECTIONS) {
             LineScore lineScore = evaluateLineScore(row, column, scoreMatrix, direction);
@@ -115,7 +118,7 @@ public class BotFrequencyStrategy implements MoveStrategy {
     }
 
     @TestedByReflection
-    protected LineScore evaluateLineScore(int row, int column, int[][] scoreMatrix, int[] direction) {
+    private LineScore evaluateLineScore(int row, int column, int[][] scoreMatrix, int[] direction) {
         LineScore left = evaluateScore(row, column, scoreMatrix, direction, (a, b) -> a - b);
         LineScore right = evaluateScore(row, column, scoreMatrix, direction, (a, b) -> a + b);
 
@@ -173,7 +176,7 @@ public class BotFrequencyStrategy implements MoveStrategy {
         throw new IllegalStateException("Not a single column is chosen.");
     }
 
-    protected record LineScore(
+    private record LineScore(
             int length,
             int score
     ) {

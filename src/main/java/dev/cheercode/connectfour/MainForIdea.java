@@ -10,7 +10,8 @@ import dev.cheercode.connectfour.renderer.renderer_for_idea.color.BackgroundColo
 public class MainForIdea {
     public static void main(String[] args) {
         PlayerFactory playerFactory = new ConsolePlayerFactory();
-        PlayerFactory botFactory = new RandomBotFactory();
+//        PlayerFactory botFactory = new RandomBotFactory();
+        PlayerFactory botFactory = new ScoreBasedBotFactory();
         Renderer renderer = new RendererForIdea();
         BoardSizeFactory boardSizeFactory = new ConsoleBoardSizeFactory();
         BoardShapeSelector boardShapeSelector = new BoardShapeSelector(BackgroundColor.BLUE);

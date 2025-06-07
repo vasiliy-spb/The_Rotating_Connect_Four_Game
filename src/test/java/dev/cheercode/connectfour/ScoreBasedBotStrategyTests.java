@@ -3,7 +3,8 @@ package dev.cheercode.connectfour;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.DefaultBoardState;
-import dev.cheercode.connectfour.model.player.BotFrequencyStrategyForTest;
+import dev.cheercode.connectfour.model.board.Direction;
+import dev.cheercode.connectfour.model.player.ScoreBasedBotStrategy;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class BotFrequencyStrategyTests {
+public class ScoreBasedBotStrategyTests {
 
     private final Renderer renderer = new RendererForIdea();
 
@@ -32,14 +33,13 @@ public class BotFrequencyStrategyTests {
         renderer.show(board);
 
         int[] expected = {-1, 0, 2, 5, 3, 3, 5, 2, 1, -1};
-        int[] columnBottoms = new BotFrequencyStrategyForTest().findColumnBottoms(board);
-
-//                TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "findColumnBottoms",
-//                new Class[]{Board.class},
-//                board
-//        );
+        int[] columnBottoms = 
+                TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "findColumnBottoms",
+                new Class[]{Board.class},
+                board
+        );
         assertArrayEquals(expected, columnBottoms);
     }
 
@@ -56,13 +56,12 @@ public class BotFrequencyStrategyTests {
         renderer.show(board);
 
         int[] expected = {-1, -1, 6, 6, 0, 0, 6, 6, 0, -1};
-        int[] columnBottoms = new BotFrequencyStrategyForTest().findColumnBottoms(board);
-//        int[] columnBottoms = TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "findColumnBottoms",
-//                new Class[]{Board.class},
-//                board
-//        );
+        int[] columnBottoms = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "findColumnBottoms",
+                new Class[]{Board.class},
+                board
+        );
         assertArrayEquals(expected, columnBottoms);
     }
 
@@ -81,13 +80,12 @@ public class BotFrequencyStrategyTests {
         renderer.show(board);
 
         int[] expected = {1, 1, 2, 2, -1, -1, 1, -1, 2, 1};
-        int[] columnBottoms = new BotFrequencyStrategyForTest().findColumnBottoms(board);
-//        int[] columnBottoms = TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "findColumnBottoms",
-//                new Class[]{Board.class},
-//                board
-//        );
+        int[] columnBottoms = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "findColumnBottoms",
+                new Class[]{Board.class},
+                board
+        );
         assertArrayEquals(expected, columnBottoms);
     }
 
@@ -106,13 +104,12 @@ public class BotFrequencyStrategyTests {
         renderer.show(board);
 
         int[] expected = {-1, -1, 4, 5, 6, 6, 4, -1, 3, -1};
-        int[] columnBottoms = new BotFrequencyStrategyForTest().findColumnBottoms(board);
-//        int[] columnBottoms = TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "findColumnBottoms",
-//                new Class[]{Board.class},
-//                board
-//        );
+        int[] columnBottoms = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "findColumnBottoms",
+                new Class[]{Board.class},
+                board
+        );
         System.out.println("Arrays.toString(columnBottoms) = " + Arrays.toString(columnBottoms));
         assertArrayEquals(expected, columnBottoms);
     }
@@ -138,13 +135,12 @@ public class BotFrequencyStrategyTests {
                 {-1, 1, 1, 1, -1, -1, 1, 1, 1, -1},
                 {1, 1, 1, -1, -1, -1, -1, 1, 1, 1}
         };
-        int[][] frequencyMatrix = new BotFrequencyStrategyForTest().createFrequencyMatrix(Disc.YELLOW, board);
-//        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "createFrequencyMatrix",
-//                new Class[]{Disc.class, Board.class},
-//                new Object[]{Disc.YELLOW, board}
-//        );
+        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "createScoreMatrix",
+                new Class[]{Disc.class, Board.class},
+                new Object[]{Disc.YELLOW, board}
+        );
         printMatrix(frequencyMatrix);
         assertArrayEquals(expected, frequencyMatrix);
     }
@@ -170,13 +166,12 @@ public class BotFrequencyStrategyTests {
                 {-1, -1, 1, 1, 1, 1, 1, 1, -1, -1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         };
-        int[][] frequencyMatrix = new BotFrequencyStrategyForTest().createFrequencyMatrix(Disc.YELLOW, board);
-//        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "createFrequencyMatrix",
-//                new Class[]{Disc.class, Board.class},
-//                new Object[]{Disc.YELLOW, board}
-//        );
+        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "createScoreMatrix",
+                new Class[]{Disc.class, Board.class},
+                new Object[]{Disc.YELLOW, board}
+        );
         printMatrix(frequencyMatrix);
         assertArrayEquals(expected, frequencyMatrix);
     }
@@ -204,13 +199,12 @@ public class BotFrequencyStrategyTests {
                 {1, 1, 1, 1, -1, -1, 1, 1, 1, 1},
                 {1, 1, 1, 1, -1, -1, 1, 1, 1, 1}
         };
-        int[][] frequencyMatrix = new BotFrequencyStrategyForTest().createFrequencyMatrix(Disc.YELLOW, board);
-//        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "createFrequencyMatrix",
-//                new Class[]{Disc.class, Board.class},
-//                new Object[]{Disc.YELLOW, board}
-//        );
+        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "createScoreMatrix",
+                new Class[]{Disc.class, Board.class},
+                new Object[]{Disc.YELLOW, board}
+        );
         printMatrix(frequencyMatrix);
         assertArrayEquals(expected, frequencyMatrix);
     }
@@ -238,13 +232,12 @@ public class BotFrequencyStrategyTests {
                 {-1, -1, -1, 1, 1, 1, 8, -1, -1, -1},
                 {-1, -1, -1, -1, 1, 1, -1, -1, -1, -1}
         };
-        int[][] frequencyMatrix = new BotFrequencyStrategyForTest().createFrequencyMatrix(Disc.YELLOW, board);
-//        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "createFrequencyMatrix",
-//                new Class[]{Disc.class, Board.class},
-//                new Object[]{Disc.YELLOW, board}
-//        );
+        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "createScoreMatrix",
+                new Class[]{Disc.class, Board.class},
+                new Object[]{Disc.YELLOW, board}
+        );
         printMatrix(frequencyMatrix);
         assertArrayEquals(expected, frequencyMatrix);
     }
@@ -278,13 +271,12 @@ public class BotFrequencyStrategyTests {
                 {-1, -1, -1, 1, 1, 1, 8, -1, -1, -1},
                 {-1, -1, -1, -1, 1, 1, -1, -1, -1, -1}
         };
-        int[][] frequencyMatrix = new BotFrequencyStrategyForTest().createFrequencyMatrix(Disc.YELLOW, board);
-//        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "createFrequencyMatrix",
-//                new Class[]{Disc.class, Board.class},
-//                new Object[]{Disc.YELLOW, board}
-//        );
+        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "createScoreMatrix",
+                new Class[]{Disc.class, Board.class},
+                new Object[]{Disc.YELLOW, board}
+        );
         printMatrix(frequencyMatrix);
         assertArrayEquals(expected, frequencyMatrix);
     }
@@ -317,13 +309,64 @@ public class BotFrequencyStrategyTests {
                 {-1, -1, -1, 1, 1, 1, 8, -1, -1, -1},
                 {-1, -1, -1, -1, 1, 1, -1, -1, -1, -1}
         };
-        int[][] frequencyMatrix = new BotFrequencyStrategyForTest().createFrequencyMatrix(Disc.YELLOW, board);
-//        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
-//                new BotFrequencyStrategy(),
-//                "createFrequencyMatrix",
-//                new Class[]{Disc.class, Board.class},
-//                new Object[]{Disc.YELLOW, board}
-//        );
+        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "createScoreMatrix",
+                new Class[]{Disc.class, Board.class},
+                new Object[]{Disc.YELLOW, board}
+        );
+        printMatrix(frequencyMatrix);
+        assertArrayEquals(expected, frequencyMatrix);
+    }
+
+    @Test
+    public void test() throws Exception {
+        Board board = createBoardWith(27, Board.Size.ROW7_COLUMN8);
+
+        board.drop(2, Disc.YELLOW);
+        board.drop(3, Disc.GREEN);
+        board.rotate(Direction.RIGHT);
+
+        board.drop(3, Disc.YELLOW);
+        board.drop(3, Disc.GREEN);
+        board.rotate(Direction.UPSIDE_DOWN);
+
+        board.drop(1, Disc.YELLOW);
+        board.drop(3, Disc.GREEN);
+        board.drop(3, Disc.YELLOW);
+        board.drop(1, Disc.GREEN);
+        board.drop(1, Disc.YELLOW);
+        board.rotate(Direction.LEFT);
+
+        board.drop(6, Disc.GREEN);
+        board.drop(1, Disc.YELLOW);
+        board.drop(1, Disc.GREEN);
+        board.drop(0, Disc.YELLOW);
+        board.drop(7, Disc.GREEN);
+        board.drop(7, Disc.YELLOW);
+
+        board.rotate(Direction.LEFT);
+
+
+        renderer.show(board);
+
+        // выгоднее положит диск в index == 5
+
+        int[][] expected = {
+                {-1, -1, -1, -1, 1, 1, -1, -1, -1, -1},
+                {-1, -1, -1, 1, 1, 1, 1, -1, -1, -1},
+                {-1, -1, 1, 1, 1, 1, 1, -8, -1, -1},
+                {8, -8, 1, 1, 1, 1, 1, -8, 1, 8},
+                {-1, -1, 1, 1, 1, 1, 1, -8, -1, -1},
+                {-1, -1, -1, 1, 1, 1, 8, -1, -1, -1},
+                {-1, -1, -1, -1, 1, 1, -1, -1, -1, -1}
+        };
+        int[][] frequencyMatrix = TestAccessHelper.callPrivateMethod(
+                new ScoreBasedBotStrategy(),
+                "createScoreMatrix",
+                new Class[]{Disc.class, Board.class},
+                new Object[]{Disc.YELLOW, board}
+        );
         printMatrix(frequencyMatrix);
         assertArrayEquals(expected, frequencyMatrix);
     }
