@@ -4,7 +4,7 @@ import dev.cheercode.connectfour.model.board.Board;
 
 import java.util.Random;
 
-public class BotRandomStrategy implements MoveStrategy {
+public class RandomBotStrategy implements MoveStrategy {
     private static final Random RANDOM = new Random();
 
     @Override
