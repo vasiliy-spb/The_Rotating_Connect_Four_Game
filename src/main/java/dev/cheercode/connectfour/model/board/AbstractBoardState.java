@@ -15,7 +15,7 @@ public abstract class AbstractBoardState implements BoardState {
         this.grid = new Disc[height][width];
         this.mask = new boolean[height][width];
         this.rowPosition = new int[width];
-        initMask(height, width, mask);
+        initRowPositions(height, width, mask);
     }
 
     public AbstractBoardState(Board.Size size, boolean[][] mask) {
@@ -24,21 +24,37 @@ public abstract class AbstractBoardState implements BoardState {
         this.grid = new Disc[height][width];
         this.mask = mask;
         this.rowPosition = new int[width];
-        initMask(height, width, mask);
+        initRowPositions(height, width, mask);
     }
 
-    private void initMask(int height, int width, boolean[][] mask) {
+    private void initRowPositions(int height, int width, boolean[][] mask) {
         for (int column = 0; column < width; column++) {
-            while (rowPosition[column] < height && !mask[rowPosition[column]][column]) {
+            while (shouldMoveDownThroughDisableSlots(rowPosition[column], column, mask)) {
                 rowPosition[column]++;
             }
-            for (int row = rowPosition[column]; row < height; row++) {
-                if (!mask[row][column]) {
-                    break;
-                }
-                rowPosition[column] = row;
+            rowPosition[column] %= height;
+
+            while (shouldMoveDownThroughEmptySlots(rowPosition[column], column, mask)) {
+                rowPosition[column]++;
+            }
+            rowPosition[column]--;
+
+            while (shouldMoveUpThroughDisableSlots(rowPosition[column], column, mask)) {
+                rowPosition[column]--;
             }
         }
+    }
+
+    private boolean shouldMoveDownThroughDisableSlots(int row, int column, boolean[][] mask) {
+        return row < mask.length && !mask[row][column];
+    }
+
+    private boolean shouldMoveDownThroughEmptySlots(int row, int column, boolean[][] mask) {
+        return row < mask.length && mask[row][column];
+    }
+
+    private boolean shouldMoveUpThroughDisableSlots(int row, int column, boolean[][] mask) {
+        return row >= 0 && !mask[row][column];
     }
 
     @Override
@@ -134,7 +150,8 @@ public abstract class AbstractBoardState implements BoardState {
     protected void applyGravity() {
         for (int column = 0; column < width; column++) {
             applyGravityTo(column);
-            while (rowPosition[column] >= 0 && !mask[rowPosition[column]][column]) {
+            while (rowPosition[column] >= 0
+                   && !mask[rowPosition[column]][column]) {
                 rowPosition[column]--;
             }
         }

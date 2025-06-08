@@ -1,10 +1,10 @@
 package dev.cheercode.connectfour;
 
-import dev.cheercode.connectfour.factory.FromFileBoardFactory;
+import dev.cheercode.connectfour.factory.board.FromFileBoardFactory;
 import dev.cheercode.connectfour.game.Game;
 import dev.cheercode.connectfour.game.PlayerQueue;
 import dev.cheercode.connectfour.model.Disc;
-import dev.cheercode.connectfour.model.player.HumanConsoleInputStrategy;
+import dev.cheercode.connectfour.model.player.move_strategy.HumanConsoleInputStrategy;
 import dev.cheercode.connectfour.model.player.Player;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.renderer.Renderer;

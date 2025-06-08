@@ -1,17 +1,19 @@
-package dev.cheercode.connectfour.factory;
+package dev.cheercode.connectfour.factory.player;
 
 import dev.cheercode.connectfour.game.PlayerQueue;
 import dev.cheercode.connectfour.model.Disc;
-import dev.cheercode.connectfour.model.player.BotRandomStrategy;
 import dev.cheercode.connectfour.model.player.Player;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class RandomBotFactory implements PlayerFactory {
+public abstract class AbstractBotFactory implements PlayerFactory {
     private final Random random;
 
-    public RandomBotFactory() {
+    public AbstractBotFactory() {
         this.random = new Random();
     }
 
@@ -31,6 +33,8 @@ public class RandomBotFactory implements PlayerFactory {
 
         int diskIndex = random.nextInt(availableDiscs.size());
         Disc disc = availableDiscs.get(diskIndex);
-        return new Player(disc, new BotRandomStrategy());
+        return createBot(disc);
     }
+
+    protected abstract Player createBot(Disc disc);
 }

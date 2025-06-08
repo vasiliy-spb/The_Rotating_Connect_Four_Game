@@ -2,6 +2,7 @@ package dev.cheercode.connectfour.model.player;
 
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.model.player.move_strategy.MoveStrategy;
 
 public class Player {
     private final String name;

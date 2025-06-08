@@ -3,6 +3,8 @@ package dev.cheercode.connectfour.game;
 import dev.cheercode.connectfour.dialog.Dialog;
 import dev.cheercode.connectfour.dialog.impl.IntegerMinMaxDialog;
 import dev.cheercode.connectfour.factory.*;
+import dev.cheercode.connectfour.factory.board.FromShapeBoardFactory;
+import dev.cheercode.connectfour.factory.player.PlayerFactory;
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.renderer.Renderer;

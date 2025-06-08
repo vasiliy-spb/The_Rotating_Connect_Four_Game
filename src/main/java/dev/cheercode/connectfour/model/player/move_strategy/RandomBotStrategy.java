@@ -1,10 +1,11 @@
-package dev.cheercode.connectfour.model.player;
+package dev.cheercode.connectfour.model.player.move_strategy;
 
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.model.player.Player;
 
 import java.util.Random;
 
-public class BotRandomStrategy implements MoveStrategy {
+public class RandomBotStrategy implements MoveStrategy {
     private static final Random RANDOM = new Random();
 
     @Override
