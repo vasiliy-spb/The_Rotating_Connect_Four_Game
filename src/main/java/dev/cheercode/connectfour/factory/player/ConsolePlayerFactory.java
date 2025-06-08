@@ -1,11 +1,11 @@
-package dev.cheercode.connectfour.factory;
+package dev.cheercode.connectfour.factory.player;
 
 import dev.cheercode.connectfour.dialog.Dialog;
 import dev.cheercode.connectfour.dialog.impl.CharacterDialog;
 import dev.cheercode.connectfour.dialog.impl.StringDialog;
 import dev.cheercode.connectfour.game.PlayerQueue;
 import dev.cheercode.connectfour.model.Disc;
-import dev.cheercode.connectfour.model.player.HumanConsoleInputStrategy;
+import dev.cheercode.connectfour.model.player.move_strategy.HumanConsoleInputStrategy;
 import dev.cheercode.connectfour.model.player.Player;
 
 import java.util.*;

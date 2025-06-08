@@ -1,6 +1,7 @@
 package dev.cheercode.connectfour;
 
 import dev.cheercode.connectfour.factory.*;
+import dev.cheercode.connectfour.factory.player.*;
 import dev.cheercode.connectfour.game.BoardShapeSelector;
 import dev.cheercode.connectfour.game.GameStarter;
 import dev.cheercode.connectfour.renderer.Renderer;

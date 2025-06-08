@@ -1,7 +1,7 @@
-package dev.cheercode.connectfour.factory;
+package dev.cheercode.connectfour.factory.player;
 
 import dev.cheercode.connectfour.model.Disc;
-import dev.cheercode.connectfour.model.player.RandomBotStrategy;
+import dev.cheercode.connectfour.model.player.move_strategy.RandomBotStrategy;
 import dev.cheercode.connectfour.model.player.Player;
 
 public class RandomBotFactory extends AbstractBotFactory {

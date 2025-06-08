@@ -1,6 +1,7 @@
-package dev.cheercode.connectfour.model.player;
+package dev.cheercode.connectfour.model.player.move_strategy;
 
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.model.player.Player;
 
 import java.util.Random;
 

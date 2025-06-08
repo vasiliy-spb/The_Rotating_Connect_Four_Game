@@ -4,6 +4,8 @@ import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.model.board.Direction;
+import dev.cheercode.connectfour.model.player.move_strategy.BlockingScoreBasedBotStrategy;
+import dev.cheercode.connectfour.model.player.move_strategy.VictoryScoreBasedBotStrategy;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 import org.junit.jupiter.api.Test;
@@ -79,8 +81,8 @@ public class BotStrategyTests {
         // exception
         /*
         java.lang.IllegalStateException: Not a single column is chosen.
-        at dev.cheercode.connectfour.model.player.AbstractScoreBasedBotStrategy.chooseMostProfitableColumn(AbstractScoreBasedBotStrategy.java:79)
-	at dev.cheercode.connectfour.model.player.AbstractScoreBasedBotStrategy.chooseColumn(AbstractScoreBasedBotStrategy.java:31)
+        at dev.cheercode.connectfour.model.player.move_strategy.AbstractScoreBasedBotStrategy.chooseMostProfitableColumn(AbstractScoreBasedBotStrategy.java:79)
+	at dev.cheercode.connectfour.model.player.move_strategy.AbstractScoreBasedBotStrategy.chooseColumn(AbstractScoreBasedBotStrategy.java:31)
 	at dev.cheercode.connectfour.model.player.Player.makeMove(Player.java:24)
 	at dev.cheercode.connectfour.game.Game.askColumnIndex(Game.java:128)
 	at dev.cheercode.connectfour.game.Game.makeMove(Game.java:78)

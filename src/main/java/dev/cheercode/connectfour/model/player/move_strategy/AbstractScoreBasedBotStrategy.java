@@ -1,7 +1,10 @@
-package dev.cheercode.connectfour.model.player;
+package dev.cheercode.connectfour.model.player.move_strategy;
 
 import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.model.player.BoardAnalyzer;
+import dev.cheercode.connectfour.model.player.Player;
+import dev.cheercode.connectfour.model.player.PositionEvaluator;
 
 import java.util.Set;
 

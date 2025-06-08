@@ -1,8 +1,9 @@
-package dev.cheercode.connectfour.model.player;
+package dev.cheercode.connectfour.model.player.move_strategy;
 
 import dev.cheercode.connectfour.dialog.Dialog;
 import dev.cheercode.connectfour.dialog.impl.IntegerMinMaxDialog;
 import dev.cheercode.connectfour.model.board.Board;
+import dev.cheercode.connectfour.model.player.Player;
 
 public class HumanConsoleInputStrategy implements MoveStrategy {
     private static final String DIALOG_TITLE_TEMPLATE = "%s, сделайте ход (%d - %d)\n";

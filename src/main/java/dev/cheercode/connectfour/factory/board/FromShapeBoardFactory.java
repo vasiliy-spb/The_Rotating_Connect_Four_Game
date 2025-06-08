@@ -1,4 +1,4 @@
-package dev.cheercode.connectfour.factory;
+package dev.cheercode.connectfour.factory.board;
 
 import dev.cheercode.connectfour.game.BoardShapeSelector;
 import dev.cheercode.connectfour.model.board.Board;

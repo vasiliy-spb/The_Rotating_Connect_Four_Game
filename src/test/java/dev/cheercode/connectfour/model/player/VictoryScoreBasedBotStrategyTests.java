@@ -4,6 +4,7 @@ import dev.cheercode.connectfour.model.Disc;
 import dev.cheercode.connectfour.model.board.Board;
 import dev.cheercode.connectfour.model.board.DefaultBoardState;
 import dev.cheercode.connectfour.model.board.Direction;
+import dev.cheercode.connectfour.model.player.move_strategy.VictoryScoreBasedBotStrategy;
 import dev.cheercode.connectfour.renderer.Renderer;
 import dev.cheercode.connectfour.renderer.renderer_for_idea.RendererForIdea;
 import org.junit.jupiter.api.Test;
