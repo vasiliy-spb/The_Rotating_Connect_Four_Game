@@ -11,7 +11,7 @@ public class MainForIdea {
     public static void main(String[] args) {
         PlayerFactory playerFactory = new ConsolePlayerFactory();
 //        PlayerFactory botFactory = new RandomBotFactory();
-        PlayerFactory botFactory = new ScoreBasedBotFactory();
+        PlayerFactory botFactory = new VictoryScoreBasedBotFactory();
         Renderer renderer = new RendererForIdea();
         BoardSizeFactory boardSizeFactory = new ConsoleBoardSizeFactory();
         BoardShapeSelector boardShapeSelector = new BoardShapeSelector(BackgroundColor.BLUE);
