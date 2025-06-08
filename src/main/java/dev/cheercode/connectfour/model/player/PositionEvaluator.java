@@ -18,7 +18,7 @@ public class PositionEvaluator {
     }
 
     public int[] calculateScoresFor(Disc disc, int[] positions, Board board) {
-        int[][] scoreMatrix = matrixBuilder.create(disc, board);
+        int[][] scoreMatrix = matrixBuilder.create(disc, board, positions);
         return calculateAllScores(scoreMatrix, positions);
     }
 
