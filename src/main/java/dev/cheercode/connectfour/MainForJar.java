@@ -10,6 +10,8 @@ import org.fusesource.jansi.AnsiConsole;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Random;
 
 public class MainForJar {
     public static void main(String[] args) {
@@ -24,7 +26,7 @@ public class MainForJar {
             AnsiConsole.systemInstall();
 
             PlayerFactory playerFactory = new ConsolePlayerFactory();
-            PlayerFactory botFactory = new RandomBotFactory();
+            PlayerFactory botFactory = selectRandomFactory();
             Renderer renderer = new RendererForJar();
             BoardSizeFactory boardSizeFactory = new ConsoleBoardSizeFactory();
             BoardShapeSelector boardShapeSelector = new BoardShapeSelector(BackgroundColor.CYAN);
@@ -49,5 +51,17 @@ public class MainForJar {
         } catch (Exception e) {
             System.err.println("Ошибка смены кодовой страницы: " + e.getMessage());
         }
+    }
+
+    private static PlayerFactory selectRandomFactory() {
+        List<PlayerFactory> factories = List.of(
+                new RandomBotFactory(),
+                new VictoryScoreBasedBotFactory(),
+                new BlockingScoreBasedBotFactory(),
+                new ScoreBasedBotFactory()
+        );
+        Random random = new Random();
+        int factoryIndex = random.nextInt(factories.size());
+        return factories.get(factoryIndex);
     }
 }
