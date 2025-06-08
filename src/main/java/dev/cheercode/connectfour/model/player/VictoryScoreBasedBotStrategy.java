@@ -4,11 +4,11 @@ import dev.cheercode.connectfour.model.board.Board;
 
 import java.util.Arrays;
 
-public class ScoreBasedBotStrategy implements MoveStrategy {
+public class VictoryScoreBasedBotStrategy implements MoveStrategy {
     private final BoardAnalyzer boardAnalyzer;
     private final PositionEvaluator positionEvaluator;
 
-    public ScoreBasedBotStrategy() {
+    public VictoryScoreBasedBotStrategy() {
         this.boardAnalyzer = new BoardAnalyzer();
         this.positionEvaluator = new PositionEvaluator();
     }

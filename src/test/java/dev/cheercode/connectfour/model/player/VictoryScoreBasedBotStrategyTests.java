@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ScoreBasedBotStrategyTests {
+public class VictoryScoreBasedBotStrategyTests {
 
     private final Renderer renderer = new RendererForIdea();
 
@@ -32,7 +32,7 @@ public class ScoreBasedBotStrategyTests {
 
         int expected = 5;
 
-        Player bot = new Player(Disc.YELLOW, new ScoreBasedBotStrategy());
+        Player bot = new Player(Disc.YELLOW, new VictoryScoreBasedBotStrategy());
 
         int selected = bot.makeMove(board);
 
@@ -53,7 +53,7 @@ public class ScoreBasedBotStrategyTests {
 
         int expected = 5;
 
-        Player bot = new Player(Disc.YELLOW, new ScoreBasedBotStrategy());
+        Player bot = new Player(Disc.YELLOW, new VictoryScoreBasedBotStrategy());
 
         int selected = bot.makeMove(board);
 
@@ -76,7 +76,7 @@ public class ScoreBasedBotStrategyTests {
 
         int expected = 0;
 
-        Player bot = new Player(Disc.YELLOW, new ScoreBasedBotStrategy());
+        Player bot = new Player(Disc.YELLOW, new VictoryScoreBasedBotStrategy());
 
         int selected = bot.makeMove(board);
 
@@ -99,7 +99,7 @@ public class ScoreBasedBotStrategyTests {
 
         int expected = 6;
 
-        Player bot = new Player(Disc.YELLOW, new ScoreBasedBotStrategy());
+        Player bot = new Player(Disc.YELLOW, new VictoryScoreBasedBotStrategy());
 
         int selected = bot.makeMove(board);
 
@@ -123,7 +123,7 @@ public class ScoreBasedBotStrategyTests {
 
         int expected = 8;
 
-        Player bot = new Player(Disc.YELLOW, new ScoreBasedBotStrategy());
+        Player bot = new Player(Disc.YELLOW, new VictoryScoreBasedBotStrategy());
 
         int selected = bot.makeMove(board);
 
@@ -146,7 +146,7 @@ public class ScoreBasedBotStrategyTests {
 
         int expected = 5;
 
-        Player bot = new Player(Disc.YELLOW, new ScoreBasedBotStrategy());
+        Player bot = new Player(Disc.YELLOW, new VictoryScoreBasedBotStrategy());
 
         int selected = bot.makeMove(board);
 
@@ -168,7 +168,7 @@ public class ScoreBasedBotStrategyTests {
 
         int expected = 4;
 
-        Player bot = new Player(Disc.YELLOW, new ScoreBasedBotStrategy());
+        Player bot = new Player(Disc.YELLOW, new VictoryScoreBasedBotStrategy());
 
         int selected = bot.makeMove(board);
 
@@ -198,7 +198,7 @@ public class ScoreBasedBotStrategyTests {
 
         int expected = 6;
 
-        Player bot = new Player(Disc.YELLOW, new ScoreBasedBotStrategy());
+        Player bot = new Player(Disc.YELLOW, new VictoryScoreBasedBotStrategy());
 
         int selected = bot.makeMove(board);
 
@@ -225,7 +225,7 @@ public class ScoreBasedBotStrategyTests {
 
         int expected = 3;
 
-        Player bot = new Player(Disc.BLACK, new ScoreBasedBotStrategy());
+        Player bot = new Player(Disc.BLACK, new VictoryScoreBasedBotStrategy());
 
         int selected = bot.makeMove(board);
 
