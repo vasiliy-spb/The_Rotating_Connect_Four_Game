@@ -157,10 +157,19 @@ public class VictoryScoreBasedBotStrategyTests {
     public void test07() {
         Board board = createBoardWith(19, Board.Size.ROW7_COLUMN10);
 
+        board.rotate(Direction.LEFT);
+        board.drop(4, Disc.WHITE);
+        board.drop(4, Disc.WHITE);
+        board.drop(4, Disc.GREEN);
+        board.drop(4, Disc.WHITE);
+        board.rotate(Direction.RIGHT);
+
         board.drop(7, Disc.YELLOW);
         board.drop(0, Disc.YELLOW);
         board.drop(1, Disc.YELLOW);
         board.drop(3, Disc.WHITE);
+        board.drop(4, Disc.CYAN);
+        board.drop(4, Disc.YELLOW);
         board.drop(4, Disc.CYAN);
         board.drop(4, Disc.YELLOW);
 

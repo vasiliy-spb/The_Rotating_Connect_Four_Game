@@ -33,11 +33,13 @@ public class ScoreMatrixBuilderTests {
                 {-1, -8, 1, 1, -1, -1, 1, 1, 1, -1},
                 {-1, -1, 1, 1, 1, 1, 1, 1, -1, -1},
                 {-1, -1, -1, 1, 1, 1, 1, -1, -1, -1},
-                {-1, -1, 1, 1, 8, -8, 1, 1, -1, -1},
-                {-1, 1, 1, 1, -1, -1, 1, 1, 1, -1},
-                {1, 1, 1, -1, -1, -1, -1, 1, 1, 1}
+                {-1, -1, 0, 1, 8, -8, 1, 0, -1, -1},
+                {-1, 0, 0, 1, -1, -1, 1, 0, 0, -1},
+                {0, 0, 0, -1, -1, -1, -1, 0, 0, 0}
         };
-        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board);
+
+        int[] positions = new BoardAnalyzer().findColumnBottoms(board);
+        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board, positions);
 
         printMatrix(scoreMatrix);
         assertArrayEquals(expected, scoreMatrix);
@@ -58,13 +60,14 @@ public class ScoreMatrixBuilderTests {
         int[][] expected = {
                 {8, -8, 1, 1, 1, 1, 1, 1, 1, 8},
                 {-1, -1, 1, 1, 8, -8, 1, 1, -1, -1},
-                {1, 1, 1, 1, -1, -1, 1, 1, 1, 1},
-                {-1, -1, 1, 1, 1, 1, 1, 1, -1, -1},
-                {1, 1, 1, 1, -1, -1, 1, 1, 1, 1},
-                {-1, -1, 1, 1, 1, 1, 1, 1, -1, -1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {0, 0, 1, 1, -1, -1, 1, 1, 0, 0},
+                {-1, -1, 1, 1, 0, 0, 1, 1, -1, -1},
+                {0, 0, 1, 1, -1, -1, 1, 1, 0, 0},
+                {-1, -1, 1, 1, 0, 0, 1, 1, -1, -1},
+                {0, 0, 1, 1, 0, 0, 1, 1, 0, 0},
         };
-        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board);
+        int[] positions = new BoardAnalyzer().findColumnBottoms(board);
+        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board, positions);
 
         printMatrix(scoreMatrix);
         assertArrayEquals(expected, scoreMatrix);
@@ -89,11 +92,12 @@ public class ScoreMatrixBuilderTests {
                 {1, 1, 1, 1, -1, -1, 1, -8, 1, 1},
                 {8, -8, 1, 1, -1, -1, 8, -8, 1, 8},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {1, 1, 1, 1, -1, -1, 1, 1, 1, 1},
-                {1, 1, 1, 1, -1, -1, 1, 1, 1, 1},
-                {1, 1, 1, 1, -1, -1, 1, 1, 1, 1}
+                {0, 0, 0, 0, -1, -1, 0, 0, 0, 0},
+                {0, 0, 0, 0, -1, -1, 0, 0, 0, 0},
+                {0, 0, 0, 0, -1, -1, 0, 0, 0, 0}
         };
-        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board);
+        int[] positions = new BoardAnalyzer().findColumnBottoms(board);
+        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board, positions);
 
         printMatrix(scoreMatrix);
         assertArrayEquals(expected, scoreMatrix);
@@ -122,7 +126,8 @@ public class ScoreMatrixBuilderTests {
                 {-1, -1, -1, 1, 1, 1, 8, -1, -1, -1},
                 {-1, -1, -1, -1, 1, 1, -1, -1, -1, -1}
         };
-        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board);
+        int[] positions = new BoardAnalyzer().findColumnBottoms(board);
+        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board, positions);
 
         printMatrix(scoreMatrix);
         assertArrayEquals(expected, scoreMatrix);
@@ -146,13 +151,14 @@ public class ScoreMatrixBuilderTests {
         int[][] expected = {
                 {8, 8, 1, -8, 1, 1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, 1, 1, 8, 8, 1, 1},
-                {1, 1, 1, 1, 1, 1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, 8, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, -8, 8, -1, -1, -1, -1},
+                {0, 0, 0, 0, 1, 1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, 1, 1, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, 8, 1, 0, 0, 0, 0},
+                {0, 0, 0, 0, -8, 8, -1, -1, -1, -1},
         };
-        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board);
+        int[] positions = new BoardAnalyzer().findColumnBottoms(board);
+        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board, positions);
 
         printMatrix(scoreMatrix);
         assertArrayEquals(expected, scoreMatrix);
@@ -175,13 +181,43 @@ public class ScoreMatrixBuilderTests {
         int[][] expected = {
                 {8, 8, 1, -8, 1, 1, -1, -1, -1, -1},
                 {-1, -1, -1, -1, 1, 1, 1, 8, 1, 1},
-                {1, 1, 1, 1, 1, 1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, -1, -1, -1, -1},
-                {-1, -1, -1, -1, 8, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, -8, 8, -1, -1, -1, -1},
+                {0, 0, 0, 0, 1, 1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, 1, 1, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, 8, 1, 0, 0, 0, 0},
+                {0, 0, 0, 0, -8, 8, -1, -1, -1, -1},
         };
-        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board);
+        int[] positions = new BoardAnalyzer().findColumnBottoms(board);
+        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board, positions);
+
+        printMatrix(scoreMatrix);
+        assertArrayEquals(expected, scoreMatrix);
+    }
+
+    @Test
+    public void test07() {
+        Board board = createBoardWith(31, Board.Size.ROW7_COLUMN10);
+
+        board.drop(7, Disc.YELLOW);
+        board.drop(0, Disc.YELLOW);
+        board.drop(1, Disc.YELLOW);
+        board.drop(3, Disc.WHITE);
+        board.drop(5, Disc.YELLOW);
+        board.drop(4, Disc.CYAN);
+
+        renderer.show(board);
+
+        int[][] expected = {
+                {1, 8, 1, -8, -8, 8, 1, 8, 1, 1},
+                {1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {8, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        };
+        int[] positions = new BoardAnalyzer().findColumnBottoms(board);
+        int[][] scoreMatrix = new ScoreMatrixBuilder().create(Disc.YELLOW, board, positions);
 
         printMatrix(scoreMatrix);
         assertArrayEquals(expected, scoreMatrix);
