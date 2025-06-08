@@ -121,7 +121,7 @@ public class ScoreBasedBotStrategyTests {
 
         renderer.show(board);
 
-        int expected = 5;
+        int expected = 8;
 
         Player bot = new Player(Disc.YELLOW, new ScoreBasedBotStrategy());
 
@@ -205,6 +205,33 @@ public class ScoreBasedBotStrategyTests {
         assertEquals(expected, selected);
     }
 
+    @Test
+    public void test09() {
+        Board board = createBoardWith(15, Board.Size.ROW7_COLUMN10);
+
+        board.rotate(Direction.RIGHT);
+
+        board.drop(3, Disc.BLACK);
+        board.drop(3, Disc.BLACK);
+        board.drop(3, Disc.BLACK);
+        board.drop(2, Disc.BLACK);
+        board.drop(4, Disc.RED);
+        board.drop(5, Disc.RED);
+        board.drop(5, Disc.RED);
+        board.drop(5, Disc.RED);
+        board.drop(6, Disc.RED);
+
+        renderer.show(board);
+
+        int expected = 3;
+
+        Player bot = new Player(Disc.BLACK, new ScoreBasedBotStrategy());
+
+        int selected = bot.makeMove(board);
+
+        assertEquals(expected, selected);
+    }
+
     private Board createBoardWith(int templateNumber, Board.Size size) {
         String maskNumber = String.valueOf(templateNumber);
         if (maskNumber.length() < 2) {
@@ -231,15 +258,6 @@ public class ScoreBasedBotStrategyTests {
             return new Board(new DefaultBoardState(size, mask));
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private void printMatrix(int[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + "\t");
-            }
-            System.out.println();
         }
     }
 }

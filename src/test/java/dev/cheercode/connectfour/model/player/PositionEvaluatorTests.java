@@ -29,7 +29,7 @@ public class PositionEvaluatorTests {
 
         renderer.show(board);
 
-        int[] expected = {-1, 4, 4, 89, 16, 99, 4, 15, 83, -1};
+        int[] expected = {-1, 4, 4, 817, 16, 827, 4, 15, 811, -1};
 
         int[] positions = new BoardAnalyzer().findColumnBottoms(board);
         int[] scores = new PositionEvaluator().calculateScoresFor(Disc.YELLOW, positions, board);
@@ -49,7 +49,7 @@ public class PositionEvaluatorTests {
 
         renderer.show(board);
 
-        int[] expected = {-1, -1, 11, 12, 7, 91, 12, 11, 89, -1};
+        int[] expected = {-1, -1, 11, 12, 7, 819, 12, 11, 817, -1};
 
         int[] positions = new BoardAnalyzer().findColumnBottoms(board);
         int[] scores = new PositionEvaluator().calculateScoresFor(Disc.YELLOW, positions, board);
@@ -93,7 +93,7 @@ public class PositionEvaluatorTests {
 
         renderer.show(board);
 
-        int[] expected = {-1, -1, 8, 19, 4, 8, 93, -1, 0, -1};
+        int[] expected = {-1, -1, 8, 19, 4, 8, 821, -1, 0, -1};
 
         int[] positions = new BoardAnalyzer().findColumnBottoms(board);
         int[] scores = new PositionEvaluator().calculateScoresFor(Disc.YELLOW, positions, board);
@@ -116,7 +116,7 @@ public class PositionEvaluatorTests {
 
         renderer.show(board);
 
-        int[] expected = {-1, -1, 0, -1, 91, 170, -1, -1, 164, 18};
+        int[] expected = {-1, -1, 0, -1, 819, 1626, -1, -1, 8820, 18};
 
         int[] positions = new BoardAnalyzer().findColumnBottoms(board);
         int[] scores = new PositionEvaluator().calculateScoresFor(Disc.YELLOW, positions, board);
@@ -138,7 +138,7 @@ public class PositionEvaluatorTests {
 
         renderer.show(board);
 
-        int[] expected = {-1, -1, 0, -1, 91, 170, 90, -1, 85, 11};
+        int[] expected = {-1, -1, 0, -1, 819, 1626, 818, -1, 813, 11};
 
         int[] positions = new BoardAnalyzer().findColumnBottoms(board);
         int[] scores = new PositionEvaluator().calculateScoresFor(Disc.YELLOW, positions, board);
@@ -159,7 +159,7 @@ public class PositionEvaluatorTests {
 
         renderer.show(board);
 
-        int[] expected = {-1, -1, 0, -1, 91, 4, 90, -1, 85, 11};
+        int[] expected = {-1, -1, 0, -1, 819, 4, 818, -1, 813, 11};
 
         int[] positions = new BoardAnalyzer().findColumnBottoms(board);
         int[] scores = new PositionEvaluator().calculateScoresFor(Disc.YELLOW, positions, board);
@@ -185,10 +185,36 @@ public class PositionEvaluatorTests {
 
         renderer.show(board);
 
-        int[] expected = {-1, -1, 0, -1, 89, 4, 90, -1, 85, 11};
+        int[] expected = {-1, -1, 0, -1, 817, 4, 818, -1, 813, 11};
 
         int[] positions = new BoardAnalyzer().findColumnBottoms(board);
         int[] scores = new PositionEvaluator().calculateScoresFor(Disc.YELLOW, positions, board);
+
+        assertArrayEquals(expected, scores);
+    }
+
+    @Test
+    public void test09() {
+        Board board = createBoardWith(15, Board.Size.ROW7_COLUMN10);
+
+        board.rotate(Direction.RIGHT);
+
+        board.drop(3, Disc.BLACK);
+        board.drop(3, Disc.BLACK);
+        board.drop(3, Disc.BLACK);
+        board.drop(2, Disc.BLACK);
+        board.drop(4, Disc.RED);
+        board.drop(5, Disc.RED);
+        board.drop(5, Disc.RED);
+        board.drop(5, Disc.RED);
+        board.drop(6, Disc.RED);
+
+        renderer.show(board);
+
+        int[] expected = {22, 8822, 2437, 88835, 1626, 6, 0};
+
+        int[] positions = new BoardAnalyzer().findColumnBottoms(board);
+        int[] scores = new PositionEvaluator().calculateScoresFor(Disc.BLACK, positions, board);
 
         assertArrayEquals(expected, scores);
     }
